@@ -24,6 +24,7 @@ def admin_view_deleteuser(request):
 
 # write your methods below here
 def home(request):
+
     if request.user.is_authenticated:
         if request.user.is_admin:
             return redirect('admin_view')  # Use the name of the URL pattern
@@ -46,7 +47,7 @@ def home(request):
             else:
                 messages.error(request, 'Invalid email or password.')
 
-    return render(request, "login.html", {'form': form})
+        return render(request, "login.html", {'form': form})
 
 def register(request):
     if request.method == 'POST':
