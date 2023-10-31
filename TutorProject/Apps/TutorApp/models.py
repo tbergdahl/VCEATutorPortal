@@ -42,6 +42,8 @@ class CustomUser(AbstractUser):
     is_tutor = models.BooleanField(default=False)
     objects = CustomUserManager()
 
+
+
 class Admin(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
     
@@ -50,7 +52,7 @@ class Tutor(models.Model):
     minutes_tutored = models.IntegerField(default=0)
     day_started = models.DateField(max_length=20, null=True)
     rating = models.FloatField(default=0, validators=[MaxValueValidator(5.0), MinValueValidator(0.0)])
-    
+
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
     
@@ -83,11 +85,10 @@ def manage_user_profile(sender, instance, created, **kwargs):
 
 
 
-class Course(models.Model):
-    coursenum = models.CharField(max_length=3)
-    title = models.CharField(max_length=100)
-    major = models.CharField(max_length=20)
+class Major(models.Model):
+    name = models.CharField(max_length=20)
 
-
-    def __str__(self):
-        return self.title
+class Class(models.Model):
+    classmajor = models.ForeignKey(Major, on_delete=models.CASCADE)
+    coursenum = models.IntegerField()
+    availableTutors = models.ManyToManyField(Tutor, related_name="tutored_classes")
