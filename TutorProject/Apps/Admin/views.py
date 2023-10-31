@@ -8,6 +8,38 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import *
 from Apps.TutorApp.models import *
 from Apps.TutorApp.forms import *
+# views.py
+from django.http import HttpResponse
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table
+
+def generate_pdf(request):
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="generated_pdf.pdf"'    
+    buffer = response  
+    pdf = SimpleDocTemplate(buffer, pagesize=letter)
+    tutors = Tutor.objects.all()
+    data = [['Tutor', 'Minutes Tutored', 'Rating'],]
+
+    for tutor in tutors:
+        data.append([tutor.user.first_name + tutor.user.last_name, tutor.minutes_tutored, tutor.rating])
+    
+    table = Table(data)
+    style = [('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+             ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+             ('BACKGROUND', (0, 1), (-1, -1), colors.beige)]
+
+    table.setStyle(style)    
+    elements = [table]
+    pdf.build(elements)
+
+    return response
+
 
 # Create your views here.
 
@@ -80,3 +112,11 @@ def admin_delete_user(request):
     return render(request, 'deleteUser.html', {'users': users})
 
     
+def admin_view_reports(request):
+
+
+
+
+
+
+    return redirect('admin_view')

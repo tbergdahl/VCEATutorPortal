@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %} admin Page {% endblock %}
+
+{% block content %}
+    <h2>Generate Report</h2>
+    <a href="{% url 'Admin:generate_pdf' %}">Download PDF</a>
+
+
+{% endblock %}

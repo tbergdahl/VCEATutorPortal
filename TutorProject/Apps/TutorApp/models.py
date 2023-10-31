@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 # Create your models here.
@@ -49,6 +49,7 @@ class Tutor(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
     minutes_tutored = models.IntegerField(default=0)
     day_started = models.DateField(max_length=20, null=True)
+    rating = models.FloatField(default=0, validators=[MaxValueValidator(5.0), MinValueValidator(0.0)])
     
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
