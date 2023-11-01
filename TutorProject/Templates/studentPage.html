@@ -1,5 +1,33 @@
-{% extends "base.html" %} {% block title %} student Page {% endblock %}
+{% extends "base.html" %}
+{% block title %} Student Page {% endblock %}
 
 {% block content %}
-<h2>this is student page</h2>
+<h2>This is the student page</h2>
+
+{% if request.user.is_authenticated and request.user.is_student %}
+    <h3>Available Tutors</h3>
+
+    <form method="get" action="">
+        <label for="search">Find a tutor:</label>
+        <input type="text" name="search" id="search" value="{{ search_query }}">
+        <button type="submit">Search</button>
+        
+        <label for="major">Filter by Major:</label>
+        <select name="major" id="major">
+            <option value="">--Select a Major--</option>
+            
+        </select>
+
+        
+    </form>
+
+    <ul>
+        {% for tutor in tutors %}
+            <li>{{ tutor.user.first_name }} {{ tutor.user.last_name }} - {{ tutor.rating }}/5 </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You need to be a student and logged in to see the list of tutors.</p>
+{% endif %}
+
 {% endblock %}
