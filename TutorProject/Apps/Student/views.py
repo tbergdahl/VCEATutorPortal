@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from Apps.TutorApp.models import Tutor, Major
 from django.db.models import Q
+from .forms import TutorRatingForm
+from django.shortcuts import render, get_object_or_404, redirect
 
 def student_view(request):
     # Get all majors for the filter dropdown
@@ -31,3 +33,15 @@ def student_view(request):
         'search_query': search_query,
     }
     return render(request, 'studentPage.html', context)
+
+
+def rate_tutor(request, tutor_id):
+    tutor = get_object_or_404(Tutor, id=tutor_id)
+    if request.method == 'POST':
+        form = TutorRatingForm(request.POST, instance=tutor)  # Pass the tutor instance to the form
+        if form.is_valid():
+            form.save()
+            return redirect('Student:student_view')  # Redirect to a success page or the tutor list
+    else:
+        form = TutorRatingForm(instance=tutor)  # Initialize the form with the tutor instance
+    return render(request, 'rateTutor.html', {'form': form, 'tutor': tutor})

@@ -52,6 +52,7 @@ class Tutor(models.Model):
     minutes_tutored = models.IntegerField(default=0)
     day_started = models.DateField(max_length=20, null=True)
     rating = models.FloatField(default=0, validators=[MaxValueValidator(5.0), MinValueValidator(0.0)])
+    description = models.TextField(blank=True, null=True)
 
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
