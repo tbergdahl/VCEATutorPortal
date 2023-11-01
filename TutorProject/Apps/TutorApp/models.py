@@ -43,7 +43,6 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
 
-
 class Admin(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
     
