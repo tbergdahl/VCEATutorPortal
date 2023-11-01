@@ -8,37 +8,12 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import *
 from Apps.TutorApp.models import *
 from Apps.TutorApp.forms import *
+from io import BytesIO
 # views.py
 from django.http import HttpResponse
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table
-
-def generate_pdf(request):
-    
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="generated_pdf.pdf"'    
-    buffer = response  
-    pdf = SimpleDocTemplate(buffer, pagesize=letter)
-    tutors = Tutor.objects.all()
-    data = [['Tutor', 'Minutes Tutored', 'Rating'],]
-
-    for tutor in tutors:
-        data.append([tutor.user.first_name + tutor.user.last_name, tutor.minutes_tutored, tutor.rating])
-    
-    table = Table(data)
-    style = [('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-             ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-             ('BACKGROUND', (0, 1), (-1, -1), colors.beige)]
-
-    table.setStyle(style)    
-    elements = [table]
-    pdf.build(elements)
-
-    return response
 
 
 # Create your views here.
@@ -113,10 +88,120 @@ def admin_delete_user(request):
 
     
 def admin_view_reports(request):
+    if request.method == 'POST':
+        form = PDFSelectionForm(request.POST)
+        if form.is_valid():
+            report = form.cleaned_data['report']
+            response = HttpResponse(content_type='application/pdf')
+            
+            if report == 'report1':
+                response['Content-Disposition'] = 'attachment; filename="Tutor Statistics Report.pdf"'
+                response.write(report1().getvalue())
+                
+            elif report == 'report2':
+                response['Content-Disposition'] = 'attachment; filename="Hours By Class.pdf"'
+                response.write(report2().getvalue())
+
+            elif report == 'report3':
+                response['Content-Disposition'] = 'attachment; filename="generated_pdf.pdf"'
+                response.write(report3().getvalue())
+            else:
+                response.write("No Report Available")
+
+            return response
+            
+    else:
+        form = PDFSelectionForm()
+
+
+
+    return render(request, 'generate_pdf.html', {'form': form})
+
+
+
+def report1():
+    buffer = BytesIO()
+    pdf = SimpleDocTemplate(buffer, pagesize=letter)
+    tutors = Tutor.objects.all()
+    data = [['Tutor', 'Minutes Tutored', 'Rating'],]
+
+    for tutor in tutors:
+        data.append([f"{tutor.user.first_name} {tutor.user.last_name}", tutor.minutes_tutored, tutor.rating])
+
+    table = Table(data)
+    style = [
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige)
+    ]
+
+    table.setStyle(style)
+    elements = [table]
+    pdf.build(elements)
+
+    buffer.seek(0)  # Move the buffer to the start
+    return buffer  # Return the PDF content as BytesIO
+
+def report2():
+    buffer = BytesIO()
+    pdf = SimpleDocTemplate(buffer, pagesize=letter)
+    classes = Class.objects.all()
+
+    for aclass in classes:
+        totalMins += aclass.hours_tutored
+
+    data = [['Total Hours Tutored', totalMins],['Hours By Class']]
+
+    for aclass in classes:
+        data.append([f"{aclass.classmajor.name} {aclass.coursenum}", aclass.hours_tutored ])
+
+    table = Table(data)
+    style = [
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige)
+    ]
+
+    table.setStyle(style)
+    elements = [table]
+    pdf.build(elements)
+
+    buffer.seek(0)
+    return buffer 
+
+
+def report3():
+    pass
 
 
 
 
+def admin_create_class(request):
+    if request.method == 'POST':
+        form = ClassCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('TutorApp:home')
 
+    else:
+        form = ClassCreationForm()
 
-    return redirect('admin_view')
+    return render(request, 'create_class.html', {'form': form}) 
+
+def admin_create_major(request):
+    if request.method == 'POST':
+        form = MajorCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('TutorApp:home')
+
+    else:
+        form = MajorCreationForm()
+
+    return render(request, 'create_major.html', {'form': form}) 

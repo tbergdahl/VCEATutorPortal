@@ -87,9 +87,12 @@ def manage_user_profile(sender, instance, created, **kwargs):
 
 
 class Major(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=100)
+    please = models.CharField(max_length=20, null = True)
 
 class Class(models.Model):
     classmajor = models.ForeignKey(Major, on_delete=models.CASCADE)
     coursenum = models.IntegerField()
     availableTutors = models.ManyToManyField(Tutor, related_name="tutored_classes")
+    hours_tutored = models.IntegerField(default=0)
+    please = models.CharField(max_length=20, null=True)

@@ -2,11 +2,12 @@
 {% block title %} admin Page {% endblock %}
 
 {% block content %}
-    <h2>Generate Report</h2>
+    <h2>Create Major</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p}}
-        <button type="submit">Print Report</button>
+        {{ form.as_p }}
+        <button type="submit" style="margin-top: 60px;">Create major</button>
     </form>
+
 
 {% endblock %}
