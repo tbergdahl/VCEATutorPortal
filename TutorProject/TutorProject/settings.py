@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "Apps.TutorApp",
     'Apps.Student',
     'Apps.Admin',
-    'Apps.Tutor'
+    'Apps.Tutor',
 ]
 
 MIDDLEWARE = [
