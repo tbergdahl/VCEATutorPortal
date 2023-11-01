@@ -88,6 +88,7 @@ def manage_user_profile(sender, instance, created, **kwargs):
 
 class Major(models.Model):
     name = models.CharField(max_length=100)
+    pass
 
 
 class Class(models.Model):

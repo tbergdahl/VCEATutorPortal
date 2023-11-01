@@ -187,20 +187,19 @@ def admin_create_class(request):
         form = ClassCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('TutorApp:home')
-
+            return redirect('Admin:admin_view')  
     else:
         form = ClassCreationForm()
+    return render(request, 'create_class.html', {'form': form})
 
-    return render(request, 'create_class.html', {'form': form}) 
+
 
 def admin_create_major(request):
     if request.method == 'POST':
         form = MajorCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('TutorApp:home')
-
+            return redirect('Admin:admin_view')
     else:
         form = MajorCreationForm()
 
