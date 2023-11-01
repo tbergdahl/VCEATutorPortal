@@ -148,15 +148,18 @@ def report1():
 def report2():
     buffer = BytesIO()
     pdf = SimpleDocTemplate(buffer, pagesize=letter)
-    classes = Class.objects.all()
+    classes = Class.objects.all().order_by('hours_tutored')
+
+    totalHours = 0
+    for aclass in classes:
+        totalHours += aclass.hours_tutored
+
+    
+
+    data = [['Total Hours Tutored', totalHours],['Hours By Class']]
 
     for aclass in classes:
-        totalMins += aclass.hours_tutored
-
-    data = [['Total Hours Tutored', totalMins],['Hours By Class']]
-
-    for aclass in classes:
-        data.append([f"{aclass.classmajor.name} {aclass.coursenum}", aclass.hours_tutored ])
+        data.append([f"{aclass.class_major.name} - {aclass.course_num} - {aclass.course_name}", f"Hours: {aclass.hours_tutored}" ])
 
     table = Table(data)
     style = [

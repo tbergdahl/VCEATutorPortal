@@ -35,9 +35,18 @@ class PDFSelectionForm(forms.Form):
 class ClassCreationForm(forms.ModelForm):
     class Meta:
         model = Class
-        fields = ['classmajor', 'coursenum']
+        fields = ['class_major', 'course_num', 'course_name']
+        labels = {
+            'class_major': 'Major',
+            'course_num': 'Course Number',
+            'course_name': 'Course Name'
+        }
 
 class MajorCreationForm(forms.ModelForm):
     class Meta:
         model = Major
-        fields = ['name']
+        fields = ['name', 'abbreviation']
+        labels = {
+            'name': 'Name of Major',
+            'abbreviation': 'Abbreviation (i.e CPT_S)'
+        }
