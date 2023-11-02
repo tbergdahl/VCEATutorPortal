@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 # Create your models here.
@@ -42,6 +42,7 @@ class CustomUser(AbstractUser):
     is_tutor = models.BooleanField(default=False)
     objects = CustomUserManager()
 
+
 class Admin(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
     
@@ -49,7 +50,9 @@ class Tutor(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
     minutes_tutored = models.IntegerField(default=0)
     day_started = models.DateField(max_length=20, null=True)
-    
+    rating = models.FloatField(default=0, validators=[MaxValueValidator(5.0), MinValueValidator(0.0)])
+    description = models.TextField(blank=True, null=True)
+
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
     
@@ -82,11 +85,17 @@ def manage_user_profile(sender, instance, created, **kwargs):
 
 
 
-class Course(models.Model):
-    coursenum = models.CharField(max_length=3)
-    title = models.CharField(max_length=100)
-    major = models.CharField(max_length=20)
-
+class Major(models.Model):
+    name = models.CharField(max_length=100)
+    abbreviation = models.CharField(max_length=20, default="placeholder")
 
     def __str__(self):
-        return self.title
+        return self.abbreviation
+
+
+class Class(models.Model):
+    class_major = models.ForeignKey(Major, on_delete=models.CASCADE)
+    course_num = models.IntegerField()
+    course_name = models.CharField(max_length=100, null=True)
+    availableTutors = models.ManyToManyField(Tutor, related_name="tutored_classes")
+    hours_tutored = models.IntegerField(default=0)

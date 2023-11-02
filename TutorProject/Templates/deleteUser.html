@@ -38,13 +38,13 @@
     {% for user in users %}
     <li>
         {{ user.email }} - 
-        <a href="{% url 'admin_view_deleteuser' %}" 
+        <a href="{% url 'Admin:admin_delete_user' %}" 
             onclick="event.preventDefault(); 
             if(confirm('Are you sure you want to delete {{ user.email }}?')) {
                 document.getElementById('delete-form-{{ user.id }}').submit();
             }">Delete</a>
         <form id="delete-form-{{ user.id }}" 
-              action="{% url 'admin_view_deleteuser' %}" method="post" style="display: none;">
+              action="{% url 'Admin:admin_delete_user' %}" method="post" style="display: none;">
             {% csrf_token %}
             <input type="hidden" name="user_id" value="{{ user.id }}">
         </form>

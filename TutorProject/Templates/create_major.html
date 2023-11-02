@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Create Major{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Create Major</h2>
+    <form method="post" class="form-group">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Create Major</button>
+    </form>
+</div>
+{% endblock %}
