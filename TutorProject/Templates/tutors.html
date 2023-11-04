@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block title %} tutor Page {% endblock %}
+
+{% block content %}
+
+<h1>Tutors</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Tutor ID</th>
+            <th>Tutor Name</th>
+            <th>Minutes Tutored</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tutor in tutors %}
+        <tr>
+            <td>{{ tutor.id }}</td>
+            <td>{{ tutor.user.first_name }} {{ tutor.user.last_name }}</td>
+            <td>{{ tutor.minutes_tutored }}</td>
+            <td>  
+                <a href="{% url 'Admin:admin_edit_tutor_profile' tutor.id %}">Edit</a>                
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+{% endblock %}

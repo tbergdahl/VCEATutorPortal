@@ -12,4 +12,6 @@ urlpatterns = [
     path('administrator/printreports/', views.admin_view_reports, name='admin_view_reports'),
     path('administrator/createclass', views.admin_create_class, name='admin_create_class'),
     path('administrator/createmajor', views.admin_create_major, name='admin_create_major'),
+    path('administrator/viewtutors', views.admin_view_tutors,name = 'admin_view_tutors'),
+    path('administrator/edittutor/<int:tutor_id>', views.admin_edit_tutor_profile,name = 'admin_edit_tutor_profile'),
 ]

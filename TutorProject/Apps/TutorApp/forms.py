@@ -50,3 +50,18 @@ class MajorCreationForm(forms.ModelForm):
             'name': 'Name of Major',
             'abbreviation': 'Abbreviation (i.e CPT_S)'
         }
+
+class EditTutorForm(forms.ModelForm): 
+    
+    classes = forms.ModelMultipleChoiceField(queryset=Class.objects.all(), widget=forms.SelectMultiple)
+
+    class Meta:
+        model = Tutor
+        fields = ['minutes_tutored', 'description']
+
+    def __init__(self, *args, **kwargs):
+        super(EditTutorForm, self).__init__(*args, **kwargs)
+
+        if self.instance.user:
+            self.fields['first_name'] = forms.CharField(initial=self.instance.user.first_name)
+            self.fields['last_name'] = forms.CharField(initial=self.instance.user.last_name)

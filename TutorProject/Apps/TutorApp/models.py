@@ -53,6 +53,9 @@ class Tutor(models.Model):
     rating = models.FloatField(default=0, validators=[MaxValueValidator(5.0), MinValueValidator(0.0)])
     description = models.TextField(blank=True, null=True)
 
+    def __str__(self):
+        return self.user.first_name + self.user.last_name
+
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
     
@@ -99,3 +102,6 @@ class Class(models.Model):
     course_name = models.CharField(max_length=100, null=True)
     availableTutors = models.ManyToManyField(Tutor, related_name="tutored_classes")
     hours_tutored = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.class_major.abbreviation + " " + self.course_num
