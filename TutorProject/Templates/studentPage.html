@@ -5,7 +5,7 @@
 
 {% load static %}
 {% if request.user.is_authenticated and request.user.is_student %}
-    <h3>Rate your Tutors</h3>
+    <h2>Rate your Tutors</h2>
 
     <form method="get" action="">
         <label for="search">Find a tutor:</label>
@@ -19,19 +19,20 @@
     </form>
 
     <br>
-    <div class="tutor-grid">
-        {% for tutor in tutors %}
+
+        <table class="usertable">
+            {% for tutor in tutors %}
             <div class="tutor-card">
                 <div class="tutor-info">
                     <img src="{% static 'img/defaultProfile.jpg' %}" alt="{{ tutor.user.first_name }} {{ tutor.user.last_name }}">
                     <h4>{{ tutor.user.first_name }} {{ tutor.user.last_name }}</h4>
                 </div>
                 <div class="tutor-details">
-                    <p1>Email: Test@wsu.edu </p1>
+                    <p1> Email: Test@wsu.edu </p1>
                     <br>
-                    <p2>Major: Software Engineering </p2>
+                    <p2> Major: Software Engineering </p2>
                     <br>
-                    <p3>Hours: Monday 9AM-12PM, Wednesday 9AM-12PM, Friday 9AM-12PM </p3>
+                    <p3> Hours: Monday 9AM-12PM, Wednesday 9AM-12PM, Friday 9AM-12PM </p3>
                     <p>{{ tutor.description }}</p>
                 </div>
                 <div class="tutor-buttons">
@@ -39,10 +40,11 @@
                     <a href="{% url 'Student:schedule_session' tutor.id %}" class="action-button schedule-button">Schedule</a>
                 </div>
             </div>
-        {% endfor %}
-    </div>
-{% else %}
-    <p>You need to be a student and logged in to see the list of tutors.</p>
+            {% endfor %}
+        </table>
+
+    {% else %}
+        <p>You need to be a student and logged in to see the list of tutors.</p>
 {% endif %}
 
 <style>
