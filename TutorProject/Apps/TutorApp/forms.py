@@ -52,12 +52,16 @@ class MajorCreationForm(forms.ModelForm):
         }
 
 class EditTutorForm(forms.ModelForm): 
-    
-    classes = forms.ModelMultipleChoiceField(queryset=Class.objects.all(), widget=forms.CheckboxSelectMultiple)
+
+    tutored_classes = forms.ModelMultipleChoiceField(
+        queryset=Class.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False  
+    )
 
     class Meta:
         model = Tutor
-        fields = ['minutes_tutored', 'description']
+        fields = ['minutes_tutored', 'description', 'tutored_classes']
 
     def __init__(self, *args, **kwargs):
         super(EditTutorForm, self).__init__(*args, **kwargs)

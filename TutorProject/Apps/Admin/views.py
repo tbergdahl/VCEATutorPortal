@@ -17,9 +17,6 @@ from reportlab.platypus import SimpleDocTemplate, Table
 from django.shortcuts import get_object_or_404
 
 
-
-# Create your views here.
-
 def admin_view(request):
     return render(request, 'adminPage.html')
 
@@ -53,17 +50,17 @@ def admin_create_user(request):
 
 
 def admin_delete_user(request):
-    # Ensure the user is an admin
+    
     if not request.user.is_admin:
         messages.error(request, 'You do not have permission to view this page.')
         return redirect('home')
 
-    # Initialize users 
+   
     users = CustomUser.objects.filter(is_admin=False)
 
-    # If the request method is POST, it means we are trying to delete a user
+    
     if request.method == 'POST':
-        user_id = request.POST.get('user_id')  # Assuming the user ID is passed in the POST data
+        user_id = request.POST.get('user_id')  
         try:
             user_to_delete = CustomUser.objects.get(pk=user_id)
             if user_to_delete.is_admin:
@@ -74,14 +71,13 @@ def admin_delete_user(request):
         except ObjectDoesNotExist:
             messages.error(request, 'User not found.')
 
-    # Filtering based on role
+
     role = request.GET.get('role', '')
     if role == 'student':
         users = users.filter(is_student=True)
     elif role == 'tutor':
         users = users.filter(is_tutor=True)
 
-    # Search functionality
     search_query = request.GET.get('search', '')
     if search_query:
         users = users.filter(email__icontains=search_query)
@@ -115,16 +111,11 @@ def admin_view_reports(request):
     else:
         form = PDFSelectionForm()
 
-
-
     return render(request, 'generate_pdf.html', {'form': form})
 
 def admin_view_tutors(request):
     tutors = Tutor.objects.all()
     return render(request, 'tutors.html', {'tutors': tutors})
-
-
-
 
 def admin_edit_tutor_profile(request, tutor_id):
     tutor = get_object_or_404(Tutor, id=tutor_id)
@@ -136,12 +127,16 @@ def admin_edit_tutor_profile(request, tutor_id):
             user_instance.last_name = form.cleaned_data['last_name']
             user_instance.save()  
             form.save()  
+
+            selected_classes = form.cleaned_data.get('tutored_classes')
+            for a_class in selected_classes:
+                a_class.available_tutors.add(tutor)
             
     else:
-        form = EditTutorForm(instance=tutor)
+        associated_classes = tutor.tutored_classes.all()
+        form = EditTutorForm(instance=tutor, initial={'tutored_classes': associated_classes})
     
     return render(request, 'edit_tutor.html', {'form': form})
-
 
 def report1():
     buffer = BytesIO()
@@ -166,8 +161,8 @@ def report1():
     elements = [table]
     pdf.build(elements)
 
-    buffer.seek(0)  # Move the buffer to the start
-    return buffer  # Return the PDF content as BytesIO
+    buffer.seek(0)
+    return buffer
 
 def report2():
     buffer = BytesIO()
