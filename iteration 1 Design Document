@@ -187,7 +187,7 @@ path('administrator/deleteuser/', views.admin_view_deleteuser, name='admin_view_
 |6. |”Get” “Post”       |'tutor/'      |Tutor homepage              
 |7. |”Get”              |'administrator/’|Administrator Homepage              
 |8. |”Get” “Post”       |'administrator/createuser'|Createuser page for admin              
-|9. |”Get” “Post”       |'administrator/deleteuser/'|Delete User page for admin                         
+|9. |”Get” “Post”       |'administrator/deleteuser/'|Delete User page for admin                       
 
 
 
