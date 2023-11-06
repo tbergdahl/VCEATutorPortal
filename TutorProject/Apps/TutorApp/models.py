@@ -7,8 +7,6 @@ from django.dispatch import receiver
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-# Create your models here.
-
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -26,9 +24,6 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
-
- 
- 
 
 class CustomUser(AbstractUser):
     username = None
@@ -54,8 +49,7 @@ class Tutor(models.Model):
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.user.first_name + " " +
-        self.user.last_name
+        return self.user.first_name + " " + self.user.last_name
 
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
