@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %} admin Page {% endblock %}
+
+{% block content %}
+<h2>Classes</h2>
+    <ul>
+        {% for a_class in classes %}
+            <li>
+               {{ a_class.class_major.name }} {{ a_class.course_num }} - {{a_class.course_name}}
+
+                <a href="{% url 'Admin:delete_class' a_class.id %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
