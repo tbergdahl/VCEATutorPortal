@@ -170,24 +170,48 @@ path("", views.home, name="home"),
 path("register/", views.register, name="register"),
 path('login/', LoginView.as_view(template_name='login.html'), name='login'),
 path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
-path('student/', views.student_view, name='student_view'),
 path('tutor/', views.tutor_view, name='tutor_view'),
+path('student/', views.student_view, name='student_view'),
+path('rate_tutor/<int:tutor_id>/', rate_tutor, name='rate_tutor'),
+path('schedule_session/<int:tutor_id>/', views.schedule_session, name='schedule_session'),
 path('administrator/', views.admin_view, name='admin_view'),
-path('administrator/createuser', views.admin_create_user, name='admin_view_createuser'),
-path('administrator/deleteuser/', views.admin_view_deleteuser, name='admin_view_deleteuser'),
+path('administrator/createuser', views.admin_create_user, name='admin_create_user'),
+path('administrator/deleteuser/', views.admin_delete_user, name='admin_delete_user'),  
+path('administrator/printreports/', views.admin_view_reports, name='admin_view_reports'),
+path('administrator/createclass', views.admin_create_class, name='admin_create_class'),
+path('administrator/createmajor', views.admin_create_major, name='admin_create_major'),
+path('administrator/viewtutors', views.admin_view_tutors,name = 'admin_view_tutors'),
+path('administrator/edittutor/<int:tutor_id>', views.admin_edit_tutor_profile,name = 'admin_edit_tutor_profile'),
+path('administrator/classes_menu', views.classes_menu,name = 'classes_menu'),
+path('administrator/majors_menu', views.majors_menu,name = 'majors_menu'),
+path('administrator/delete_class/<int:class_id>', views.delete_class,name = 'delete_class'),
+path('administrator/delete_major/<int:major_id>', views.delete_major,name = 'delete_major'),
 
 
-|   | Methods           | URL Path   | Description  |
-|:--|:------------------|:-----------|:-------------|
-|1. |Get                |""           |Basic Home Page|
-|2. |”Get” “Post”       |"register/"   |Registration Page              
-|3. |“Post”             |'login/'      |Logout user              
-|4. |“Post”             |'logout/'     |Log out current user              
-|5. |”Get” “Post”       |'student/'    |Student homepage              
-|6. |”Get” “Post”       |'tutor/'      |Tutor homepage              
-|7. |”Get”              |'administrator/’|Administrator Homepage              
-|8. |”Get” “Post”       |'administrator/createuser'|Createuser page for admin              
-|9. |”Get” “Post”       |'administrator/deleteuser/'|Delete User page for admin                       
+
+|   | Methods            | URL Path                    | Description                                      
+|---|--------------------|----------------------------|--------------------------------------------------|
+| 1 | Get                | ""                         | Basic Home Page                                  
+| 2 | Get, Post          | "register/"                | Registration Page                               
+| 3 | Post               | "login/"                   | Log in user                                      
+| 4 | Post               | "logout/"                  | Log out current user                             
+| 5 | Get, Post          | "student/"                 | Student Homepage                                
+| 6 | Get, Post          | "tutor/"                   | Tutor Homepage                                  
+| 7 | Get                | "administrator/"           | Administrator Homepage                          
+| 8 | Get, Post          | "administrator/createuser" | Create User Page for Admin                      
+| 9 | Get, Post          | "administrator/deleteuser" | Delete User Page for Admin                      
+|10 | Get                | "administrator/printreports"| View Reports Page for Admin                     
+|11 | Get, Post          | "administrator/createclass" | Create Class Page for Admin                     
+|12 | Get, Post          | "administrator/createmajor" | Create Major Page for Admin                     
+|13 | Get                | "administrator/viewtutors" | View Tutors Page for Admin                      
+|14 | Get                | "administrator/edittutor/<int:tutor_id>" | Edit Tutor Profile Page for Admin    
+|15 | Get                | "administrator/classes_menu" | View Classes Menu for Admin                  
+|16 | Get                | "administrator/majors_menu"  | View Majors Menu for Admin                    
+|17 | Get                | "administrator/delete_class/<int:class_id>" | Delete Class Page for Admin  
+|18 | Get                | "administrator/delete_major/<int:major_id>" | Delete Major Page for Admin  
+|19 | Get                | "rate_tutor/<int:tutor_id>/" | Rate Tutor Page for Students                  
+|20 | Get, Post          | "schedule_session/<int:tutor_id>/" | Schedule Session Page for Students 
+                       
 
 
 
