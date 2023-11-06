@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from Apps.TutorApp.models import Tutor, Major
 from django.db.models import Q
-from .forms import TutorRatingForm
+from .forms import TutorRatingForm, SessionForm
 from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
+
 
 def student_view(request):
     # Get all majors for the filter dropdown
@@ -45,3 +47,22 @@ def rate_tutor(request, tutor_id):
     else:
         form = TutorRatingForm(instance=tutor)  # Initialize the form with the tutor instance
     return render(request, 'rateTutor.html', {'form': form, 'tutor': tutor})
+
+
+# Inside your views.py
+
+
+def schedule_session(request, tutor_id):
+    tutor = get_object_or_404(Tutor, id=tutor_id)
+    if request.method == 'POST':
+        form = SessionForm(request.POST)
+        if form.is_valid():
+            session = form.save(commit=False)
+            session.student = request.user  # assuming the user is a student
+            session.tutor = tutor
+            session.save()
+            return redirect('Student:sessions')  # Redirect to a page where the student can see their sessions
+    else:
+        # Prepopulate with the current date and time slots
+        form = SessionForm(initial={'date': timezone.now().date()})
+    return render(request, 'studentSchedule.html', {'form': form, 'tutor': tutor})

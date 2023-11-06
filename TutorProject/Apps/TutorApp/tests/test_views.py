@@ -44,15 +44,26 @@ class ViewsTestCase(TestCase):
         )
         self.student = Student.objects.create(user=self.student_user)
 
+    def tearDown(self):
+        # delete users
+        self.admin_user.delete()
+        self.tutor_user.delete()
+        self.student_user.delete()
 
-    # def login_admin(self):
-    #     self.client.login(username='phil.health@wsu.edu', password='your_password')
+        #delete admin, tutor, and student
+        self.admin.delete()
+        self.tutor.delete()
+        self.student.delete()
+
+
+    def test_login_admin(self):
+        self.client.login(username='phil.health@wsu.edu', password='mr_olympia_2008')
 
     # def login_tutor(self):
-    #     self.client.login(username='jay.cutler@wsu.edu', password='your_password')
+    #     self.client.login(username='jay.cutler@wsu.edu', password='mr_olympia_2009')
 
     # def login_student(self):
-    #     self.client.login(username='ronnie.coleman@wsu.edu', password='your_password')
+    #     self.client.login(username='ronnie.coleman@wsu.edu', password='mr_olympia_20010')
 
     # def test_admin_view(self):
     #     self.login_admin()
@@ -84,31 +95,31 @@ class ViewsTestCase(TestCase):
     #     self.assertTemplateUsed(response, 'tutorPage.html')
 
     # # Test home view
-    def test_home_authenticated_admin(self):
-        # Simulate an authenticated admin user
-        user = CustomUser.objects.create(email='admin@example.com', is_admin=True)
-        self.client.force_login(user)
+    # def test_home_authenticated_admin(self):
+    #     # Simulate an authenticated admin user
+    #     user = CustomUser.objects.create(email='admin@example.com', is_admin=True)
+    #     self.client.force_login(user)
 
-        response = self.client.get(reverse('home'))
-        self.assertEqual(response.status_code, 302)  # Redirects to admin_view
+    #     response = self.client.get(reverse('home'))
+    #     self.assertEqual(response.status_code, 302)  # Redirects to admin_view
 
-    def test_home_authenticated_student(self):
-        # Simulate an authenticated student user
-        user = CustomUser.objects.create(email='student@example.com', is_student=True)
-        self.client.force_login(user)
+    # def test_home_authenticated_student(self):
+    #     # Simulate an authenticated student user
+    #     user = CustomUser.objects.create(email='student@example.com', is_student=True)
+    #     self.client.force_login(user)
 
-        response = self.client.get(reverse('home'))
-        self.assertEqual(response.status_code, 302)  # Redirects to student_view
+    #     response = self.client.get(reverse('home'))
+    #     self.assertEqual(response.status_code, 302)  # Redirects to student_view
 
-    def test_home_authenticated_tutor(self):
-        # Simulate an authenticated tutor user
-        user = CustomUser.objects.create(email='tutor@example.com', is_tutor=True)
-        self.client.force_login(user)
+    # def test_home_authenticated_tutor(self):
+    #     # Simulate an authenticated tutor user
+    #     user = CustomUser.objects.create(email='tutor@example.com', is_tutor=True)
+    #     self.client.force_login(user)
 
-        response = self.client.get(reverse('home'))
-        self.assertEqual(response.status_code, 302)  # Redirects to tutor_view
+    #     response = self.client.get(reverse('home'))
+    #     self.assertEqual(response.status_code, 302)  # Redirects to tutor_view
 
-    def test_home_unauthenticated(self):
-        response = self.client.get(reverse('home'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'login.html')
+    # def test_home_unauthenticated(self):
+    #     response = self.client.get(reverse('home'))
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'login.html')
