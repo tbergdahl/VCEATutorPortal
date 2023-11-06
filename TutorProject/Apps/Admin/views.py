@@ -14,6 +14,8 @@ from django.http import HttpResponse
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table
+from django.shortcuts import get_object_or_404
+
 
 
 # Create your views here.
@@ -117,6 +119,28 @@ def admin_view_reports(request):
 
     return render(request, 'generate_pdf.html', {'form': form})
 
+def admin_view_tutors(request):
+    tutors = Tutor.objects.all()
+    return render(request, 'tutors.html', {'tutors': tutors})
+
+
+
+
+def admin_edit_tutor_profile(request, tutor_id):
+    tutor = get_object_or_404(Tutor, id=tutor_id)
+    if request.method == 'POST':
+        form = EditTutorForm(request.POST, instance=tutor)
+        if form.is_valid():
+            user_instance = tutor.user  
+            user_instance.first_name = form.cleaned_data['first_name']
+            user_instance.last_name = form.cleaned_data['last_name']
+            user_instance.save()  
+            form.save()  
+            
+    else:
+        form = EditTutorForm(instance=tutor)
+    
+    return render(request, 'edit_tutor.html', {'form': form})
 
 
 def report1():

@@ -22,8 +22,9 @@
     <ul>
         {% for tutor in tutors %}
         <li>
-        {{ tutor.user.first_name }} {{ tutor.user.last_name }},Rating: {{ tutor.rating }}/5
+        {{ tutor.user.first_name }} {{ tutor.user.last_name }}
         <a href="{% url 'Student:rate_tutor' tutor.id %}">Rate</a>
+        <a href="{% url 'Student:schedule_session' tutor.id %}">Schedule a session</a>
 
         </li>
 {% endfor %}

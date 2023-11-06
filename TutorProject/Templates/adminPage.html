@@ -5,7 +5,7 @@
 <h2>this is admin page</h2>
 
 <a href="{% url 'Admin:admin_create_user' %}">Create New User</a>
-<br> <!-- Add a line break for separation -->
+<br> 
 <a href="{% url 'Admin:admin_delete_user' %}">Delete User</a>
 <br>
 <a href="{% url 'Admin:admin_view_reports' %}">Reports Menu</a>
@@ -13,5 +13,7 @@
 <a href="{% url 'Admin:admin_create_class' %}">Create Class</a>
 <br>
 <a href="{% url 'Admin:admin_create_major' %}">Create Major</a>
+<br>
+<a href="{% url 'Admin:admin_view_tutors' %}">View Tutors</a>
 
 {% endblock %}

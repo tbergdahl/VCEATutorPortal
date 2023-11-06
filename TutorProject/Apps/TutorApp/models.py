@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from django.conf import settings
 from django.contrib.auth.models import BaseUserManager
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -53,6 +53,9 @@ class Tutor(models.Model):
     rating = models.FloatField(default=0, validators=[MaxValueValidator(5.0), MinValueValidator(0.0)])
     description = models.TextField(blank=True, null=True)
 
+    def __str__(self):
+        return self.user.first_name + self.user.last_name
+
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
     
@@ -99,3 +102,16 @@ class Class(models.Model):
     course_name = models.CharField(max_length=100, null=True)
     availableTutors = models.ManyToManyField(Tutor, related_name="tutored_classes")
     hours_tutored = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.class_major.abbreviation + " " + self.course_num
+
+
+class Session(models.Model):
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sessions')
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, related_name='sessions')
+    date = models.DateField()
+    time = models.TimeField()
+
+    def __str__(self):
+        return f"{self.student} session with {self.tutor} on {self.date} at {self.time}"
