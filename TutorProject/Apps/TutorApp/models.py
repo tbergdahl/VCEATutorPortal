@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from django.conf import settings
 from django.contrib.auth.models import BaseUserManager
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -105,3 +105,13 @@ class Class(models.Model):
 
     def __str__(self):
         return self.class_major.abbreviation + " " + self.course_num
+
+
+class Session(models.Model):
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sessions')
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, related_name='sessions')
+    date = models.DateField()
+    time = models.TimeField()
+
+    def __str__(self):
+        return f"{self.student} session with {self.tutor} on {self.date} at {self.time}"
