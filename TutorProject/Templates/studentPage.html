@@ -3,34 +3,119 @@
 
 {% block content %}
 
-
+{% load static %}
 {% if request.user.is_authenticated and request.user.is_student %}
     <h3>Rate your Tutors</h3>
 
     <form method="get" action="">
         <label for="search">Find a tutor:</label>
         <input type="text" name="search" id="search" value="{{ search_query }}">
-        <button type="submit">Search</button>
+        <button type="submit" class="search-button">Search</button>
 
         <label for="major">Filter by Major:</label>
         <select name="major" id="major">
             <option value="">--Select a Major--</option>
-            
         </select>
     </form>
 
-    <ul>
+    <br>
+    <div class="tutor-grid">
         {% for tutor in tutors %}
-        <li>
-        {{ tutor.user.first_name }} {{ tutor.user.last_name }}
-        <a href="{% url 'Student:rate_tutor' tutor.id %}">Rate</a>
-        <a href="{% url 'Student:schedule_session' tutor.id %}">Schedule a session</a>
-
-        </li>
-{% endfor %}
-    </ul>
+            <div class="tutor-card">
+                <div class="tutor-info">
+                    <img src="{% static 'img/defaultProfile.jpg' %}" alt="{{ tutor.user.first_name }} {{ tutor.user.last_name }}">
+                    <h4>{{ tutor.user.first_name }} {{ tutor.user.last_name }}</h4>
+                </div>
+                <div class="tutor-details">
+                    <p1>Email: Test@wsu.edu </p1>
+                    <br>
+                    <p2>Major: Software Engineering </p2>
+                    <br>
+                    <p3>Hours: Monday 9AM-12PM, Wednesday 9AM-12PM, Friday 9AM-12PM </p3>
+                    <p>{{ tutor.description }}</p>
+                </div>
+                <div class="tutor-buttons">
+                    <a href="{% url 'Student:rate_tutor' tutor.id %}" class="action-button rate-button">Rate</a>
+                    <a href="{% url 'Student:schedule_session' tutor.id %}" class="action-button schedule-button">Schedule</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% else %}
     <p>You need to be a student and logged in to see the list of tutors.</p>
 {% endif %}
+
+<style>
+    .tutor-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Adjust the gap between tutor cards as needed */
+    }
+
+    .tutor-card {
+        border: 1px solid #ddd;
+        padding: 10px;
+        width: 100%; 
+        box-sizing: border-box;
+        display: flex; /* Display tutor-card as a flex container */
+    }
+
+    .tutor-info {
+        flex: 1; /* Expand to fill available space */
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tutor-card img {
+        max-width: 80%;
+        height: auto;
+        border-radius: 50%; /* Make the image circular */
+    }
+
+    .tutor-details {
+        flex: 2; /* Expand to fill available space */
+        padding: 10px;
+        text-align: left;
+    }
+
+    .tutor-buttons {
+        flex: 1; /* Expand to fill available space */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center horizontally */
+        justify-content: center; /* Center vertically */
+    }
+
+    .action-button {
+        padding: 10px 0; /* Adjust the top and bottom padding */
+        width: 150px; /* Fixed width for both buttons */
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .rate-button {
+        background-color: #A60F2D;
+        color: white;
+    }
+
+    .schedule-button {
+        background-color: #A60F2D;
+        color: white;
+        margin-top: 10px; /* Add margin between the buttons */
+    }
+
+    .search-button {
+        background-color: #333;
+        color: white;
+    }
+</style>
+
+
 
 {% endblock %}
