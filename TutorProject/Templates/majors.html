@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Create Major{% endblock %}
+
+{% block content %}
+<h2>Majors</h2>
+<ul>
+    {% for major in majors %}
+        <li>
+            {{ major.name }}
+            <a href="{% url 'Admin:delete_major' major.id %}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -53,7 +53,7 @@ class MajorCreationForm(forms.ModelForm):
 
 class EditTutorForm(forms.ModelForm): 
     
-    classes = forms.ModelMultipleChoiceField(queryset=Class.objects.all(), widget=forms.SelectMultiple)
+    classes = forms.ModelMultipleChoiceField(queryset=Class.objects.all(), widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = Tutor

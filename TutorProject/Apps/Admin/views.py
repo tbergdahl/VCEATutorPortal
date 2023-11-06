@@ -45,7 +45,7 @@ def admin_create_user(request):
                 user.save()
                 Admin.objects.create(user=user)
             
-            return redirect('admin_view')
+        return redirect('Admin:admin_view')
     else:
         form = AdminCreateUser()
 
@@ -206,7 +206,13 @@ def report2():
 def report3():
     pass
 
+def classes_menu(request):
+    classes = Class.objects.all()
+    return render(request, 'classes.html', {'classes': classes})
 
+def majors_menu(request):
+    majors = Major.objects.all()
+    return render(request, 'majors.html', {'majors': majors})
 
 
 def admin_create_class(request):
@@ -231,3 +237,14 @@ def admin_create_major(request):
         form = MajorCreationForm()
 
     return render(request, 'create_major.html', {'form': form}) 
+
+
+def delete_class(request, class_id):
+    a_class = get_object_or_404(Class, pk=class_id)
+    a_class.delete()
+    return redirect('Admin:classes_menu')
+
+def delete_major(request, major_id):
+    a_major = get_object_or_404(Major, pk=major_id)
+    a_major.delete()
+    return redirect('Admin:majors_menu')
