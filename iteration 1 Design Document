@@ -80,7 +80,7 @@ This document will cover the architecture, design, and the revision history of n
 
 The High-level architecture view of our app can be broken down similarly to the Model View Controller architecture (MVC) but because we are using django it is more apt to be called an App-view or DJANGO structure. While it follows similar design principles to MVC, the models and routes are separated from the view inside of the tutor project django apps. These elements are then separated and organized accordingly inside of the app.
 
-![Iteratino 1: System Design](Mockups/subsystem_v1.png?raw=true)
+![Iteration 1: System Design](Mockups/subsystem_v1.png?raw=true)
 
 
  * 
@@ -187,7 +187,7 @@ path('administrator/deleteuser/', views.admin_view_deleteuser, name='admin_view_
 |6. |”Get” “Post”       |'tutor/'      |Tutor homepage              
 |7. |”Get”              |'administrator/’|Administrator Homepage              
 |8. |”Get” “Post”       |'administrator/createuser'|Createuser page for admin              
-|9. |”Get” “Post”       |'administrator/deleteuser/'|Delete User page for admin                         
+|9. |”Get” “Post”       |'administrator/deleteuser/'|Delete User page for admin                       
 
 
 

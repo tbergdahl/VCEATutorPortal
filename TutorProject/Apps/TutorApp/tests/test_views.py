@@ -58,6 +58,10 @@ class ViewsTestCase(TestCase):
 
     def test_login_admin(self):
         self.client.login(username='phil.health@wsu.edu', password='mr_olympia_2008')
+        response = self.client.get(reverse('Admin:admin_view')) # get simulates a GET request, reverse finds the url by name
+        self.assertEqual(response.status_code, 200)  # 200 is the HTTP status code for "OK"
+        self.assertTemplateUsed(response, 'adminPage.html')  # Asserts that the template used to render the response was studentPage.html
+
 
     # def login_tutor(self):
     #     self.client.login(username='jay.cutler@wsu.edu', password='mr_olympia_2009')
@@ -123,3 +127,20 @@ class ViewsTestCase(TestCase):
     #     response = self.client.get(reverse('home'))
     #     self.assertEqual(response.status_code, 200)
     #     self.assertTemplateUsed(response, 'login.html')
+
+    # Test Register view
+    # def test_register(self):
+    #     Setting Request
+    #     response = self.client.post(reverse('register'), {
+    #         'email': 'test@example',
+    #         'first_name': 'test',
+    #         'last_name': 'user',
+    #         'password1': 'Test_password_complex_123',
+    #         'password2': 'Test_password_complex_123',
+    #        'is_student': True }
+    #      
+    #     # Testing Results
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'register.html')
+    #     self.assertContains(response, '')
+
