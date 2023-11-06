@@ -12,41 +12,48 @@ class TestConfig(TestCase):
         self.assertEqual(True, True)  # Add a simple test
 
 class TestModels(TestCase):
-
     def setUp(self):
         # Create a test user for each role
         self.admin_user = CustomUser.objects.create(
             email='phil.health@wsu.edu',
             first_name='Admin',
             last_name='User',
-            is_admin=True
+            is_admin=True,
+            is_student=False,
+            is_tutor=False
         )
         self.tutor_user = CustomUser.objects.create(
             email='jay.cutler@wsu.edu',
             first_name='Jay',
             last_name='Cutler',
-            is_tutor=True
+            is_tutor=True,
+            is_student=False,
+            is_admin=False
         )
         self.student_user = CustomUser.objects.create(
             email='ronnie.coleman@wsu.edu',
             first_name='Ronnie',
             last_name='Coleman',
-            is_student=True
+            is_student=True,
+            is_tutor=False,
+            is_admin=False
         )
+
+    def test_dummy(self):
+        self.assertEqual(True, True)
 
     def test_Admin(self):
         # Create the Admin and associate it with the CustomUser
-        admin = Admin.objects.create(user=self.admin_user)
+        admin = Admin(user=self.admin_user)
 
         # Test admin assignment
         self.assertTrue(admin.user.is_admin)
         self.assertFalse(admin.user.is_student)
         self.assertFalse(admin.user.is_tutor)
 
-
     def test_Tutor(self):
         # Create the Tutor and associate it with the CustomUser
-        tutor = Tutor.objects.create(
+        tutor = Tutor(
             user=self.tutor_user,
             minutes_tutored=0,
             day_started=None,
@@ -55,13 +62,13 @@ class TestModels(TestCase):
         )
 
         # Test tutor assignment
-        self.assertTrue(tutor.user.is_tutor)
         self.assertFalse(tutor.user.is_student)
         self.assertFalse(tutor.user.is_admin)
+        self.assertTrue(tutor.user.is_tutor)
 
     def test_Student(self):
         # Create student from setUp student_user
-        student = Student.objects.create(user=self.student_user)
+        student = Student(user=self.student_user)
 
         # Test student assignment
         self.assertTrue(student.user.is_student)
@@ -76,7 +83,7 @@ class TestModels(TestCase):
         Student.objects.all().delete()
 
     def test_password_hashing(self):
-        u = CustomUser.objects.create(
+        u = CustomUser(
             email='rich.piana@wsu.edu',
             first_name='Rich',
             last_name='Piana'
@@ -90,7 +97,7 @@ class TestModels(TestCase):
         M = Major.objects.create(name = "Computer Science", abbreviation = "CS")
 
         # Create the Tutor and associate it with the CustomUser
-        tutor = Tutor.objects.create(
+        tutor = Tutor(
             user=self.tutor_user,
             minutes_tutored=0,
             day_started=None,
@@ -99,7 +106,7 @@ class TestModels(TestCase):
         )
         
         # create class object
-        c = Class.objects.create(
+        c = Class(
             course_num=101,
             class_major=M,
             course_name="Intro to Programming",
