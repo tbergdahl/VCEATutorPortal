@@ -27,20 +27,21 @@
 
 /* Card Styles */
 .card {
-    background-color: white; /* White background for the cards */
-    border-radius: 8px; /* Rounded corners for the cards */
+    background-color: rgb(248, 248, 248); /* White background for the cards */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Card shadow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
-    border: none; /* Remove card border */
+    transition: transform 0.1s ease, box-shadow 0.1s ease; /* Smooth transition for hover effects */
+    border: 1px solid black;
 }
 
 .card:hover {
-    transform: translateY(-5px); /* Lift card up on hover */
+    transform: translateY(-2px); /* Lift card up on hover */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
 }
 
 .card-body {
-    padding: 20px; /* Padding inside cards */
+    padding-left: 20px; /* Padding inside cards */
+    padding-bottom: 20px;
+    padding-top: 5px;
 }
 
 .card-title {
@@ -55,15 +56,19 @@
 
 /* Button Styles */
 .btn {
-    border-radius: 4px; /* Rounded corners for buttons */
+    color: white;
+    border-radius: 5px; /* Rounded corners for buttons */
     padding: 5px 10px; /* Padding inside buttons */
     font-size: 14px; /* Larger font size for buttons */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for buttons */
     transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for button hover effects */
+    outline: none; /* Removes the outline */
+    border: none;
+    
 }
 
 .btn-primary {
-    background-color: #53a6ff; /* Blue background for primary button */
+    background-color: #007bFF; /* Blue background for primary button */
 }
 
 .btn-primary:hover {
