@@ -189,6 +189,7 @@ path('administrator/delete_major/<int:major_id>', views.delete_major,name = 'del
 
 
 
+
 |   | Methods            | URL Path                    | Description                                      
 |---|--------------------|----------------------------|--------------------------------------------------|
 | 1 | Get                | ""                         | Basic Home Page                                  
