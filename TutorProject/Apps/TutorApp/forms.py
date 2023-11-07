@@ -59,11 +59,9 @@ class EditTutorForm(forms.ModelForm):
         required=False  
     )
 
-    major = forms.ModelChoiceField(queryset=Major.objects.all())
-
     class Meta:
         model = Tutor
-        fields = ['major', 'minutes_tutored', 'description', 'tutored_classes']
+        fields = ['minutes_tutored', 'description', 'tutored_classes']
 
     def __init__(self, *args, **kwargs):
         super(EditTutorForm, self).__init__(*args, **kwargs)
