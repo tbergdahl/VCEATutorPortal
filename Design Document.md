@@ -1,7 +1,7 @@
 # Design Document
 <img src="UML.jpeg" width="128*10"/>
 
-## YVCEA Tutor App
+## VCEA Tutor App
 --------
 Prepared by: Team Tylenol
 
