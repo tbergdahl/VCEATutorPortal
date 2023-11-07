@@ -1,5 +1,5 @@
 # Design Document
-<img src="UML.jpeg" width="128"/>
+<img src="UML.jpeg" width="128*10"/>
 
 ## YVCEA Tutor App
 --------
