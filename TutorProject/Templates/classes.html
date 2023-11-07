@@ -1,17 +1,70 @@
 {% extends "base.html" %}
-{% block title %} admin Page {% endblock %}
+{% block title %} Admin Page {% endblock %}
 
 {% block content %}
+<style>
+    .class-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .class-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .class-text {
+        flex-grow: 1; /* Ensures it takes up available space */
+    }
+
+    .btn {
+        font-size: 14px;
+        display: inline-block;
+        margin-top: 12px;
+        padding: 6px 10px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 3px;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-danger {
+        font-size: 14px;
+        display: inline-block;
+        margin-top: 6px;
+        margin-right: 10px;
+        padding: 6px 10px;
+        background-color: #ee3f51;
+        color: white;
+        text-decoration: none;
+        border-radius: 3px;
+    }
+
+    .btn-danger:hover {
+        background-color: #bd2130;
+    }
+
+</style>
+
 <h2>Classes</h2>
-    <ul>
-        {% for a_class in classes %}
-            <li>
+<div class="class-list">
+    {% for a_class in classes %}
+        <div class="class-item">
+            <div class="class-text">
                {{ a_class.class_major.name }} {{ a_class.course_num }} - {{a_class.course_name}}
+            </div>
+            <div class="class-action">
+                <a href="{% url 'Admin:delete_class' a_class.id %}" class="btn-danger">Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 
-                <a href="{% url 'Admin:delete_class' a_class.id %}">Delete</a>
-            </li>
-        {% endfor %}
-    </ul>
-
-    <a href="{% url 'Admin:admin_create_class' %}">Create Class</a>
+<a href="{% url 'Admin:admin_create_class' %}" class="btn">Create New Class</a>
 {% endblock %}

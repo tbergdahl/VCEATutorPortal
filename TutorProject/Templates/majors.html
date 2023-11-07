@@ -2,15 +2,65 @@
 {% block title %}Create Major{% endblock %}
 
 {% block content %}
+<style>
+    .class-list, .major-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .class-item, .major-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .class-text, .major-text {
+        flex-grow: 1; /* Ensures it takes up available space */
+    }
+    
+    .btn {
+        font-size: 14px;
+        display: inline-block;
+        margin-top: 6px;
+        padding: 6px 10px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 3px;
+    }
+    .btn:hover {
+        background-color: #0056b3;
+    }
+    .btn-danger {
+        font-size: 14px;
+        display: inline-block;
+        margin-top: 6px;
+        margin-right: 10px;
+        padding: 6px 10px;
+        background-color: #ee3f51;
+        color: white;
+        text-decoration: none;
+        border-radius: 3px;
+    }
+    .btn-danger:hover {
+        background-color: #bd2130;
+    }
+</style>
+
 <h2>Majors</h2>
-<ul>
+<div class="major-list">
     {% for major in majors %}
-        <li>
-            {{ major.name }}
-            <a href="{% url 'Admin:delete_major' major.id %}">Delete</a>
-        </li>
+        <div class="major-item">
+            <div class="major-text">
+                {{ major.name }}
+            </div>
+            <div class="major-action">
+                <a href="{% url 'Admin:delete_major' major.id %}" class="btn-danger">Delete</a>
+            </div>
+        </div>
     {% endfor %}
-</ul>
-<a href="{% url 'Admin:admin_create_major' %}">Create Major</a>
+</div>
+<a href="{% url 'Admin:admin_create_major' %}" class="btn">Create Major</a>
 
 {% endblock %}
