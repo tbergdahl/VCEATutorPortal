@@ -38,6 +38,13 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
 
+class Major(models.Model):
+    name = models.CharField(max_length=100)
+    abbreviation = models.CharField(max_length=20, default="placeholder")
+
+    def __str__(self):
+        return self.abbreviation
+
 class Admin(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
     
@@ -47,6 +54,7 @@ class Tutor(models.Model):
     day_started = models.DateField(max_length=20, null=True)
     rating = models.FloatField(default=0, validators=[MaxValueValidator(5.0), MinValueValidator(0.0)])
     description = models.TextField(blank=True, null=True)
+    major = models.ForeignKey(Major, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
@@ -83,12 +91,7 @@ def manage_user_profile(sender, instance, created, **kwargs):
 
 
 
-class Major(models.Model):
-    name = models.CharField(max_length=100)
-    abbreviation = models.CharField(max_length=20, default="placeholder")
 
-    def __str__(self):
-        return self.abbreviation
 
 
 class Class(models.Model):
@@ -103,10 +106,11 @@ class Class(models.Model):
 
 
 class Session(models.Model):
-    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sessions')
-    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, related_name='sessions')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='appointments')
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, related_name='appointments')
     date = models.DateField()
     time = models.TimeField()
+    tutored_class = models.ForeignKey(Class, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f"{self.student} session with {self.tutor} on {self.date} at {self.time}"
