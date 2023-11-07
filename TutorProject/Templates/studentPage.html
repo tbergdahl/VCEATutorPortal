@@ -20,7 +20,7 @@
 
     <br>
 
-        <table class="usertable">
+        <div class="tutor-grid">
             {% for tutor in tutors %}
             <div class="tutor-card">
                 <div class="tutor-info">
@@ -28,20 +28,20 @@
                     <h4>{{ tutor.user.first_name }} {{ tutor.user.last_name }}</h4>
                 </div>
                 <div class="tutor-details">
-                    <p1> Email: Test@wsu.edu </p1>
+                    <p1> <b>Email:</b> {{ tutor.user.email }} </p1>
                     <br>
-                    <p2> Major: Software Engineering </p2>
+                    <p2> <b>Major:</b> Software Engineering </p2>
                     <br>
-                    <p3> Hours: Monday 9AM-12PM, Wednesday 9AM-12PM, Friday 9AM-12PM </p3>
+                    <p3> <b>Hours:</b> Monday 9AM-12PM, Wednesday 9AM-12PM, Friday 9AM-12PM </p3>
                     <p>{{ tutor.description }}</p>
                 </div>
                 <div class="tutor-buttons">
-                    <a href="{% url 'Student:rate_tutor' tutor.id %}" class="action-button rate-button">Rate</a>
-                    <a href="{% url 'Student:schedule_session' tutor.id %}" class="action-button schedule-button">Schedule</a>
+                    <a href="{% url 'Student:rate_tutor' tutor.id %}" class="action-button button">Rate</a>
+                    <a href="{% url 'Student:schedule_session' tutor.id %}" class="action-button button">Schedule</a>
                 </div>
             </div>
             {% endfor %}
-        </table>
+        </div>
 
     {% else %}
         <p>You need to be a student and logged in to see the list of tutors.</p>
@@ -72,7 +72,7 @@
     }
 
     .tutor-card img {
-        max-width: 80%;
+        max-width: 60%;
         height: auto;
         border-radius: 50%; /* Make the image circular */
     }
