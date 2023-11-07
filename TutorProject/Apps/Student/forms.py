@@ -1,5 +1,5 @@
 from django import forms
-from Apps.TutorApp.models import Tutor, Session
+from Apps.TutorApp.models import Tutor, TutoringSession
 from django.utils import timezone
 
 class TutorRatingForm(forms.ModelForm):
@@ -9,8 +9,8 @@ class TutorRatingForm(forms.ModelForm):
         
 class SessionForm(forms.ModelForm):
     class Meta:
-        model = Session
-        fields = ['date', 'time']
+        model = TutoringSession
+        fields = ['date', 'start_time', 'end_time']
 
     def clean_date(self):
         date = self.cleaned_data['date']

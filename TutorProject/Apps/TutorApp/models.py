@@ -8,6 +8,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -105,12 +106,13 @@ class Class(models.Model):
         return f"{self.class_major.abbreviation} {self.course_num}"
 
 
-class Session(models.Model):
+class TutoringSession(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='appointments')
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, related_name='appointments')
     date = models.DateField()
-    time = models.TimeField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
     tutored_class = models.ForeignKey(Class, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f"{self.student} session with {self.tutor} on {self.date} at {self.time}"
+        return f"{self.student} session with {self.tutor} on {self.date} at {self.start_time}"
