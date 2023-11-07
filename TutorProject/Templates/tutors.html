@@ -9,14 +9,16 @@
             <th>Tutor ID</th>
             <th>Tutor Name</th>
             <th>Minutes Tutored</th>
+            <th>Major</th>
         </tr>
     </thead>
     <tbody>
         {% for tutor in tutors %}
         <tr>
             <td>{{ tutor.id }}</td>
-            <td>{{ tutor.user.first_name }} {{ tutor.user.last_name }}</td>
+            <td>{{ tutor.user.first_name }} {{ tutor.user.last_name }} </td>
             <td>{{ tutor.minutes_tutored }}</td>
+            <td>{{tutor.major}}</td>
             <td>  
                 <a href="{% url 'Admin:admin_edit_tutor_profile' tutor.id %}">Edit</a>                
             </td>

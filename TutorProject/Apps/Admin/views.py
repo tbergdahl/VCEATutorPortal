@@ -125,8 +125,12 @@ def admin_edit_tutor_profile(request, tutor_id):
             user_instance = tutor.user  
             user_instance.first_name = form.cleaned_data['first_name']
             user_instance.last_name = form.cleaned_data['last_name']
-            user_instance.save()  
+            user_instance.save()
             form.save()  
+
+            selected_major = form.cleaned_data.get('major')
+            user_instance.major = selected_major
+            user_instance.save()
 
             selected_classes = form.cleaned_data.get('tutored_classes')
             for a_class in selected_classes:
