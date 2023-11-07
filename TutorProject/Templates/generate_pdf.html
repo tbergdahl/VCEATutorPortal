@@ -2,22 +2,7 @@
 {% block title %} admin Page {% endblock %}
 
 {% block content %}
-<style>
-    .btn {
-        font-size: 14px;
-        display: inline-block;
-        margin-top: 6px;
-        padding: 6px 10px;
-        background-color: #007bff;
-        color: white;
-        text-decoration: none;
-        border-radius: 3px;
-    }
-    .btn:hover {
-        background-color: #0056b3;
-    }
 
-</style>
     <h2>Generate Report</h2>
     <form method="post">
         {% csrf_token %}
@@ -25,4 +10,21 @@
         <button type="submit" class="btn">Print Report</button>
     </form>
 
+    <style>
+        .btn {
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 6px;
+            padding: 6px 10px;
+            background-color: #ba1234;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: rgba(128,128,128);
+        }
+    
+    </style>
 {% endblock %}

@@ -5,6 +5,7 @@
 
 {% load static %}
 {% if request.user.is_authenticated and request.user.is_student %}
+
     <h2>Rate your Tutors</h2>
 
     <form method="get" action="">
@@ -13,7 +14,7 @@
         <button type="submit" class="search-button">Search</button>
 
         <label for="major">Filter by Major:</label>
-        <select name="major" id="major">
+        <select name="major" id="major" class="pointer">
             <option value="">--Select a Major--</option>
         </select>
     </form>
@@ -48,6 +49,9 @@
 {% endif %}
 
 <style>
+    .pointer {
+        cursor: pointer;
+    }
     .tutor-grid {
         display: flex;
         flex-wrap: wrap;
@@ -116,9 +120,8 @@
     .search-button {
         background-color: #333;
         color: white;
+        cursor: pointer;
     }
 </style>
-
-
 
 {% endblock %}

@@ -2,6 +2,23 @@
 {% block title %} Admin Page {% endblock %}
 
 {% block content %}
+
+<h2>Classes</h2>
+<div class="class-list">
+    {% for a_class in classes %}
+        <div class="class-item">
+            <div class="class-text">
+               {{ a_class.class_major.name }} {{ a_class.course_num }} - {{a_class.course_name}}
+            </div>
+            <div class="class-action">
+                <a href="{% url 'Admin:delete_class' a_class.id %}" class="btn-danger">Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<a href="{% url 'Admin:admin_create_class' %}" class="btn">Create New Class</a>
+
 <style>
     .class-list {
         list-style: none;
@@ -24,14 +41,15 @@
         display: inline-block;
         margin-top: 12px;
         padding: 6px 10px;
-        background-color: #007bff;
+        background-color: #ba1234;
         color: white;
         text-decoration: none;
         border-radius: 3px;
+        border: 2px solid black;
     }
 
     .btn:hover {
-        background-color: #0056b3;
+        background-color: rgba(128,128,128);
     }
 
     .btn-danger {
@@ -47,24 +65,9 @@
     }
 
     .btn-danger:hover {
-        background-color: #bd2130;
+        background-color: rgba(128,128,128);
     }
 
 </style>
 
-<h2>Classes</h2>
-<div class="class-list">
-    {% for a_class in classes %}
-        <div class="class-item">
-            <div class="class-text">
-               {{ a_class.class_major.name }} {{ a_class.course_num }} - {{a_class.course_name}}
-            </div>
-            <div class="class-action">
-                <a href="{% url 'Admin:delete_class' a_class.id %}" class="btn-danger">Delete</a>
-            </div>
-        </div>
-    {% endfor %}
-</div>
-
-<a href="{% url 'Admin:admin_create_class' %}" class="btn">Create New Class</a>
 {% endblock %}

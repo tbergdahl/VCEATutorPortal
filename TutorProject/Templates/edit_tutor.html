@@ -2,29 +2,31 @@
 
 {% block content %}
 
-<style>
-    .btn {
-        font-size: 14px;
-        display: inline-block;
-        margin-top: 6px;
-        padding: 6px 10px;
-        background-color: #007bff;
-        color: white;
-        text-decoration: none;
-        border-radius: 3px;
-    }
-    .btn:hover {
-        background-color: #0056b3;
-    }
-
-</style>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
 
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" class="btn">
     </form>
 
 
     <a href="{% url 'Admin:admin_view_tutors' %}" class="btn">Back To Tutors Page</a>
+
+    <style>
+        .btn {
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 10px;
+            background-color: #ba1234;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            border: 2px solid black;
+        }
+        .btn:hover {
+            background-color: rgba(128,128,128);
+        }
+    
+    </style>
 {% endblock %}

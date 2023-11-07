@@ -2,22 +2,7 @@
 {% block title %} admin Page {% endblock %}
 
 {% block content %}
-<style>
-    .btn {
-        font-size: 14px;
-        display: inline-block;
-        margin-top: 6px;
-        padding: 6px 10px;
-        background-color: #007bff;
-        color: white;
-        text-decoration: none;
-        cursor: pointer;
-    }
-    .btn:hover {
-        background-color: #0056b3;
-    }
 
-</style>
     <h2>Create Class</h2>
     <form method="post">
         {% csrf_token %}
@@ -25,5 +10,22 @@
         <button type="submit" class="btn" style="margin-top: 60px;">Create Class</button>
     </form>
 
+    <style>
+        .btn {
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 6px;
+            padding: 6px 10px;
+            background-color: #ba1234;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            border: 2px solid black;
+        }
+        .btn:hover {
+            background-color: rgba(128,128,128);
+        }
+    
+    </style>
 
 {% endblock %}
