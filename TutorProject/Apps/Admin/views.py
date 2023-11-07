@@ -119,24 +119,26 @@ def admin_view_tutors(request):
 
 def admin_edit_tutor_profile(request, tutor_id):
     tutor = get_object_or_404(Tutor, id=tutor_id)
+
     if request.method == 'POST':
         form = EditTutorForm(request.POST, instance=tutor)
         if form.is_valid():
-            user_instance = tutor.user  
-            user_instance.first_name = form.cleaned_data['first_name']
-            user_instance.last_name = form.cleaned_data['last_name']
-            user_instance.save()  
-            form.save()  
+            form.save()
+
+            
+            selected_major = form.cleaned_data.get('major')
+            tutor.major = selected_major
+            tutor.save()
 
             selected_classes = form.cleaned_data.get('tutored_classes')
             for a_class in selected_classes:
                 a_class.available_tutors.add(tutor)
-            
     else:
         associated_classes = tutor.tutored_classes.all()
         form = EditTutorForm(instance=tutor, initial={'tutored_classes': associated_classes})
     
     return render(request, 'edit_tutor.html', {'form': form})
+
 
 def report1():
     buffer = BytesIO()
