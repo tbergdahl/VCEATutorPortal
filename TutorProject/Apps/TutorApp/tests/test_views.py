@@ -15,68 +15,75 @@ class ViewsTestCase(TestCase):
         self.client = Client()
 
         # Create a test users with various roles for testing
-        self.admin_user = CustomUser.objects.create(
+        self.admin_user = CustomUser(
             email='phil.health@wsu.edu',
             first_name='Admin',
             last_name='User',
-            is_admin=True
+            is_admin=True,
+            is_student=False,
+            is_tutor=False
         )
-        self.tutor_user = CustomUser.objects.create(
+        self.tutor_user = CustomUser(
             email='jay.cutler@wsu.edu',
             first_name='Jay',
             last_name='Cutler',
-            is_tutor=True
+            is_tutor=True,
+            is_student=False,
+            is_admin=False
         )
-        self.student_user = CustomUser.objects.create(
+        self.student_user = CustomUser(
             email='ronnie.coleman@wsu.edu',
             first_name='Ronnie',
             last_name='Coleman',
-            is_student=True
+            is_student=True,
+            is_tutor=False,
+            is_admin=False
         )
         #create admin, tutor, and student from test users
-        self.admin = Admin.objects.create(user=self.admin_user)
-        self.tutor = Tutor.objects.create(
+        self.admin = Admin(user=self.admin_user)
+        self.tutor = Tutor(
             user=self.tutor_user,
             minutes_tutored=0,
             day_started=None,
             rating=0.0,
             description='Legendary bodybuilder and actor'
         )
-        self.student = Student.objects.create(user=self.student_user)
+        self.student = Student(user=self.student_user)
 
     def tearDown(self):
-        # delete users
-        self.admin_user.delete()
-        self.tutor_user.delete()
-        self.student_user.delete()
-
-        #delete admin, tutor, and student
-        self.admin.delete()
-        self.tutor.delete()
-        self.student.delete()
+        # Delete the created objects to clean up
+        CustomUser.objects.all().delete()
+        Admin.objects.all().delete()
+        Tutor.objects.all().delete()
+        Student.objects.all().delete()
 
 
     def test_login_admin(self):
         self.client.login(username='phil.health@wsu.edu', password='mr_olympia_2008')
+        self.assertEqual(self.admin_user.is_admin, True)
         response = self.client.get(reverse('Admin:admin_view')) # get simulates a GET request, reverse finds the url by name
         self.assertEqual(response.status_code, 200)  # 200 is the HTTP status code for "OK"
         self.assertTemplateUsed(response, 'adminPage.html')  # Asserts that the template used to render the response was studentPage.html
 
 
-    # def login_tutor(self):
+    # def test_login_tutor(self):
     #     self.client.login(username='jay.cutler@wsu.edu', password='mr_olympia_2009')
+    #     response = self.client.get(reverse('Tutor:tutor_view')) # get simulates a GET request, reverse finds the url by name
+    #     self.assertEqual(response.status_code, 200)  # 200 is the HTTP status code for "OK"
+    #     self.assertTemplateUsed(response, 'tutorPage.html')  # Asserts that the template used to render the response was studentPage.html
+
 
     # def login_student(self):
     #     self.client.login(username='ronnie.coleman@wsu.edu', password='mr_olympia_20010')
-
-    # def test_admin_view(self):
-    #     self.login_admin()
-    #     response = self.client.get(reverse('Admin:admin_view'))
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTemplateUsed(response, 'adminPage.html')
+    #     response = self.client.get(reverse('Student:student_view')) # get simulates a GET request, reverse finds the url by name
+    #     self.assertEqual(response.status_code, 200)  # 200 is the HTTP status code for "OK"
+    #     self.assertTemplateUsed(response, 'studentPage.html')  # Asserts that the template used to render the response was studentPage.html
 
     # def test_admin_view_createuser(self):
-    #     self.login_admin()
+
+    #     self.client.login(username='phil.health@wsu.edu', password='mr_olympia_2008')
+    #     self.assertEqual(self.admin_user.is_admin, True)
+
     #     response = self.client.get(reverse('Admin:admin_create_user'))
     #     self.assertEqual(response.status_code, 200)
     #     self.assertTemplateUsed(response, 'createuser.html')
@@ -143,4 +150,3 @@ class ViewsTestCase(TestCase):
     #     self.assertEqual(response.status_code, 200)
     #     self.assertTemplateUsed(response, 'register.html')
     #     self.assertContains(response, '')
-

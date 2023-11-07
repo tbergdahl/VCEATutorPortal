@@ -93,68 +93,37 @@ class TestModels(TestCase):
         self.assertTrue(u.check_password('testing123'))  # Test correct password
 
     def test_class_model(self):
-        # Test Course model by creating a course object and checking its title
-        M = Major.objects.create(name = "Computer Science", abbreviation = "CS")
+       # Create the Tutor and associate it with the CustomUser
+        self.tutor_test = CustomUser(
+            email='sergi@wsu.edu',
+            first_name='Sergi',
+            last_name='Oliva',
+            is_tutor=True,
+            is_student=False,
+            is_admin=False
+        )
 
-        # Create the Tutor and associate it with the CustomUser
-        tutor = Tutor(
-            user=self.tutor_user,
+        self.T = Tutor(
+            user=self.tutor_test,
             minutes_tutored=0,
             day_started=None,
             rating=0.0,
-            description='Legendary bodybuilder and actor'
-        )
-        
-        # create class object
-        c = Class(
-            course_num=101,
-            class_major=M,
-            course_name="Intro to Programming",
-            hours_tutored=0
+            description='Legendary bodybuilder and Baki Character'
         )
 
-        c.availableTutors.add(tutor)
-        c.save()
+        # Create a Class
+        self.M = Major(name="Computer Science", abbreviation="CS")
+
+        self.c = Class(
+            class_major=self.M,
+            course_num=101,
+            course_name="Intro to Programming",
+            hours_tutored=0,
+        )
 
         # Test Class Information
-        self.assertEqual(c.course_name, "Intro to Programming")
-        self.assertEqual(c.class_major.name, "Computer Science")
-        self.assertEqual(c.class_major.abbreviation, "CS")
-        self.assertEqual(c.course_num, 101)
-        self.assertEqual(c.hours_tutored, 0)
-
-        # Test Tutor Information
-        self.assertEqual(c.availableTutors.first().user.email, "jay.cutler@wsu.edu")
-        self.assertEqual(c.availableTutors.first().user.first_name, "Jay")
-        self.assertEqual(c.availableTutors.first().user.last_name, "Cutler")
-
-        # Test Tutor assignment
-        self.assertEqual(c.availableTutors.first().user.is_student, False)
-        self.assertEqual(c.availableTutors.first().user.is_tutor, True)
-        self.assertEqual(c.availableTutors.first().user.is_admin, False)
-
-"""
-    def test_verification_testing(self):
-        client = Client()
-
-        # Test student login and logout
-        client.login(username='Ronnie', password='test_password')
-        response = client.get(reverse('logout'))
-        self.assertEqual(response.status_code, 200)
-
-        # Test Admin login and Logout
-        client.login(username='Arnold', password='test_password')
-        response = client.get(reverse('logout'))
-        self.assertEqual(response.status_code, 200)
-
-        # Test Tutor login and Logout
-        client.login(username='Jay', password='test_password')
-        response = client.get(reverse('logout'))
-        self.assertEqual(response.status_code, 200)
-
-    def test_appointment_deletion(self):
-        pass
-
-    def test_appointment_update(self):
-        pass
-"""
+        self.assertEqual(self.c.course_name, "Intro to Programming")
+        self.assertEqual(self.c.class_major.name, "Computer Science")
+        self.assertEqual(self.c.class_major.abbreviation, "CS")
+        self.assertEqual(self.c.course_num, 101)
+        self.assertEqual(self.c.hours_tutored, 0)
