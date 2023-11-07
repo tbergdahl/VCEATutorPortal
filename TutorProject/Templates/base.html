@@ -24,48 +24,34 @@
                 <a href="https://my.wsu.edu">MY WSU</a>
             </nav>
         </header>
-
-        <div class="content">
-            <article class="banner">
-                <h1>Welcome To VCEA Tutoring Center</h1>
-            </article>
-            <article class="main">
-                {% block content %}{% endblock %}
-            </article>    
-        </div>
-
+        <article>
+          <h1>Welcome To VCEA Tutoring Center</h1>
+          {% block content %}{% endblock %}
+          
+        </article> 
         <aside id="sidebar">
             <button id="closeSidebarBtn">
                
-                <img src="{% static 'img/x-button.png' %}" alt="Close Sidebar" width="25" height="25">
+                <img src="{% static 'img/Icons-Temp_icon-x-close.svg' %}" alt="Close Sidebar" width="20" height="20">
             </button>
              <!-- Menu button (Initially hidden) -->
             <button id="openSidebarBtn" style="display: none;">
-                <img src="{% static 'img/Icons-Temp_icon-x-close.svg' %}" alt="Open Sidebar" width="20" height="20">
+                <img src="{% static 'img/menu.svg' %}" alt="Open Sidebar" width="20" height="20">
             </button>
             
             <div class="sidebar-content">
                 
-            <table class="menutable">
-                <tr>
-                    <td><a href="{% url 'home' %}">Home</a></td>
-                </tr>
-                <tr>
-                    <td><a href="#">Schedule</a></td>
-                </tr>
-                <tr>       
-                {% if user.is_tutor %}
-                <td><a href="#">Profile</a></td>
-                {% endif %}
-                </tr>
-                <tr>
-                    {% if user.is_authenticated %}
-                    <td><a href="{% url 'logout' %}">Logout</a></td>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="#">Schedule</a></li>
+                <li><a href="#">Profile</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
-                    <td><a href="{% url 'login' %}">Login</a></td>
+                    <li><a href="{% url 'login' %}">Login</a></li>
                 {% endif %}
-                </tr>
-            </table>
+
+            </ul>
         </div>
         </aside>
         <footer>Footer</footer>

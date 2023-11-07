@@ -13,7 +13,6 @@ header {
     align-items: center;
     width: 100%; 
     background-color: var(--headerColor);
-    z-index: 100;
 }
 
 .logo, .header-nav {
@@ -29,6 +28,13 @@ header {
     margin: 0px;
 }
 
+.university-title {
+    color: white;
+    padding-left: 10px;
+    font-size: 15px;
+    margin: 0px;
+}
+
 .header-nav {
     position: absolute;
     top: 0;
@@ -39,16 +45,15 @@ header {
 }
 
 .header-nav a {
-    font-size: 14px;
     margin-left: 20px; 
     text-decoration: none;
     color: white;
+    
 }
 
 .header-nav a:hover {
     text-decoration: underline;
 }
-
 .header-nav a:last-child {
     margin-right: 0;  /* Ensure the last link doesn't have extra margin on the right */
 }
@@ -60,84 +65,76 @@ header {
     background-color: #808080;
 }
 
-.content {
-    grid-area: content;
+  article {
+     grid-area: content;
     background-color: white;
-    grid-template-rows: 1fr 8fr;
-}
-
-aside {
+    padding: 20px;
+    z-index: 10;  /* Some value lower than the sidebar's z-index */
+    position: relative;  /* Same as header and footer */
+ 
+  }
+  aside {
     grid-area: sidebar;
     background-color: #45aaf2;
     position: relative;  /* This is the key change */
 }
-
-.banner h1 {
-    position: relative;
-    height: 12vh;
-    width: 100%;
-    background-color: var(--crimson);
-    overflow-y: hidden;
-    padding-top: 2%;
-}
-
-.main {
-    padding: 20px;
-    z-index: 10;  /* Some value lower than the sidebar's z-index */
-    position: relative;  /* Same as header and footer */
-}
-
-footer {
+  footer {
     padding: 20px;
     grid-area: footer;
     background-color: var(--headerColor);
     z-index: 10;  /* Some value lower than the sidebar's z-index */
     position: relative; 
-}
-
-.wrapper {
+  }
+  .wrapper {
     position: relative;
     display: grid;
     grid-gap: 0px; 
-    grid-template-columns: 250px 3fr;
+    grid-template-columns: 250px 2fr;
     grid-template-areas: 
-        "header header"
-        "sidebar content"
-        "sidebar footer";
+      "header header"
+      "sidebar content"
+      "sidebar footer";
     height: 100vh; /* 100% of the viewport height */
     grid-template-rows: auto 1fr auto; 
-    transition: 0.5s;
 }
 
-@media (max-width: 500px) {
+  @media (max-width: 500px) {
     .wrapper {
-        grid-template-columns: 4fr;
-        grid-template-areas:
+      grid-template-columns: 4fr;
+      grid-template-areas:
         "header"
         "content"
         "sidebar"
         "footer";
     }
-}
+  }
 
   /* Styling the sidebar links */
+aside ul {
+    list-style-type: none;  /* Remove bullet points */
+    padding: 0;
+}
+
+aside li {
+    margin: 10px 0;  /* Space between each link */
+}
+
 aside a {
     color: #ffffff;  /* Text color for the links */
     text-decoration: none;  /* Remove underline */
     padding: 10px 15px;  /* Padding around each link */
     display: block;  /* Make each link take the full width of the li */
     background-color: black;  /* Background color for the links */
-    border-radius: 1px;  /* Rounded corners for the links */
+    border-radius: 5px;  /* Rounded corners for the links */
     transition: background-color 0.2s;  /* Smooth transition for hover effect */
 }
 
-aside a:hover { 
-    background-color: rgb(47, 47, 47);  /* Change background color on hover */
+aside a:hover {
+    background-color: grey;  /* Change background color on hover */
 }
 
 /* Styling the sidebar */
 #sidebar {
-    position: fixed;
     top: 0;
     left: 0;
     height: 100%;
@@ -145,7 +142,7 @@ aside a:hover {
     background-color: black;
     overflow-x: hidden;
     transition: 0.5s;
-    z-index: 80;  
+    z-index: 1000;  
 }
 
 .sidebar-content {
@@ -154,17 +151,16 @@ aside a:hover {
 
 /* Styling the close button */
 #closeSidebarBtn {
-    position: relative;  /* Positioning inside the sidebar */
-    top: 80px;  /* Margin from the top */
-    left: 185px;  /* Margin from the right */
+    position: absolute;  /* Positioning inside the sidebar */
+    top: 20px;  /* Margin from the top */
+    right: 20px;  /* Margin from the right */
     border: none;  /* Remove border */
-    padding: 20px 20px;  /* Padding around the text */
+    padding: 10px 20px;  /* Padding around the text */
     background-color: transparent;
     font-size: 16px;  /* Font size */
     cursor: pointer;  /* Change cursor to pointer on hover */
     border-radius: 5px;  /* Rounded corners */
-    display: grid;
-    z-index: 1;
+    display: block;
 }
 #sidebar.closed #closeSidebarBtn {
     display: none; /* or any other color to indicate a different state */
@@ -187,23 +183,18 @@ aside a:hover {
 /* Positioning the menu button */
 #openSidebarBtn {
     position: absolute;
-    height: fit-content;
     top: 50%;
     right: 0;
     transform: translateY(-50%);
     background: transparent;
     border: none;
     padding: 10px;
-    cursor: pointer;
+
 }
 
 #openSidebarBtn img {
     width: 20px;
-    height: 95vh;
-}
-
-#openSidebarBtn img:hover {
-    background-color: rgb(47, 47, 47);
+    height: 20px;
 }
 
 html, body {
@@ -248,7 +239,7 @@ article h1 {
     width: 100%;
 }
 
-.usertable th, .usertable td {
+th, td {
     border-bottom: 1px solid #ddd;
     padding: 2px;
 }
@@ -261,7 +252,7 @@ article h1 {
     width: 70px;
     font-family: 'Montserrat', sans-serif;
 	font-size: 12px;
-	margin: 8px 20px 8px 30px;
+	margin: 3px 20px 3px 30px;
 	padding: 6px 6px;
 	border: 1px solid gray;
     text-align: center;
@@ -275,14 +266,4 @@ article h1 {
 .button:hover {
     background-color: var(--crimson);
     color: white;
-}
-
-.menutable {
-    text-align: left;
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.menutable td {
-    border-top: 1px solid lightgrey;
 }
