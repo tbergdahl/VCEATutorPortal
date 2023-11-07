@@ -48,6 +48,7 @@ header {
 .header-nav a:hover {
     text-decoration: underline;
 }
+
 .header-nav a:last-child {
     margin-right: 0;  /* Ensure the last link doesn't have extra margin on the right */
 }
@@ -59,61 +60,67 @@ header {
     background-color: #808080;
 }
 
-  article {
+.content {
     grid-area: content;
     background-color: white;
-    padding: 20px;
-    z-index: 10;  /* Some value lower than the sidebar's z-index */
-    position: relative;  /* Same as header and footer */
- 
-  }
-  aside {
+    grid-template-rows: 1fr 8fr;
+}
+
+aside {
     grid-area: sidebar;
     background-color: #45aaf2;
     position: relative;  /* This is the key change */
 }
-  footer {
+
+.banner h1 {
+    position: relative;
+    height: 12vh;
+    width: 100%;
+    background-color: var(--crimson);
+    overflow-y: hidden;
+    padding-top: 2%;
+}
+
+.main {
+    padding: 20px;
+    z-index: 10;  /* Some value lower than the sidebar's z-index */
+    position: relative;  /* Same as header and footer */
+}
+
+footer {
     padding: 20px;
     grid-area: footer;
     background-color: var(--headerColor);
     z-index: 10;  /* Some value lower than the sidebar's z-index */
     position: relative; 
-  }
-  .wrapper {
+}
+
+.wrapper {
     position: relative;
     display: grid;
     grid-gap: 0px; 
     grid-template-columns: 250px 3fr;
     grid-template-areas: 
-      "header header"
-      "sidebar content"
-      "sidebar footer";
+        "header header"
+        "sidebar content"
+        "sidebar footer";
     height: 100vh; /* 100% of the viewport height */
     grid-template-rows: auto 1fr auto; 
     transition: 0.5s;
 }
 
-  @media (max-width: 500px) {
+@media (max-width: 500px) {
     .wrapper {
-      grid-template-columns: 4fr;
-      grid-template-areas:
+        grid-template-columns: 4fr;
+        grid-template-areas:
         "header"
         "content"
         "sidebar"
         "footer";
     }
-  }
+}
 
   /* Styling the sidebar links */
-aside ul {
-    list-style-type: none;  /* Remove bullet points */
-    padding: 0;
-}
-
-aside li {
-    margin: 10px 0;  /* Space between each link */
-}
-
 aside a {
     color: #ffffff;  /* Text color for the links */
     text-decoration: none;  /* Remove underline */

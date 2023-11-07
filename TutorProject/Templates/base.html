@@ -24,11 +24,16 @@
                 <a href="https://my.wsu.edu">MY WSU</a>
             </nav>
         </header>
-        <article>
-          <h1>Welcome To VCEA Tutoring Center</h1>
-          {% block content %}{% endblock %}
-          
-        </article> 
+
+        <div class="content">
+            <article class="banner">
+                <h1>Welcome To VCEA Tutoring Center</h1>
+            </article>
+            <article class="main">
+                {% block content %}{% endblock %}
+            </article>    
+        </div>
+
         <aside id="sidebar">
             <button id="closeSidebarBtn">
                
