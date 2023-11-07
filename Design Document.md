@@ -338,12 +338,31 @@ The view in MVT is responsible for handling the presentation layer of the applic
 
 	This page allows the admin to print statistical reports reflecting data collected by the app, such as which classes get the most hours spent tutored, which tutors are the highest rated, and many more.
 
-# 3. Progress Report
+# 3. Progress Report 
 
 
 In iteration 1, we implemented a basic framework for our application. We initialized the backend of the app, as well as an overall design for our frontend. We implemented functionality for register, login, and logout, as well as the sidebar for navigation. In the admin user type, you are able to filter users, as well as create and delete users of either student or tutor type. 
 
 As of iteration 2, we have implemented every feature in the application except for appointment scheduling. Our database schema is fully implemented as our current plans for scheduling require. Our front end development follows a consistent pattern across all of the different user views, and is organized in a way that any user will be able to follow easily. We are currently on schedule and have even gotten an early start on scheduling. 
+
+
+4.) Testing Plan
+
+	The team plans to test the subsystem through a combination of automatic tests, edge case tests, and manual user testing to ensure the system is as bug free as possible and meets all usability standards.
+
+ 	Automatic testing will be performed through an organized testing folder inside the tutor app. This testing folder will have individual files meant to test the models and views seperately. The tests will reach out and test other apps so that testing can remain inside the main app subsystem for organizational purposes. The tests will be designed to test output, storage, and edge cases and utilized after major changes such that we can limit the number of human hours needed to test the system.
+
+	Unit Tests:
+	We are using the default django testing framework testcase which is important from django.tests. This will be used to write the automated testing which the team will use periodicly when neccecary to ensure the system is operating as expected.
+
+	Function Tests:
+	The testing system will also be used to verify that the system as a whole is operating as expected when performing tasks such as class cration, tutor assignment, etc. Any simple broad-scope function tests will be written into the testing system. Humans will also perform basic function tests to make sure that the web-page is behaving as expected.
+
+	UI Testing:
+	Manual human testing will be used to test the UI. They will only be used in a capacity of testing human interaction, as the underlying logic will be tested both manually and through use of written automated tests.
+
+	Testing Progress:
+	Currently a basic testing framework for models and views is implemented. The functions have not been written to test edge cases, only model creating and basic view testing has been implemented. This will be completed for iteration 3 to manually test edge cases and perform more full and cohesive tests of the system.
 
 
 # 5. References
