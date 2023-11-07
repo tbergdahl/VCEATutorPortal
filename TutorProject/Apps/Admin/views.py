@@ -9,6 +9,7 @@ from .models import *
 from Apps.TutorApp.models import *
 from Apps.TutorApp.forms import *
 from io import BytesIO
+from django.db import IntegrityError
 # views.py
 from django.http import HttpResponse
 from reportlab.lib import colors
@@ -20,6 +21,10 @@ from django.shortcuts import get_object_or_404
 def admin_view(request):
     return render(request, 'adminPage.html')
 
+# In your views.py
+
+
+
 def admin_create_user(request):
     if not request.user.is_admin:
         return redirect('home')
@@ -27,26 +32,42 @@ def admin_create_user(request):
     if request.method == 'POST':
         form = AdminCreateUser(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)  # Don't save yet
-            role = form.cleaned_data.get('role')
+            user = form.save(commit=False)
+            role = form.cleaned_data.get('role', 'is_student')
+            
             if role == 'is_student':
                 user.is_student = True
-                user.save()
-                Student.objects.create(user=user)
+                user.is_admin = False
+                user.is_tutor = False
             elif role == 'is_tutor':
                 user.is_tutor = True
-                user.save()
-                Tutor.objects.create(user=user)
+                user.is_student = False
+                user.is_admin = False
             elif role == 'is_admin':
                 user.is_admin = True
+                user.is_student = False
+                user.is_tutor = False
+                
+                
+            try:
                 user.save()
-                Admin.objects.create(user=user)
+                if role == 'is_student' and not Student.objects.filter(user=user).exists():
+                    Student.objects.create(user=user)
+                elif role == 'is_tutor' and not Tutor.objects.filter(user=user).exists():
+                    Tutor.objects.create(user=user)
+                elif role == 'is_admin' and not Admin.objects.filter(user=user).exists():
+                    Admin.objects.create(user=user)
+            except IntegrityError as e:
+                
+                messages.error(request, 'A user with this ID already exists.')
+                return redirect('Admin:admin_view')
             
-        return redirect('Admin:admin_view')
+            return redirect('Admin:admin_view')
     else:
         form = AdminCreateUser()
 
     return render(request, 'createuser.html', {'form': form})
+
 
 
 def admin_delete_user(request):
