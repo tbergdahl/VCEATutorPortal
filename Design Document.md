@@ -31,7 +31,7 @@ Prepared by: Team Tylenol
     - [2.2.1 Model](#221-model)
     - [2.2.2 Controller](#222-controller)
     - [2.2.3 View and User Interface Design](#223-view-and-user-interface-design)
-	- [Design Document](#design-document)
+	- [Database Schema](#database-schema)
 - [3. Progress Report](#3-progress-report)
 - [4. Testing Plan](#4-testing-plan)
 - [5. References](#5-references)
