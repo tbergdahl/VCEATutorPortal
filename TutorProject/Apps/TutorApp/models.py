@@ -116,3 +116,10 @@ class TutoringSession(models.Model):
 
     def __str__(self):
         return f"{self.student} session with {self.tutor} on {self.date} at {self.start_time}"
+
+
+class Shift(models.Model):
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, related_name='shifts')
+    day = models.CharField(max_length=20)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
