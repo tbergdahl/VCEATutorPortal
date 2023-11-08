@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block title %} tutor Page {% endblock %}
+
+{% block content %}
+
+    <h2>{{ tutor }}'s Shifts</h2>
+    <ul>
+        {% for shift in shifts %}
+            <li>{{ shift.day }}: {{ shift.start_time }} - {{ shift.end_time }}
+                <a href="{% url 'Admin:admin_delete_shift' shift.id %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'Admin:admin_add_tutor_shift' tutor.id %}">Add Shift</a>
+   
+{% endblock %}

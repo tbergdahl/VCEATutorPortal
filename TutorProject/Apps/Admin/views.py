@@ -269,14 +269,27 @@ def delete_major(request, major_id):
     a_major.delete()
     return redirect('Admin:majors_menu')
 
-def admin_edit_tutor_shifts(request, tutor_id):
-    tutor = get_object_or_404(Tutor, id=tutor_id)
+def admin_view_tutor_shifts(request, tutor_id):
+   tutor = get_object_or_404(Tutor, id=tutor_id)
+   shifts = Shift.objects.filter(tutor=tutor)
+   form = ShiftForm()
+   return render(request, 'shifts.html', {'tutor': tutor, 'shifts': shifts, 'form': form})
+
+def admin_add_tutor_shift(request, tutor_id):
+    tutor = get_object_or_404(Tutor, id=tutor_id) #get tutor info
+    form = None
     if request.method == 'POST':
         form = ShiftForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('Admin:admin_view_tutors')
-    else:
-        form = ShiftForm()
+            shift = form.save(commit = False)
+            shift.tutor = tutor #add tutor to shift
+            shift.save()
+            return redirect('admin_view_tutor_shifts', tutor_id = tutor.id) #refresh
+    return render(request, 'add_shift.html', {'form': form})
 
-    return render(request, 'edit_shifts.html', {'form': form, 'tutor': tutor}) 
+
+def admin_delete_shift(shift_id):
+    shift = get_object_or_404(Shift, id=shift_id)
+    tutor_id = shift.tutor.id #save tutor id for refresh
+    shift.delete()
+    return redirect('admin_view_tutor_shifts', tutor_id = tutor_id)

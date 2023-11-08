@@ -75,8 +75,20 @@ class EditTutorForm(forms.ModelForm):
 
 
 class ShiftForm(forms.ModelForm):
+    day_choices = [
+        ('monday', 'Monday'),
+        ('tuesday', 'Tuesday'),
+        ('wednesday', 'Wednesday'),
+        ('thursday', 'Thursday'),
+        ('friday', 'Friday'),
+        ('saturday', 'Saturday'),
+        ('sunday', 'Sunday'),
+    ]
+
+    day = forms.ChoiceField(choices=day_choices)
+    start_time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
+    end_time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
+
     class Meta:
         model = Shift
         fields = ['day', 'start_time', 'end_time']
-
-ShiftFormSet = forms.inlineformset_factory(Tutor, Shift, form=ShiftForm, extra=1)
