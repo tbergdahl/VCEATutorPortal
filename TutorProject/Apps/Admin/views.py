@@ -144,9 +144,7 @@ def admin_edit_tutor_profile(request, tutor_id):
     if request.method == 'POST':
         form = EditTutorForm(request.POST, instance=tutor)
         if form.is_valid():
-            form.save()
-
-            
+            form.save()            
             selected_major = form.cleaned_data.get('major')
             tutor.major = selected_major
             tutor.save()
