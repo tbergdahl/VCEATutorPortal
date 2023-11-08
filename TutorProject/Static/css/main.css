@@ -4,7 +4,7 @@
 
 :root {
     --headerColor: #23282b;
-    --crimson: #A60F2D;
+    --crimson: #981e32;
 }
 
 header {
@@ -35,30 +35,6 @@ header {
     margin: 0px;
 }
 
-.header-nav {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding-top: 30px;
-    padding-right: 15px;
-    background-color: var(--headerColor);
-}
-
-.header-nav a {
-    margin-left: 20px; 
-    text-decoration: none;
-    color: white;
-    font-size: 14px;
-}
-
-.header-nav a:hover {
-    text-decoration: underline;
-}
-
-.header-nav a:last-child {
-    margin-right: 0;  /* Ensure the last link doesn't have extra margin on the right */
-}
-
 .header-container {
     display: flex;
     justify-content: space-between;
@@ -72,7 +48,6 @@ article {
     padding: 20px;
     z-index: 10;  /* Some value lower than the sidebar's z-index */
     position: relative;  /* Same as header and footer */
- 
 }
 
 aside {
@@ -80,13 +55,18 @@ aside {
     position: fixed;  /* This is the key change */
 }
 
-.banner h1 {
+.banner {
+    grid-area: banner;
+    display: flex;
+    z-index: 120;
     position: relative;
-    height: 12vh;
-    width: 100%;
+    justify-content: space-between;
     background-color: var(--crimson);
-    overflow-y: hidden;
-    padding-top: 2%;
+}
+
+.banner h1 {
+    color: white;
+    padding-left: 2vw;
 }
 
 footer {
@@ -104,18 +84,20 @@ footer {
     grid-template-columns: 250px 2fr;
     grid-template-areas: 
       "header header"
+      "sidebar banner"
       "sidebar content"
       "sidebar footer";
     height: 100vh; /* 100% of the viewport height */
-    grid-template-rows: auto 1fr auto; 
+    grid-template-rows: auto auto 1fr auto; 
     transition: 0.5s;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 400px) {
     .wrapper {
       grid-template-columns: 4fr;
       grid-template-areas:
         "header"
+        "banner"
         "content"
         "sidebar"
         "footer";
