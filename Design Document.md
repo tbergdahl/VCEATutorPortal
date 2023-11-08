@@ -181,31 +181,28 @@ def admin_view_deleteuser(request) Can issue Get and Post Requests
 def admin_create_user(request) Can issue Post requests
 
 
-Schedule app:
-The Schedule app will (in further implementations) handle all of the calendar, scheduling implementations and the routes, urls/templates relating to the schedule for all users. Interacts with all other subsystems (student, admin, tutor). The schedule app depends on cohesion with the tutor and student systems for correct saving of scheduling data. The schedule app depends on tutors and students for correct data regarding appointments.
-
 
 List of all current paths/routes:
-path("", views.home, name="home"),
-path("register/", views.register, name="register"),
-path('login/', LoginView.as_view(template_name='login.html'), name='login'),
-path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
-path('tutor/', views.tutor_view, name='tutor_view'),
-path('student/', views.student_view, name='student_view'),
-path('rate_tutor/<int:tutor_id>/', rate_tutor, name='rate_tutor'),
-path('schedule_session/<int:tutor_id>/', views.schedule_session, name='schedule_session'),
-path('administrator/', views.admin_view, name='admin_view'),
-path('administrator/createuser', views.admin_create_user, name='admin_create_user'),
-path('administrator/deleteuser/', views.admin_delete_user, name='admin_delete_user'),  
-path('administrator/printreports/', views.admin_view_reports, name='admin_view_reports'),
-path('administrator/createclass', views.admin_create_class, name='admin_create_class'),
-path('administrator/createmajor', views.admin_create_major, name='admin_create_major'),
-path('administrator/viewtutors', views.admin_view_tutors,name = 'admin_view_tutors'),
-path('administrator/edittutor/<int:tutor_id>', views.admin_edit_tutor_profile,name = 'admin_edit_tutor_profile'),
-path('administrator/classes_menu', views.classes_menu,name = 'classes_menu'),
-path('administrator/majors_menu', views.majors_menu,name = 'majors_menu'),
-path('administrator/delete_class/<int:class_id>', views.delete_class,name = 'delete_class'),
-path('administrator/delete_major/<int:major_id>', views.delete_major,name = 'delete_major'),
+- path("", views.home, name="home"),
+- path("register/", views.register, name="register"),
+- path('login/', LoginView.as_view(template_name='login.html'), name='login'),
+- path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+- path('tutor/', views.tutor_view, name='tutor_view'),
+- path('student/', views.student_view, name='student_view'),
+- path('rate_tutor/<int:tutor_id>/', rate_tutor, name='rate_tutor'),
+- path('schedule_session/<int:tutor_id>/', views.schedule_session, name='schedule_session'),
+- path('administrator/', views.admin_view, name='admin_view'),
+- path('administrator/createuser', views.admin_create_user, name='admin_create_user'),
+- path('administrator/deleteuser/', views.admin_delete_user, name='admin_delete_user'),  
+- path('administrator/printreports/', views.admin_view_reports, name='admin_view_reports'),
+- path('administrator/createclass', views.admin_create_class, name='admin_create_class'),
+- path('administrator/createmajor', views.admin_create_major, name='admin_create_major'),
+- path('administrator/viewtutors', views.admin_view_tutors,name = 'admin_view_tutors'),
+- path('administrator/edittutor/<int:tutor_id>', views.admin_edit_tutor_profile,name = 'admin_edit_tutor_profile'),
+- path('administrator/classes_menu', views.classes_menu,name = 'classes_menu'),
+- path('administrator/majors_menu', views.majors_menu,name = 'majors_menu'),
+- path('administrator/delete_class/<int:class_id>', views.delete_class,name = 'delete_class'),
+- path('administrator/delete_major/<int:major_id>', views.delete_major,name = 'delete_major'),
 
 
 
@@ -243,15 +240,24 @@ The role of our view is to properly display the directed information to the stud
 
 
 Current Templates
--adminPage.html  -Admin home page for viewing admin options
--base.html  -Base for housing sidebar and top banner/footer
--createuser.html  -page for admin to create a user
--deleteuser.html  -page for admin to delete a user
--home.html  -home page for student user
--login.html  -login page for basic login
--register.html  - page for registering a student
--studentpage.html  -student home page for viewing admin options
--tutorpage.html  -page for tutor for viewing tutor options
+- adminPage.html  - Admin home page for viewing admin options
+- base.html  - Base for housing sidebar and top banner/footer
+- classes.html - page that admin sees showing all classes, can delete and add classes
+- create_class.html - page that renders the create class form
+- create_major.html - page that renders the create major form
+- createuser.html  - page for admin to create a user
+- deleteUser.html  - page for admin to delete a user
+- edit_tutor.html - page for admin to edit a tutor's info
+- generate_pdf.html - page for admin to generate PDF reports
+- home.html  - home page for student user
+- login.html  - login page for basic login
+- majors.html - page that admin uses to see all majors, can delete and create majors
+- rateTutor.html - page that allows student to rate tutor
+- register.html  - page for registering a student
+- studentPage.html  - student home page
+- studentSchedule.html - student page for viewing a student's schedule
+- tutorPage.html  - page for tutor for viewing tutor options
+- tutors.html - admin page to view tutors and branch into editing different tutor fields
 
 
 
@@ -312,13 +318,32 @@ The view in MVT is responsible for handling the presentation layer of the applic
 
 	This page will display a form used to delete users from the database. This page contains a selection of multiple roles to filter by, as well as a search function and a list of the users created. Each user has a delete button in order to commit the deletion of the user to the database.
 
+- Admin Class Menu
 
 
+	This page serves as the entry point to the class features. It allows the admin to view all classes currently in the database and provides links for the admin to easily create a new class and delete any classes listed.
+
+- Admin Major Menu
+
+
+	This page functions very similarly to the Admin Class Menu. It provides an entry point for the admin to begin using the major features of the app, including creation of a major, and deletion of the majors listed on the page.
+
+- Admin Tutor Menu
+
+
+	This page functions the same as the Admin Class Menu and Admin Tutor Menu, with some extra functionality. It lists all tutors, and some basic info about them. In every tutor entry, it provides links to manage tutor fields, such as profile features and shifts the tutor works.
+
+- Admin Reports Menu
+
+
+	This page allows the admin to print statistical reports reflecting data collected by the app, such as which classes get the most hours spent tutored, which tutors are the highest rated, and many more.
 
 # 3. Progress Report
 
 
 In iteration 1, we implemented a basic framework for our application. We initialized the backend of the app, as well as an overall design for our frontend. We implemented functionality for register, login, and logout, as well as the sidebar for navigation. In the admin user type, you are able to filter users, as well as create and delete users of either student or tutor type. 
+
+As of iteration 2, we have implemented every feature in the application except for appointment scheduling. Our database schema is fully implemented as our current plans for scheduling require. Our front end development follows a consistent pattern across all of the different user views, and is organized in a way that any user will be able to follow easily. We are currently on schedule and have even gotten an early start on scheduling. 
 
 
 # 5. References
