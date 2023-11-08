@@ -77,8 +77,7 @@ article {
 
 aside {
     grid-area: sidebar;
-    background-color: #45aaf2;
-    position: relative;  /* This is the key change */
+    position: fixed;  /* This is the key change */
 }
 
 .banner h1 {
@@ -109,6 +108,7 @@ footer {
       "sidebar footer";
     height: 100vh; /* 100% of the viewport height */
     grid-template-rows: auto 1fr auto; 
+    transition: 0.5s;
 }
 
 @media (max-width: 500px) {
