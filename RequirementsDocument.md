@@ -72,14 +72,12 @@ This software will require computing power necessary to run the web-app. As well
 
 ## 2.1 Customer, Users, and Stakeholders
 
-The customer using our application will be the VECA tutoring center at WSU as well as the students that utilize the tutoring services. The stakeholders are the VCEA tutoring center, professor Sakire, as well as the dean of the VCEA. 
+The customer using our application will be the VCEA tutoring center at WSU as well as the students that utilize the tutoring services. The stakeholders are the VCEA tutoring center, professor Sakire, as well as the dean of the VCEA. 
 
 The users of our software include students, tutors, professors, admin, and a super admin.
 
 ----
 ## 2.2 Use Cases
-
-This section will include the specification for your project in the form of use cases. The section should start with a short description of the actors involved (e.g., regular user, administrator, etc.) and then follow with a list of the use cases.
 
 This section includes the specification for the VCEA tutoring software in the form of use cases. 
 The actors included in this app will include:
@@ -98,7 +96,7 @@ User: I (as a tutor) need administrators to be able to add more tutors and see w
 
 User: I need the appointments saved and accessible whenever I have an internet connection.
 
-User: I want to be able to see a profile on my prospective tutor
+User: I want to be able to see the profile of my prospective tutor and schedule an appointment with them.
 
 Use Cases:
 
@@ -350,8 +348,6 @@ Use Cases:
 
 ----
 # 4. Product Backlog
-
-Here you should include a link to your GitHub repo issues page, i.e., your product backlog. Make sure to create an issue for each use case. You should also create issues for the initial development tasks that you plan to work on during iteration1. 
 
 https://github.com/WSU-CptS-322-Fall-2023/termproject-teamtylenol/issues
 

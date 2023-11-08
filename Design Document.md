@@ -84,7 +84,7 @@ The High-level architecture view of our app can be broken down similarly to the 
 
 
  * 
- * Tutorapp controls the delegation into the View (Forms + Templates) , the Views/Routes) and the model section which controls the models and Database Management.
+ * Tutorapp controls the delegation into the View (Forms + Templates) , the Views/Routes and the model section which controls the models and Database Management.
  * The reason for this design is to eloquently and well separate the subsystems into their individual responsibilities for the software.
 
 
