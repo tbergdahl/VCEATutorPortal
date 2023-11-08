@@ -216,7 +216,7 @@ html, body {
 }
 
 article h1 {
-    background-color: var(--crimson); /* Using the crimson color you've defined */
+    background-color: var(--crimson); 
     color: white; /* Making the text color white for better contrast */
     font-size: 28px;
     padding: 15px 0; /* Larger vertical padding, no horizontal padding */

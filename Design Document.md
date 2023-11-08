@@ -1,5 +1,4 @@
-# Design Document
-<img src="UML.jpeg" width="128*10"/>
+
 
 ## VCEA Tutor App
 --------
@@ -157,6 +156,9 @@ TutoringSession
 - start_time
 - end_time
 - tutored_class *ForeignKey relationship with Class model
+
+# Design Document
+<img src="UML.jpeg" width="128*10"/>
 
 
 ### 2.2.2 Apps -> Views
