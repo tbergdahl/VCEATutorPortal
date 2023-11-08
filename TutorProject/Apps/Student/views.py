@@ -11,15 +11,16 @@ def student_view(request):
     majors = Major.objects.all()
 
     # Get query parameters for major and search
-    major_id = request.GET.get('major')
+    major_name = request.GET.get('major')
     search_query = request.GET.get('search')
 
     # Start with all tutors
     tutors = Tutor.objects.all()
 
-    # Filter by major if major is selected
-    if major_id:
-        tutors = tutors.filter(major_id=major_id)
+    # Filter by major if major name is selected
+    # Note: This assumes your Major model has a 'name' field that stores the name of the major
+    if major_name:
+        tutors = tutors.filter(major__name=major_name)  # Filter by the name field of the Major model
 
     # Search by tutor's name or other fields if search query is provided
     if search_query:
@@ -31,10 +32,12 @@ def student_view(request):
     context = {
         'tutors': tutors,
         'majors': majors,
-        'selected_major': int(major_id) if major_id else None,
+        # No need to convert to int, since we are now using the major name
+        'selected_major': major_name,
         'search_query': search_query,
     }
     return render(request, 'studentPage.html', context)
+
 
 
 def rate_tutor(request, tutor_id):
