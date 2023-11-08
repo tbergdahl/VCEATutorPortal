@@ -346,7 +346,7 @@ In iteration 1, we implemented a basic framework for our application. We initial
 As of iteration 2, we have implemented every feature in the application except for appointment scheduling. Our database schema is fully implemented as our current plans for scheduling require. Our front end development follows a consistent pattern across all of the different user views, and is organized in a way that any user will be able to follow easily. We are currently on schedule and have even gotten an early start on scheduling. 
 
 
-4.) Testing Plan
+# 4.) Testing Plan
 
 	The team plans to test the subsystem through a combination of automatic tests, edge case tests, and manual user testing to ensure the system is as bug free as possible and meets all usability standards.
 
