@@ -23,7 +23,10 @@
                 <td>{{ tutor.minutes_tutored }}</td>
                 <td> {{ tutor.major }}</td>
                 <td>
-                    <a href="{% url 'Admin:admin_edit_tutor_profile' tutor.id %}">Edit</a>
+                    <a href="{% url 'Admin:admin_edit_tutor_profile' tutor.id %}">Edit Details</a>
+                </td>
+                <td>
+                    <a href="{% url 'Admin:admin_edit_tutor_shifts' tutor.id %}">Edit Shifts</a>
                 </td>
             </tr>
             {% endfor %}

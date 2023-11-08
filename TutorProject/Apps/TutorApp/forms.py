@@ -72,3 +72,11 @@ class EditTutorForm(forms.ModelForm):
         if self.instance.user:
             self.fields['first_name'] = forms.CharField(initial=self.instance.user.first_name)
             self.fields['last_name'] = forms.CharField(initial=self.instance.user.last_name)
+
+
+class ShiftForm(forms.ModelForm):
+    class Meta:
+        model = Shift
+        fields = ['day', 'start_time', 'end_time']
+
+ShiftFormSet = forms.inlineformset_factory(Tutor, Shift, form=ShiftForm, extra=1)

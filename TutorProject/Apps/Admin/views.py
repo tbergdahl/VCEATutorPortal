@@ -144,7 +144,7 @@ def admin_edit_tutor_profile(request, tutor_id):
     if request.method == 'POST':
         form = EditTutorForm(request.POST, instance=tutor)
         if form.is_valid():
-            form.save()            
+            form.save()        
             selected_major = form.cleaned_data.get('major')
             tutor.major = selected_major
             tutor.save()
@@ -155,8 +155,12 @@ def admin_edit_tutor_profile(request, tutor_id):
     else:
         associated_classes = tutor.tutored_classes.all()
         form = EditTutorForm(instance=tutor, initial={'tutored_classes': associated_classes})
+
+        
     
-    return render(request, 'edit_tutor.html', {'form': form})
+    return render(request, 'edit_tutor.html', {
+        'tutor_form': form,
+    })
 
 
 def report1():
@@ -264,3 +268,15 @@ def delete_major(request, major_id):
     a_major = get_object_or_404(Major, pk=major_id)
     a_major.delete()
     return redirect('Admin:majors_menu')
+
+def admin_edit_tutor_shifts(request, tutor_id):
+    tutor = get_object_or_404(Tutor, id=tutor_id)
+    if request.method == 'POST':
+        form = ShiftForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('Admin:admin_view_tutors')
+    else:
+        form = ShiftForm()
+
+    return render(request, 'edit_shifts.html', {'form': form, 'tutor': tutor}) 

@@ -18,4 +18,5 @@ urlpatterns = [
     path('administrator/majors_menu', views.majors_menu,name = 'majors_menu'),
     path('administrator/delete_class/<int:class_id>', views.delete_class,name = 'delete_class'),
     path('administrator/delete_major/<int:major_id>', views.delete_major,name = 'delete_major'),
+    path('administrator/edittutorshifts/<int:tutor_id>', views.admin_edit_tutor_shifts,name = 'admin_edit_tutor_shifts'),
 ]
