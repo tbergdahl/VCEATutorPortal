@@ -120,23 +120,43 @@ CustomUser
 
 
 Admin
-- user *One to One relationship with CustomUser
+- user *One to One relationship with CustomUser model
 
 
 Tutor 
--user *One to One relationship with CustomUser
--minutes tutored
--Days started
-
+- user *One to One relationship with CustomUser model
+- minutes_tutored
+- day_started
+- rating
+- description
+- major *ForeignKey relationship with Major model
 
 Student
-- user *One to One relationship with CustomUser
-
+- user *One to One relationship with CustomUser model
 
 Course
--coursenum
--title
--major
+- coursenum
+- title
+- major
+
+Major
+- name
+- abbreviation
+
+Class
+- class_major *Foreign Key Relationship With Major model
+- course_num
+- course_name
+- available_tutors *Many-to-Many relationship with Tutor model
+- hours_tutored
+
+TutoringSession
+- student *ForeignKey relationship with Student model
+- tutor *ForeignKey relationship with Tutor model
+- date
+- start_time
+- end_time
+- tutored_class *ForeignKey relationship with Class model
 
 
 ### 2.2.2 Apps -> Views

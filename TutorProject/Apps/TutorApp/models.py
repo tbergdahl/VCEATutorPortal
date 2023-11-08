@@ -91,10 +91,6 @@ def manage_user_profile(sender, instance, created, **kwargs):
         Admin.objects.filter(user=instance).delete()
 
 
-
-
-
-
 class Class(models.Model):
     class_major = models.ForeignKey(Major, on_delete=models.CASCADE)
     course_num = models.IntegerField()
