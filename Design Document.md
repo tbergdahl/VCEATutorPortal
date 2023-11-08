@@ -23,10 +23,9 @@ Prepared by: Team Tylenol
 
 
 ## Table of Contents
-- [Design Document](#design-document)
-  - [Your Project Title](#your-project-title)
-  - [Table of Contents](#table-of-contents)
-    - [Document Revision History](#document-revision-history)
+- [Your Project Title](#your-project-title)
+- [Table of Contents](#table-of-contents)
+	- [Document Revision History](#document-revision-history)
 - [1. Introduction](#1-introduction)
 - [2. Architectural and Component-level Design](#2architectural-and-component-level-design)
   - [2.1 System Structure](#21-system-structure)
@@ -34,6 +33,7 @@ Prepared by: Team Tylenol
     - [2.2.1 Model](#221-model)
     - [2.2.2 Controller](#222-controller)
     - [2.2.3 View and User Interface Design](#223-view-and-user-interface-design)
+	- [Design Document](#design-document)
 - [3. Progress Report](#3-progress-report)
 - [4. Testing Plan](#4-testing-plan)
 - [5. References](#5-references)
@@ -157,7 +157,7 @@ TutoringSession
 - end_time
 - tutored_class *ForeignKey relationship with Class model
 
-# Design Document
+# Database Schema
 <img src="UML.jpeg" width="128*10"/>
 
 
