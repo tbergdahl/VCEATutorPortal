@@ -35,7 +35,7 @@
                 <div class="tutor-details">
                     <p1> <b>Email:</b> {{ tutor.user.email }} </p1>
                     <br>
-                    <p2> <b>Major:</b> {{ tutor.major.name }} </p2>
+                    <p2> <b>Major:</b> Software Engineering </p2>
                     <br>
                     <p3> <b>Hours:</b> Monday 9AM-12PM, Wednesday 9AM-12PM, Friday 9AM-12PM </p3>
                     <p>{{ tutor.description }}</p>
@@ -122,10 +122,15 @@
     }
 
     .search-button {
-        background-color: #333;
-        color: white;
+        background-color: #ba1234;
+            color: white;
+            transition: background-color 0.1s;
         cursor: pointer;
     }
+    
+    .search-button:hover {
+            background-color: rgba(128,128,128);
+        }
 </style>
 
 {% endblock %}
