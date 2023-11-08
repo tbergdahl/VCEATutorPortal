@@ -23,9 +23,7 @@ Prepared by: Team Tylenol
 
 
 ## Table of Contents
-- [Your Project Title](#your-project-title)
-- [Table of Contents](#table-of-contents)
-	- [Document Revision History](#document-revision-history)
+- [Document Revision History](#document-revision-history)
 - [1. Introduction](#1-introduction)
 - [2. Architectural and Component-level Design](#2architectural-and-component-level-design)
   - [2.1 System Structure](#21-system-structure)
@@ -49,7 +47,7 @@ Prepared by: Team Tylenol
 | Name | Date | Changes | Version |
 | ------ | ------ | --------- | --------- |
 |Revision 1 |2023-10-022 |Initial draft | 1.0        |
-|      |      |         |         |
+|Revision 2 | 2023-11-5 | Iteration 2 Update  |  2.0  |
 |      |      |         |         |
 
 
