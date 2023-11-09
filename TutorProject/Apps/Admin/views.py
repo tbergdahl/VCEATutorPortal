@@ -284,12 +284,14 @@ def admin_add_tutor_shift(request, tutor_id):
             shift = form.save(commit = False)
             shift.tutor = tutor #add tutor to shift
             shift.save()
-            return redirect('admin_view_tutor_shifts', tutor_id = tutor.id) #refresh
-    return render(request, 'add_shift.html', {'form': form})
+            return redirect('Admin:admin_view_tutor_shifts', tutor_id = tutor.id) #refresh
+    else:
+        form = ShiftForm()
+    return render(request, 'add_shift.html', {'form': form, 'tutor': tutor})
 
 
-def admin_delete_shift(shift_id):
+def admin_delete_shift(request, shift_id):
     shift = get_object_or_404(Shift, id=shift_id)
     tutor_id = shift.tutor.id #save tutor id for refresh
     shift.delete()
-    return redirect('admin_view_tutor_shifts', tutor_id = tutor_id)
+    return redirect('Admin:admin_view_tutor_shifts', tutor_id = tutor_id)
