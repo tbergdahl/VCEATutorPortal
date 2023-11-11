@@ -72,3 +72,23 @@ class EditTutorForm(forms.ModelForm):
         if self.instance.user:
             self.fields['first_name'] = forms.CharField(initial=self.instance.user.first_name)
             self.fields['last_name'] = forms.CharField(initial=self.instance.user.last_name)
+
+
+class ShiftForm(forms.ModelForm):
+    day_choices = [
+        ('Monday', 'Monday'),
+        ('Tuesday', 'Tuesday'),
+        ('Wednesday', 'Wednesday'),
+        ('Thursday', 'Thursday'),
+        ('Friday', 'Friday'),
+        ('Saturday', 'Saturday'),
+        ('Sunday', 'Sunday'),
+    ]
+
+    day = forms.ChoiceField(choices=day_choices)
+    start_time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
+    end_time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
+
+    class Meta:
+        model = Shift
+        fields = ['day', 'start_time', 'end_time']

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %} Admin Page {% endblock %}
+
+{% block content %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn" style="margin-top: 60px;">Add Shift</button>
+    </form>
+
+    
+
+
+{% endblock %}

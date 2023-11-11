@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %} Schedle Page {% endblock %}
+
+{% block content %}
+<h2>{{ tutor }}'s Available Appointments</h2>
+  
+{% for appointment in available_appointments %}
+  <p>{{ appointment.start_time }} to {{ appointment.end_time }} <a href="{% url 'Student:book_appointment' appointment.id %}">Book</a></p>
+{% endfor %}
+
+{% endblock %}
