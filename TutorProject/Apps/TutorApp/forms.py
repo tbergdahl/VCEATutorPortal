@@ -92,3 +92,13 @@ class ShiftForm(forms.ModelForm):
     class Meta:
         model = Shift
         fields = ['day', 'start_time', 'end_time']
+
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = TutoringSession
+        fields = ['tutored_class', 'description']
+
+    def __init__(self, tutor, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tutored_class'].queryset = tutor.tutored_classes.all()
+        self.fields['description'].widget.attrs['placeholder'] = 'What do you need help with? This will allow your tutor to prepare.'

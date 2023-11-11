@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import datetime, timedelta
-
+from django.db.models import Q
 
 
 
@@ -60,7 +60,6 @@ class Tutor(models.Model):
 
 
     def create_appointments(self):
-        TutoringSession.objects.filter(tutor=self).delete() # first, delete tutor's old appointments
         days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
         current_datetime = datetime.now()
         for shift in self.shifts.all():
@@ -78,22 +77,36 @@ class Tutor(models.Model):
         return target_shift_next_date
 
 
-    def create_appointments_in_day(self, shift_date, shift): # function to break a shift into 20 minute appointments
+    def create_appointments_in_day(self, shift_date, shift):
         start_time = datetime.combine(shift_date, shift.start_time)
         end_time = datetime.combine(shift_date, shift.end_time)
         appointment_len = timedelta(minutes=20)
         current_time = start_time
-        while current_time < end_time:
-            app_end_time = current_time + appointment_len
-            appointment = TutoringSession(start_time=current_time, end_time=app_end_time)
-            appointment.tutor = self
-            appointment.save()
-            self.appointments.add(appointment)
-            print(f"Added Appointment at {current_time} to tutors appointments.")
-            current_time += appointment_len
+
+        # Check if there are any existing appointments on the specified day
+        existing_appointments_on_day = TutoringSession.objects.filter(
+            tutor=self,
+            start_time__date=shift_date.date()
+        ).exists()
+
+        if not existing_appointments_on_day:
+            while current_time < end_time:
+                app_end_time = current_time + appointment_len
+
+                # Create a new appointment
+                appointment = TutoringSession(start_time=current_time, end_time=app_end_time)
+                appointment.tutor = self
+                appointment.save()
+                self.appointments.add(appointment)
+                shift.appointments.add(appointment)
+                print(f"Added Appointment at {current_time} to tutor's appointments.")
+
+                current_time += appointment_len
+        else:
+            print(f"Appointments already exist on {shift_date}. Skipping generation.")
 
     def __str__(self):
-        return self.user.first_name + " " + self.user.last_name
+        return f"{self.user.first_name} {self.user.last_name}"
 
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
@@ -140,15 +153,7 @@ class Class(models.Model):
         return f"{self.class_major.abbreviation} {self.course_num}"
 
 
-class TutoringSession(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='appointments', null=True, blank=True)
-    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, related_name='appointments')
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    tutored_class = models.ForeignKey(Class, on_delete=models.CASCADE, null=True)
 
-    def __str__(self):
-        return f"Appointment with {self.tutor} from {self.start_time.strftime('%I:%M %p')} to {self.end_time.strftime('%I:%M %p')}"
 
 
 class Shift(models.Model):
@@ -159,3 +164,15 @@ class Shift(models.Model):
 
     def __str__(self):
         return f"{self.day} from {self.start_time.strftime('%I:%M %p')} to {self.end_time.strftime('%I:%M %p')}"
+    
+class TutoringSession(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='appointments', null=True, blank=True)
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, related_name='appointments')
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    tutored_class = models.ForeignKey(Class, on_delete=models.CASCADE, null=True)
+    description = models.CharField(max_length=300, null=True)
+    shift = models.ForeignKey(Shift, on_delete=models.CASCADE, related_name='appointments', null=True)
+
+    def __str__(self):
+        return f"Appointment with {self.tutor} from {self.start_time.strftime('%I:%M %p')} to {self.end_time.strftime('%I:%M %p')}"

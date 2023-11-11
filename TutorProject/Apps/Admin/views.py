@@ -293,8 +293,8 @@ def admin_add_tutor_shift(request, tutor_id):
 
 def admin_delete_shift(request, shift_id):
     shift = get_object_or_404(Shift, id=shift_id)
-    tutor_id = shift.tutor.id #save tutor id for refresh
+    tutor_id = shift.tutor.id  # save tutor id for refresh
+    shift.appointments.all().delete()
     shift.delete()
-    return redirect('Admin:admin_view_tutor_shifts', tutor_id = tutor_id)
-
+    return redirect('Admin:admin_view_tutor_shifts', tutor_id=tutor_id)
 

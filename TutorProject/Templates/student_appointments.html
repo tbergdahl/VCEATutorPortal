@@ -5,7 +5,7 @@
 
     {{student}}'s Appointments<br>
     {% for appointment in appointments %}
-        {{ appointment }} <br>
+        {{ appointment }} - {{ appointment.tutored_class }} - {{ appointment.description }}<a href="{%  url 'Student:cancel_appointment' appointment.id %}">Cancel</a><br>
     {% endfor %}
 
 {% endblock %}
