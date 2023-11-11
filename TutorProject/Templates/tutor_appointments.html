@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %} Admin Page {% endblock %}
+
+{% block content %}
+
+    {{tutor}}'s Appointments<br><br>
+    {% for appointment in appointments %}
+        {% if appointment.student is not None %}
+            Appointment with {{ appointment.student }} from {{appointment.start_time}} to {{appointment.end_time}}<br>
+        {% endif %}
+    {% endfor %}
+    
+
+
+{% endblock %}

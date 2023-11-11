@@ -2,4 +2,7 @@
 
 {% block content %}
 <h2>this is tutor page</h2>
+
+
+<a href="{% url 'Tutor:view_appointments' request.user.id %}">Appointments</a>
 {% endblock %}
