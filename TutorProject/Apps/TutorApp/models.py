@@ -5,6 +5,7 @@ from django.contrib.auth.models import BaseUserManager
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import MaxValueValidator, MinValueValidator
+from datetime import datetime, timedelta
 
 
 
@@ -57,11 +58,48 @@ class Tutor(models.Model):
     description = models.TextField(blank=True, null=True)
     major = models.ForeignKey(Major, on_delete=models.CASCADE, null=True)
 
+
+    def create_appointments(self):
+        TutoringSession.objects.filter(tutor=self).delete() # first, delete tutor's old appointments
+        days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        current_datetime = datetime.now()
+        for shift in self.shifts.all():
+            shifts_for_day = Shift.objects.filter(tutor=self, day=shift.day) # get all shifts within a day
+            shift_date = self.next_instance_of_shift(shift.day, current_datetime, days) # get date of all the shifts occurrence
+            for daily_shift in shifts_for_day: # split into appointments and update the date of the appointment
+                self.create_appointments_in_day(shift_date, daily_shift)
+
+    def next_instance_of_shift(self, target_day_name, current_day, days): # finds the date a shift will occur given the name of the day (ex. Monday)
+        current_day_index = current_day.weekday() # returns 0 for monday, etc (datetime method)
+        
+        target_day_index = days.index(target_day_name) # days list is user defined list that starts monday at 0, so if target was Thursday, would be 3
+        time_between_current_day_and_target_day = (target_day_index - current_day_index + 7) % 7 # find how many days in between target and current day
+        target_shift_next_date = current_day + timedelta(days=time_between_current_day_and_target_day) # use that to get the date of the appointment
+        return target_shift_next_date
+
+
+    def create_appointments_in_day(self, shift_date, shift): # function to break a shift into 20 minute appointments
+        start_time = datetime.combine(shift_date, shift.start_time)
+        end_time = datetime.combine(shift_date, shift.end_time)
+        appointment_len = timedelta(minutes=20)
+        current_time = start_time
+        while current_time < end_time:
+            app_end_time = current_time + appointment_len
+            appointment = TutoringSession(start_time=current_time, end_time=app_end_time)
+            appointment.tutor = self
+            appointment.save()
+            self.appointments.add(appointment)
+            print(f"Added Appointment at {current_time} to tutors appointments.")
+            current_time += appointment_len
+
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
 
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.user.first_name + " " + self.user.last_name
     
 #connect the relationship to the student, tutor, and admin
 @receiver(post_save, sender=CustomUser)
@@ -103,12 +141,21 @@ class Class(models.Model):
 
 
 class TutoringSession(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='appointments')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='appointments', null=True, blank=True)
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, related_name='appointments')
-    date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     tutored_class = models.ForeignKey(Class, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f"{self.student} session with {self.tutor} on {self.date} at {self.start_time}"
+        return f"Appointment with {self.tutor} from {self.start_time.strftime('%I:%M %p')} to {self.end_time.strftime('%I:%M %p')}"
+
+
+class Shift(models.Model):
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, related_name='shifts')
+    day = models.CharField(max_length=20)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+
+    def __str__(self):
+        return f"{self.day} from {self.start_time.strftime('%I:%M %p')} to {self.end_time.strftime('%I:%M %p')}"

@@ -7,7 +7,7 @@
 {% if request.user.is_authenticated and request.user.is_student %}
 
     <h2>Rate your Tutors</h2>
-
+    <div><a href="{% url 'Student:student_view_appointments' request.user.id %}">Appointments</a></div>
     <form method="get" action="">
         <label for="search">Find a tutor:</label>
         <input type="text" name="search" id="search" value="{{ search_query|default_if_none:'' }}">
@@ -22,7 +22,7 @@
             {% endfor %}
         </select>
     </form>
-
+    
     <br>
 
         <div class="tutor-grid">
@@ -37,12 +37,12 @@
                     <br>
                     <p2> <b>Major:</b> Software Engineering </p2>
                     <br>
-                    <p3> <b>Hours:</b> Monday 9AM-12PM, Wednesday 9AM-12PM, Friday 9AM-12PM </p3>
+                    <p3> <b>Hours:</b><br> {% for shift in tutor.shifts.all %} {{ shift }}<br> {% endfor %} </p3>
                     <p>{{ tutor.description }}</p>
                 </div>
                 <div class="tutor-buttons">
                     <a href="{% url 'Student:rate_tutor' tutor.id %}" class="action-button button">Rate</a>
-                    <a href="{% url 'Student:schedule_session' tutor.id %}" class="action-button button">Schedule</a>
+                    <a href="{% url 'Student:student_view_tutors' tutor.id %}" class="action-button button">Schedule</a>
                 </div>
             </div>
             {% endfor %}

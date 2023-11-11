@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %} Schedle Page {% endblock %}
+
+{% block content %}
+
+    {{student}}'s Appointments<br>
+    {% for appointment in appointments %}
+        {{ appointment }} <br>
+    {% endfor %}
+
+{% endblock %}

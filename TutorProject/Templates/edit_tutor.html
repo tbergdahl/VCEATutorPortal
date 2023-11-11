@@ -4,11 +4,14 @@
 
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
 
-        <input type="submit" value="Submit" class="btn">
+        <h3>Tutor Information</h3>
+        {{ tutor_form.as_p }}
+
+        <input type="submit" value="Save">
     </form>
 
+  
 
     <a href="{% url 'Admin:admin_view_tutors' %}" class="btn">Back To Tutors Page</a>
 

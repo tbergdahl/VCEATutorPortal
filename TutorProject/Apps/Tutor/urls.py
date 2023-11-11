@@ -8,5 +8,5 @@ app_name = 'Tutor'
 urlpatterns = [
 
     path('tutor/', views.tutor_view, name='tutor_view'),
-
+    path('tutor/view_appointments/<int:tutor_id>', views.view_appointments, name='view_appointments'),
 ]
