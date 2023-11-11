@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from Apps.TutorApp.models import Tutor, Major
+from Apps.TutorApp.models import Tutor, Major, CustomUser
 from django.db.models import Q
-from .forms import TutorRatingForm, SessionForm
+from .forms import TutorRatingForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-
+from Apps.TutorApp.models import TutoringSession
 
 def student_view(request):
     # Get all majors for the filter dropdown
@@ -49,20 +49,25 @@ def rate_tutor(request, tutor_id):
     return render(request, 'rateTutor.html', {'form': form, 'tutor': tutor})
 
 
-# Inside your views.py
-
-
-def schedule_session(request, tutor_id):
+def student_view_tutors(request, tutor_id):
     tutor = get_object_or_404(Tutor, id=tutor_id)
-    if request.method == 'POST':
-        form = SessionForm(request.POST)
-        if form.is_valid():
-            session = form.save(commit=False)
-            session.student = request.user  # assuming the user is a student
-            session.tutor = tutor
-            session.save()
-            return redirect('Student:sessions')  # Redirect to a page where the student can see their sessions
+    available_appointments = TutoringSession.objects.filter(tutor=tutor, student = None)
+    return render(request, 'tutor_available_appointments.html', {'tutor': tutor, 'available_appointments': available_appointments})
+
+def book_appointment(request, session_id):
+    session = get_object_or_404(TutoringSession, id=session_id)
+    
+    if request.user.is_authenticated:
+        student_instance = CustomUser.objects.get(pk=request.user.pk).student
+        session.student = student_instance
+        session.save()
+        return redirect('Student:student_view_tutors', tutor_id=session.tutor.id)
     else:
-        # Prepopulate with the current date and time slots
-        form = SessionForm(initial={'date': timezone.now().date()})
-    return render(request, 'studentSchedule.html', {'form': form, 'tutor': tutor})
+        return redirect('TutorApp:home')
+
+def student_view_appointments(request, student_id):
+    student = CustomUser.objects.get(pk=request.user.pk).student
+    appointments = TutoringSession.objects.filter(student=student)
+    return render(request, 'student_appointments.html', {'appointments': appointments, 'student': student})
+
+

@@ -284,6 +284,7 @@ def admin_add_tutor_shift(request, tutor_id):
             shift = form.save(commit = False)
             shift.tutor = tutor #add tutor to shift
             shift.save()
+            tutor.create_appointments()
             return redirect('Admin:admin_view_tutor_shifts', tutor_id = tutor.id) #refresh
     else:
         form = ShiftForm()
@@ -295,3 +296,5 @@ def admin_delete_shift(request, shift_id):
     tutor_id = shift.tutor.id #save tutor id for refresh
     shift.delete()
     return redirect('Admin:admin_view_tutor_shifts', tutor_id = tutor_id)
+
+
