@@ -16,7 +16,10 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table
 from django.shortcuts import get_object_or_404
-
+from pdf2image import convert_from_bytes
+from django.http import JsonResponse
+import base64
+from django.http import FileResponse
 
 def admin_view(request):
     return render(request, 'adminPage.html')
@@ -107,6 +110,26 @@ def admin_delete_user(request):
 
     
 def admin_view_reports(request):
+    
+    if request.method == 'GET' and request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        report_type = request.GET.get('report_type')
+
+        # Generate PDF data based on the report type
+        pdf_buffer = BytesIO()
+        if report_type == 'report1':
+            pdf_buffer.write(report1().getvalue())
+        elif report_type == 'report2':
+            pdf_buffer.write(report2().getvalue())
+        elif report_type == 'report3':
+            pdf_buffer.write(report3().getvalue())
+
+        # Check if PDF data is generated
+        if pdf_buffer.getbuffer().nbytes > 0:
+            pdf_buffer.seek(0)
+            return FileResponse(pdf_buffer, content_type='application/pdf')
+        else:
+            return JsonResponse({'error': 'No PDF data'}, status=500)
+    
     if request.method == 'POST':
         form = PDFSelectionForm(request.POST)
         if form.is_valid():
@@ -129,10 +152,13 @@ def admin_view_reports(request):
 
             return response
             
+
+
     else:
         form = PDFSelectionForm()
+        return render(request, 'generate_pdf.html', {'form': form})
 
-    return render(request, 'generate_pdf.html', {'form': form})
+
 
 def admin_view_tutors(request):
     tutors = Tutor.objects.all()
@@ -158,10 +184,17 @@ def admin_edit_tutor_profile(request, tutor_id):
     
     return render(request, 'edit_tutor.html', {'form': form})
 
-
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 def report1():
     buffer = BytesIO()
     pdf = SimpleDocTemplate(buffer, pagesize=letter)
+    
+    styles = getSampleStyleSheet()
+
+    # Add a debugging line
+    
+    
     tutors = Tutor.objects.all()
     data = [['Tutor', 'Minutes Tutored', 'Rating'],]
 
@@ -175,11 +208,13 @@ def report1():
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.beige)
+        ('BACKGROUND', (0, 1), (-1, -1), colors.green)
     ]
 
     table.setStyle(style)
     elements = [table]
+    elements.append(Paragraph("Debugging Report 1", styles['Heading1']))
+    elements.append(table)
     pdf.build(elements)
 
     buffer.seek(0)
@@ -213,6 +248,7 @@ def report2():
 
     table.setStyle(style)
     elements = [table]
+    elements.append(table)
     pdf.build(elements)
 
     buffer.seek(0)
@@ -220,7 +256,30 @@ def report2():
 
 
 def report3():
-    pass
+    buffer = BytesIO()
+    pdf = SimpleDocTemplate(buffer, pagesize=letter)
+    tutors = Tutor.objects.all()
+    data = [['Tutor', 'Minutes Tutored', 'Rating'],]
+
+    for tutor in tutors:
+        data.append([f"{tutor.user.first_name} {tutor.user.last_name}", tutor.minutes_tutored, tutor.rating])
+
+    table = Table(data)
+    style = [
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige)
+    ]
+
+    table.setStyle(style)
+    elements = [table]
+    pdf.build(elements)
+
+    buffer.seek(0)
+    return buffer
 
 def classes_menu(request):
     classes = Class.objects.all()

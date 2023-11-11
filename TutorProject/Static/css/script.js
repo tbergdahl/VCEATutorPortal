@@ -34,3 +34,20 @@ document.querySelector('#openSidebarBtn').addEventListener('click', function() {
     closeBtn.style.display = 'block';  // Show close button
     openBtn.style.display = 'none';  // Hide menu button
 });
+
+function fetchPDFPreview(reportType) {
+    var pdfPreview = document.getElementById('pdf-preview');
+    pdfPreview.src = 'data:image/jpeg;base64,YOUR_BASE64_ENCODED_IMAGE';
+    pdfPreview.style.display = 'block';
+}
+
+
+// Ensure this ID matches the ID of your report selection dropdown in the HTML
+document.addEventListener('DOMContentLoaded', function() {
+    var reportSelectField = document.getElementById('id_of_your_report_select_field');
+    if (reportSelectField) {
+        reportSelectField.addEventListener('change', function() {
+            fetchPDFPreview(this.value);
+        });
+    }
+});
