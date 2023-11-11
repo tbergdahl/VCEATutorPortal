@@ -114,19 +114,18 @@ def admin_view_reports(request):
     if request.method == 'GET' and request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         report_type = request.GET.get('report_type')
 
-        # Generate PDF data based on the report type
-        pdf_buffer = BytesIO()
         if report_type == 'report1':
-            pdf_buffer.write(report1().getvalue())
+            pdf_data = report1().getvalue()
         elif report_type == 'report2':
-            pdf_buffer.write(report2().getvalue())
+            pdf_data = report2().getvalue()
         elif report_type == 'report3':
-            pdf_buffer.write(report3().getvalue())
+            pdf_data = report3().getvalue()
+        else:
+            return JsonResponse({'error': 'Invalid report type'}, status=400)
 
-        # Check if PDF data is generated
-        if pdf_buffer.getbuffer().nbytes > 0:
-            pdf_buffer.seek(0)
-            return FileResponse(pdf_buffer, content_type='application/pdf')
+        if pdf_data:
+            response = HttpResponse(pdf_data, content_type='application/pdf')
+            return response
         else:
             return JsonResponse({'error': 'No PDF data'}, status=500)
     
