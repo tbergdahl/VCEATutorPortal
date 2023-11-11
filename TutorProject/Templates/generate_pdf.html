@@ -1,14 +1,25 @@
 {% extends "base.html" %}
-{% block title %} admin Page {% endblock %}
+{% load static %} <!-- Load static files -->
+
+{% block title %}Admin Page{% endblock %}
 
 {% block content %}
 
     <h2>Generate Report</h2>
-    <form method="post">
+    <form method="post" id="reportForm">
         {% csrf_token %}
-        {{ form.as_p}}
+        {{ form.as_p }}
         <button type="submit" class="btn">Print Report</button>
     </form>
+
+    <!-- Embed element for displaying PDF preview -->
+    <iframe
+    src="pdf-preview"
+    frameBorder="0"
+    scrolling="auto"
+    height="100%"
+    width="100%"
+></iframe>
 
     <style>
         .btn {
@@ -26,6 +37,60 @@
         .btn:hover {
             background-color: rgba(128,128,128);
         }
-    
     </style>
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            console.log('Document ready');
+
+            $('#id_report').change(function() {
+                var selectedReport = $(this).val();
+                console.log('Dropdown change triggered. Selected report type:', selectedReport);
+                fetchPDFPreview(selectedReport);
+            });
+
+            // Manual trigger button
+            $('#previewButton').click(function() {
+                var selectedReport = $('#id_report').val();
+                console.log('Manual trigger. Selected report type:', selectedReport);
+                fetchPDFPreview(selectedReport);
+            });
+        });
+
+        function fetchPDFPreview(reportType) {
+            console.log('Attempting to fetch PDF preview for:', reportType);
+            const url = '/administrator/printreports/?report_type=' + reportType;
+
+
+            console.log('Fetching URL:', url);
+            console.log('Full URL:', window.location.origin + '/' + url);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function(blob) {
+                    console.log('AJAX success. Blob:', blob, 'Type:', typeof blob);
+                    console.log('Blob properties:', 'Size:', blob.size, 'Type:', blob.type);
+                    if (blob.size > 0) {
+                        var pdfURL = URL.createObjectURL(blob);
+                        $('#pdf-preview').attr('src', pdfURL);
+                    } else {
+                        console.log('Received blob with size 0 or undefined');
+                    }
+                },
+                
+                
+                error: function(xhr, status, error) {
+                    console.error('AJAX error:', error, 'Status:', status, 'Response:', xhr.responseText);
+                }
+            });
+        }
+    </script>
+
+
+
 {% endblock %}
