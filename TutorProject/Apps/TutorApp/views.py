@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate
 from .forms import *
@@ -6,6 +6,11 @@ from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from .models import *
+from django.core.mail import send_mail
+from .models import PasswordResetCode, CustomUser
+from .forms import PasswordResetRequestForm
+from .forms import PasswordResetForm
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 def student_view(request):
@@ -65,8 +70,55 @@ def register(request):
 
     return render(request, 'register.html', {'form': form})
 
+def password_reset_combined(request):
+    request_form = PasswordResetRequestForm(request.POST or None, prefix="request")
+    verify_form = PasswordResetVerificationForm(request.POST or None, prefix="verify")
+
+    if 'request' in request.POST and request_form.is_valid():
+        email = request_form.cleaned_data['email']
+        try:
+            user = CustomUser.objects.get(email=email)
+            reset_code, created = PasswordResetCode.objects.get_or_create(user=user)
+            send_mail(
+                'Your Password Reset Code',
+                f'Your password reset code is: {reset_code.code}',
+                'from@example.com',
+                [user.email],
+                fail_silently=False,
+            )
+            messages.success(request, "Password reset code sent successfully.")
+        except CustomUser.DoesNotExist:
+            messages.error(request, "Email address not found.")
+
+    elif 'verify' in request.POST and verify_form.is_valid():
+        code = verify_form.cleaned_data['code']
+        try:
+            reset_code = PasswordResetCode.objects.get(code=code)
+            return redirect('password_reset', user_id=reset_code.user.id)
+        except PasswordResetCode.DoesNotExist:
+            messages.error(request, "The reset code entered is incorrect or expired. Please try again.")
+
+    context = {
+        'request_form': request_form,
+        'verify_form': verify_form,
+    }
+    return render(request, 'password_reset_request.html', context)
 
 
+
+def password_reset(request, user_id):
+    user = get_object_or_404(CustomUser, pk=user_id)
+    form = PasswordResetForm(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        new_password = form.cleaned_data['new_password']
+
+        user.set_password(new_password)
+        user.save()
+        messages.success(request, "Your password has been reset successfully.")
+        return redirect('login')  # Redirect to login page after reset
+
+    return render(request, 'password_reset.html', {'form': form})
 
 
 

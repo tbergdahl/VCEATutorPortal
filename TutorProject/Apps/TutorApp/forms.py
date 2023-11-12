@@ -11,7 +11,28 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
 
+# forms.py
+class PasswordResetRequestForm(forms.Form):
+    email = forms.EmailField(max_length=254)
+# forms.py
+class PasswordResetVerificationForm(forms.Form):
+    code = forms.CharField(max_length=6, help_text="Enter the code you received.")
 
+    
+class PasswordResetForm(forms.Form):
+    new_password = forms.CharField(widget=forms.PasswordInput(), help_text="Enter your new password.")
+    confirm_password = forms.CharField(widget=forms.PasswordInput(), help_text="Confirm your new password.")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get('new_password')
+        confirm_password = cleaned_data.get('confirm_password')
+
+        if new_password != confirm_password:
+            raise forms.ValidationError("The two password fields must match.")
+        
+        return cleaned_data
+    
 class AdminCreateUser(UserCreationForm):
     ROLE_CHOICES = [
         ('is_student', 'Student'),

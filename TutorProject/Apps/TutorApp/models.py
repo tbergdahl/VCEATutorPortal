@@ -7,8 +7,9 @@ from django.dispatch import receiver
 from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import datetime, timedelta
 from django.db.models import Q
-
-
+import uuid
+import random
+import string
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -122,7 +123,16 @@ class Tutor(models.Model):
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
 
+def generate_reset_codes():
+    return ''.join(random.choices(string.digits, k=6))
 
+class PasswordResetCode(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    code = models.CharField(max_length=6, default=generate_reset_codes)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Password reset code for {self.user.email}"
 
 class Feedback(models.Model):
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, related_name='feedback')

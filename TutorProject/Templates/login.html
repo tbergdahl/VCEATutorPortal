@@ -26,11 +26,12 @@
                 {{ form.password }}
                 {{ form.password.errors }}
             </div>
-
+            <a href="{% url 'password_reset_request' %}">Forgot Password?</a>
             <button type="submit" class="submit-button">Login</button>
         </form>
 
         <br>
+        
 
         <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
     </div>
