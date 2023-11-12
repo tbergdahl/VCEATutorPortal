@@ -7,7 +7,7 @@
 {% if request.user.is_authenticated and request.user.is_student %}
 
     <h2>Rate your Tutors</h2>
-    <div><a href="{% url 'Student:student_view_appointments' request.user.id %}">Appointments</a></div>
+    <div><a href="{% url 'Student:student_view_appointments' request.user.id %}" class="appointment-button button">Appointments</a></div>
     <form method="get" action="">
         <label for="search">Find a tutor:</label>
         <input type="text" name="search" id="search" value="{{ search_query|default_if_none:'' }}">
@@ -102,6 +102,19 @@
     .action-button {
         padding: 10px 0; /* Adjust the top and bottom padding */
         width: 150px; /* Fixed width for both buttons */
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .appointment-button {
+        padding: 10px 0; /* Adjust the top and bottom padding */
+        margin-left: 0;
+        margin-bottom: 25px;
+        width: 150px; 
         text-align: center;
         text-decoration: none;
         border: none;
