@@ -63,6 +63,16 @@ class Tutor(models.Model):
     major = models.ForeignKey(Major, on_delete=models.CASCADE, null=True)
     token = models.CharField(max_length=50, null=True, blank=True)
 
+
+    def compute_rating(self):
+        rating = 0
+        count = 0
+        for feedback in self.feedback.all():
+            rating += feedback.rating
+            count += 1           
+        self.rating = rating / count
+        self.save()
+
     def create_appointments(self):
         days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
         current_datetime = datetime.now()

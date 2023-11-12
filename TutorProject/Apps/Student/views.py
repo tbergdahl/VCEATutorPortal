@@ -120,6 +120,7 @@ def rate_tutor(request, signed_token):
             if form.is_valid():
                 feedback = Feedback(tutor=tutor, rating=form.cleaned_data['rating'], feedback=form.cleaned_data['feedback'])
                 feedback.save()
+                tutor.compute_rating()
                 return HttpResponse("Thanks For Your Feedback!")
         else:
             form = FeedbackForm()
