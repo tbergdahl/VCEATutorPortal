@@ -10,6 +10,7 @@ urlpatterns = [
     path('administrator/createuser', views.admin_create_user, name='admin_create_user'),
     path('administrator/deleteuser/', views.admin_delete_user, name='admin_delete_user'),  
     path('administrator/printreports/', views.admin_view_reports, name='admin_view_reports'),
+    path('administrator/printreports/pdf-preview/', views.pdf_preview, name='pdf_preview'),
     path('administrator/createclass', views.admin_create_class, name='admin_create_class'),
     path('administrator/createmajor', views.admin_create_major, name='admin_create_major'),
     path('administrator/viewtutors', views.admin_view_tutors,name = 'admin_view_tutors'),
@@ -19,4 +20,5 @@ urlpatterns = [
     path('administrator/delete_class/<int:class_id>', views.delete_class,name = 'delete_class'),
     path('administrator/delete_major/<int:major_id>', views.delete_major,name = 'delete_major'),
     path('administrator/addshift/<int:tutor_id>', views.admin_add_tutor_shift,name = 'admin_add_tutor_shift'),
+    
 ]

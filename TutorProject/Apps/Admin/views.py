@@ -110,55 +110,68 @@ def admin_delete_user(request):
 
     
 def admin_view_reports(request):
-    
+    # Handle AJAX request for PDF preview
     if request.method == 'GET' and request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         report_type = request.GET.get('report_type')
 
-        if report_type == 'report1':
-            pdf_data = report1().getvalue()
-        elif report_type == 'report2':
-            pdf_data = report2().getvalue()
-        elif report_type == 'report3':
-            pdf_data = report3().getvalue()
-        else:
-            return JsonResponse({'error': 'Invalid report type'}, status=400)
-
+        pdf_data = generate_pdf_data(report_type)
         if pdf_data:
-            response = HttpResponse(pdf_data, content_type='application/pdf')
-            return response
+            return HttpResponse(pdf_data, content_type='application/pdf')
         else:
             return JsonResponse({'error': 'No PDF data'}, status=500)
-    
-    if request.method == 'POST':
+
+    # Handle form submission for PDF download
+    elif request.method == 'POST':
         form = PDFSelectionForm(request.POST)
         if form.is_valid():
-            report = form.cleaned_data['report']
-            response = HttpResponse(content_type='application/pdf')
-            
-            if report == 'report1':
-                response['Content-Disposition'] = 'attachment; filename="Tutor Statistics Report.pdf"'
-                response.write(report1().getvalue())
-                
-            elif report == 'report2':
-                response['Content-Disposition'] = 'attachment; filename="Hours By Class.pdf"'
-                response.write(report2().getvalue())
-
-            elif report == 'report3':
-                response['Content-Disposition'] = 'attachment; filename="generated_pdf.pdf"'
-                response.write(report3().getvalue())
+            report_type = form.cleaned_data['report']
+            pdf_data = generate_pdf_data(report_type)
+            if pdf_data:
+                response = HttpResponse(pdf_data, content_type='application/pdf')
+                response['Content-Disposition'] = f'attachment; filename="{report_type}.pdf"'
+                return response
             else:
-                response.write("No Report Available")
+                return HttpResponse("No Report Available")
 
-            return response
-            
-
-
+    # GET request handling for initial form rendering
     else:
         form = PDFSelectionForm()
         return render(request, 'generate_pdf.html', {'form': form})
 
+# Utility function to generate PDF data based on report type
+def generate_pdf_data(report_type):
+    if report_type == 'report1':
+        return report1().getvalue()
+    elif report_type == 'report2':
+        return report2().getvalue()
+    elif report_type == 'report3':
+        return report3().getvalue()
+    else:
+        return None
+    
+    
+def pdf_preview(request):
+    report_type = request.GET.get('report_type')
 
+    if report_type not in ['report1', 'report2', 'report3']:
+        return HttpResponse("Invalid report type", status=400)
 
+    if report_type == 'report1':
+        pdf_data = report1().getvalue()
+    elif report_type == 'report2':
+        pdf_data = report2().getvalue()
+    elif report_type == 'report3':
+        pdf_data = report3().getvalue()
+    else:
+        return HttpResponse("Invalid report type", status=400)
+
+    if pdf_data:
+        response = HttpResponse(pdf_data, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="preview.pdf"'
+        return response
+    else:
+        return HttpResponse("No PDF data", status=500)
+    
 def admin_view_tutors(request):
     tutors = Tutor.objects.all()
     return render(request, 'tutors.html', {'tutors': tutors})
@@ -211,13 +224,11 @@ def report1():
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.green)
+        ('BACKGROUND', (0, 1), (-1, -1), colors.red)
     ]
 
     table.setStyle(style)
     elements = [table]
-    elements.append(Paragraph("Debugging Report 1", styles['Heading1']))
-    elements.append(table)
     pdf.build(elements)
 
     buffer.seek(0)
