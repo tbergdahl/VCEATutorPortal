@@ -46,6 +46,13 @@ INSTALLED_APPS = [
 ]
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com' # tutoring center email
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'trentondb0303@gmail.com' # need to update with tutoring center email
+EMAIL_HOST_PASSWORD = 'gulc wqvd vrer acez' # tutoring center email
+
 USE_TZ = True
 
 MIDDLEWARE = [

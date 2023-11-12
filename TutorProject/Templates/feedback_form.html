@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %} Admin Page {% endblock %}
+
+{% block content %}
+
+    {{ tutor }}
+    <form method="post" class="form-group">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn" style="margin-top: 20px;">Submit Feedback</button>
+    </form>
+
+
+{% endblock %}

@@ -1,0 +1,7 @@
+Hi {{ appointment.student.user.first_name }},
+
+You have an appointment with {{ appointment.tutor }} at {{ appointment.start_time }}. To cancel, please login to the student portal and cancel under appointments.
+
+
+Best regards,
+VCEA Tutoring Center

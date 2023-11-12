@@ -16,9 +16,8 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table
 from django.shortcuts import get_object_or_404
-from pdf2image import convert_from_bytes
 from django.http import JsonResponse
-import base64
+import uuid
 from django.http import FileResponse
 
 def admin_view(request):
@@ -57,7 +56,8 @@ def admin_create_user(request):
                 if role == 'is_student' and not Student.objects.filter(user=user).exists():
                     Student.objects.create(user=user)
                 elif role == 'is_tutor' and not Tutor.objects.filter(user=user).exists():
-                    Tutor.objects.create(user=user)
+                    token = str(uuid.uuid4())[:8]
+                    Tutor.objects.create(user=user, token=token)
                 elif role == 'is_admin' and not Admin.objects.filter(user=user).exists():
                     Admin.objects.create(user=user)
             except IntegrityError as e:

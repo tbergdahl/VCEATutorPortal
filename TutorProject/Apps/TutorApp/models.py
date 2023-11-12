@@ -47,6 +47,10 @@ class Major(models.Model):
     def __str__(self):
         return self.abbreviation
 
+
+
+
+
 class Admin(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
     
@@ -57,7 +61,7 @@ class Tutor(models.Model):
     rating = models.FloatField(default=0, validators=[MaxValueValidator(5.0), MinValueValidator(0.0)])
     description = models.TextField(blank=True, null=True)
     major = models.ForeignKey(Major, on_delete=models.CASCADE, null=True)
-
+    token = models.CharField(max_length=50, null=True, blank=True)
 
     def create_appointments(self):
         days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -107,6 +111,13 @@ class Tutor(models.Model):
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
+
+
+
+class Feedback(models.Model):
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, related_name='feedback')
+    feedback = models.CharField(max_length=500, null=True)
+    rating = models.FloatField(blank=True)
 
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)

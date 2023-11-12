@@ -5,6 +5,13 @@ from .forms import TutorRatingForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from Apps.TutorApp.models import TutoringSession
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+from django.core.signing import TimestampSigner, BadSignature
+from django.http import HttpResponse
+from Apps.TutorApp.forms import FeedbackForm
+from Apps.TutorApp.models import Feedback
 
 def student_view(request):
     # Get all majors for the filter dropdown
@@ -69,6 +76,7 @@ def book_appointment(request, appointment_id):
             appointment.tutored_class = theclass
             appointment.student = request.user.student
             appointment.save()
+            send_email(appointment)
             return redirect('Student:student_view_appointments', appointment.student.id)
     else:
         form = AppointmentForm(appointment.tutor, instance=appointment)
@@ -89,3 +97,34 @@ def cancel_appointment(request, appointment_id):
     appointment.student = None
     appointment.save()
     return redirect('Student:student_view_appointments', student.id)
+
+def send_email(appointment):
+    subject = 'Your Appointment'
+    message = render_to_string('appointment_email_template.txt', {'appointment': appointment})
+    from_email = 'trentondb0303@gmail.com'
+    recipient_list = [appointment.student.user.email]
+
+    send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+
+def rate_tutor(request, signed_token):
+    try:
+        signer = TimestampSigner()
+        data = signer.unsign(signed_token, max_age=60*60*24)
+        tutor_id = int(data.split("_")[-1])
+
+        tutor = get_object_or_404(Tutor, id=tutor_id)
+
+        if request.method == 'POST':
+            form = FeedbackForm(request.POST)
+            if form.is_valid():
+                feedback = Feedback(tutor=tutor, rating=form.cleaned_data['rating'], feedback=form.cleaned_data['feedback'])
+                feedback.save()
+                return HttpResponse("Thanks For Your Feedback!")
+        else:
+            form = FeedbackForm()
+
+        return render(request, 'feedback_form.html', {'form': form, 'tutor': tutor})
+
+    except BadSignature:
+        return HttpResponse("Link Has Expired.")

@@ -102,3 +102,7 @@ class AppointmentForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['tutored_class'].queryset = tutor.tutored_classes.all()
         self.fields['description'].widget.attrs['placeholder'] = 'What do you need help with? This will allow your tutor to prepare.'
+
+class FeedbackForm(forms.Form):
+    rating = forms.FloatField(min_value=0, max_value=5)
+    feedback = forms.CharField(widget=forms.Textarea)

@@ -8,6 +8,7 @@
         {% if appointment.student is not None %}
             Appointment with {{ appointment.student }} from {{appointment.start_time}} to {{appointment.end_time}}, Class: {{ appointment.tutored_class }}, Notes: {{ appointment.description }}
             <a href="{% url 'Tutor:cancel_appointment' appointment.id %}">Cancel</a><br>
+            <a href="{% url 'Tutor:appointment_completed' appointment.id %}">Click Here When Appointment Ends</a><br>
         {% endif %}
     {% endfor %}
     

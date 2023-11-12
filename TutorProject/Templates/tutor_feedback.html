@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %} Admin Page {% endblock %}
+
+{% block content %}
+
+    {{tutor}}'s Feedback<br><br>
+   {% for feedback_instance in tutor.feedback.all %}
+
+        {{feedback_instance.rating}} {{ feedback_instance.feedback }}
+
+   {% endfor %}
+    
+
+
+{% endblock %}
