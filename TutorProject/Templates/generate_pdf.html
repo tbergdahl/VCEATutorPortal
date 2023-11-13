@@ -1,47 +1,54 @@
 {% extends "base.html" %}
-{% load static %} <!-- Load static files -->
+{% load static %}
 
 {% block title %}Admin Page{% endblock %}
 
 {% block content %}
 
-    <h2>Generate Report</h2>
-    <form method="post" id="reportForm">
-        {% csrf_token %}
-        {{ form.as_p }}
+<style>
+    /* Ensure the iframe is not cut off and has some space from the bottom */
+    #pdf-preview {
+        height: 80vh; /* 80% of the viewport height */
+        margin-bottom: 20px;
+    }
 
-    </form>
+    #id_report {
+        cursor: pointer;
+    }
+</style>
 
-    <!-- Embed element for displaying PDF preview -->
+<h2>Generate Report</h2>
+<form method="post" id="reportForm">
+    {% csrf_token %}
+    {{ form.as_p }}
+</form>
 
-        <iframe
-            id="pdf-preview"
-            src=""
-            frameBorder="0"
-            scrolling="auto"
-            height="90%"
-            width="100%">
-        </iframe>
-    
+<!-- Embed element for displaying PDF preview -->
+<iframe
+    id="pdf-preview"
+    src=""
+    frameBorder="0"
+    scrolling="auto"
+    width="100%">
+</iframe>
 
-    <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#id_report').change(function() {
-                var selectedReport = $(this).val();
-                fetchPDFPreview(selectedReport);
-            });
-    
-            function fetchPDFPreview(reportType) {
-                var url = '/administrator/printreports/pdf-preview/?report_type=' + reportType;
-                $('#pdf-preview').attr('src', url);
-            }
-    
-            // trigger the event change handler (very similar to cpts 321)
-            $('#id_report').change();
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#id_report').change(function() {
+            var selectedReport = $(this).val();
+            fetchPDFPreview(selectedReport);
         });
-    </script>
 
+        function fetchPDFPreview(reportType) {
+            var url = '/administrator/printreports/pdf-preview/?report_type=' + reportType;
+            $('#pdf-preview').attr('src', url);
+        }
+
+        // trigger the event change handler (very similar to cpts 321)
+        $('#id_report').change();
+    });
+</script>
 
 {% endblock %}
