@@ -29,11 +29,12 @@ def appointment_completed(request, appointment_id):
     student_email = appointment.student.user.email
     subject = 'Tutoring Session Feedback'
     message = f"Dear {appointment.student.user.first_name}, please rate your recent tutoring session with {appointment.tutor.user.first_name}. We appreaciate your feedback and are always looking to improve your experience. Use the following link: http://127.0.0.1:8000/rate/{signed_token}" #replace with website host
-    send_mail(subject, message, 'trentondb0303@gmail.com', ['trenton.bergdahl@wsu.edu'])
+    send_mail(subject, message, 'trentondb0303@gmail.com', [student_email])
 
     tutor = appointment.tutor
     tutor.minutes_tutored += 20
     tutor.save()
+    appointment.delete()
     return redirect('Tutor:view_appointments', tutor.id)
 
 def view_feedback(request, tutor_id):
