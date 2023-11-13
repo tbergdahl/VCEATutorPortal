@@ -19,14 +19,20 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 import uuid
 from django.http import FileResponse
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
 
+@login_required
 def admin_view(request):
+    if not request.user.is_admin:
+        return HttpResponseForbidden("You do not have permission to view this page.")
     return render(request, 'adminPage.html')
+
 
 # In your views.py
 
 
-
+@login_required
 def admin_create_user(request):
     if not request.user.is_admin:
         return redirect('home')
@@ -72,7 +78,7 @@ def admin_create_user(request):
     return render(request, 'createuser.html', {'form': form})
 
 
-
+@login_required
 def admin_delete_user(request):
     
     if not request.user.is_admin:
@@ -108,7 +114,7 @@ def admin_delete_user(request):
 
     return render(request, 'deleteUser.html', {'users': users})
 
-    
+@login_required
 def admin_view_reports(request):
     # Handle AJAX request for PDF preview
     if request.method == 'GET' and request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
@@ -137,7 +143,7 @@ def admin_view_reports(request):
     else:
         form = PDFSelectionForm()
         return render(request, 'generate_pdf.html', {'form': form})
-
+@login_required
 # Utility function to generate PDF data based on report type
 def generate_pdf_data(report_type):
     if report_type == 'report1':
@@ -149,7 +155,7 @@ def generate_pdf_data(report_type):
     else:
         return None
     
-    
+@login_required
 def pdf_preview(request):
     report_type = request.GET.get('report_type')
 
@@ -171,11 +177,12 @@ def pdf_preview(request):
         return response
     else:
         return HttpResponse("No PDF data", status=500)
-    
+
+@login_required
 def admin_view_tutors(request):
     tutors = Tutor.objects.all()
     return render(request, 'tutors.html', {'tutors': tutors})
-
+@login_required
 def admin_edit_tutor_profile(request, tutor_id):
     tutor = get_object_or_404(Tutor, id=tutor_id)
 
@@ -294,16 +301,16 @@ def report3():
 
     buffer.seek(0)
     return buffer
-
+@login_required
 def classes_menu(request):
     classes = Class.objects.all()
     return render(request, 'classes.html', {'classes': classes})
-
+@login_required
 def majors_menu(request):
     majors = Major.objects.all()
     return render(request, 'majors.html', {'majors': majors})
 
-
+@login_required
 def admin_create_class(request):
     if request.method == 'POST':
         form = ClassCreationForm(request.POST)
@@ -315,7 +322,7 @@ def admin_create_class(request):
     return render(request, 'create_class.html', {'form': form})
 
 
-
+@login_required
 def admin_create_major(request):
     if request.method == 'POST':
         form = MajorCreationForm(request.POST)
@@ -327,23 +334,23 @@ def admin_create_major(request):
 
     return render(request, 'create_major.html', {'form': form}) 
 
-
+@login_required
 def delete_class(request, class_id):
     a_class = get_object_or_404(Class, pk=class_id)
     a_class.delete()
     return redirect('Admin:classes_menu')
-
+@login_required
 def delete_major(request, major_id):
     a_major = get_object_or_404(Major, pk=major_id)
     a_major.delete()
     return redirect('Admin:majors_menu')
-
+@login_required
 def admin_view_tutor_shifts(request, tutor_id):
    tutor = get_object_or_404(Tutor, id=tutor_id)
    shifts = Shift.objects.filter(tutor=tutor)
    form = ShiftForm()
    return render(request, 'shifts.html', {'tutor': tutor, 'shifts': shifts, 'form': form})
-
+@login_required
 def admin_add_tutor_shift(request, tutor_id):
     tutor = get_object_or_404(Tutor, id=tutor_id) #get tutor info
     form = None
@@ -359,7 +366,7 @@ def admin_add_tutor_shift(request, tutor_id):
         form = ShiftForm()
     return render(request, 'add_shift.html', {'form': form, 'tutor': tutor})
 
-
+@login_required
 def admin_delete_shift(request, shift_id):
     shift = get_object_or_404(Shift, id=shift_id)
     tutor_id = shift.tutor.id  # save tutor id for refresh
