@@ -86,7 +86,7 @@ def password_reset_combined(request):
                 [user.email],
                 fail_silently=False,
             )
-            messages.success(request, "Password reset code sent successfully.")
+            messages.success(request, "Password reset code sent successfully!")
         except CustomUser.DoesNotExist:
             messages.error(request, "Email address not found.")
 
@@ -115,7 +115,7 @@ def password_reset(request, user_id):
 
         user.set_password(new_password)
         user.save()
-        messages.success(request, "Your password has been reset successfully.")
+        messages.success(request, "Your password has been reset successfully!")
         return redirect('login')  # Redirect to login page after reset
 
     return render(request, 'password_reset.html', {'form': form})
