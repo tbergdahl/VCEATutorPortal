@@ -59,7 +59,7 @@
     .tutor-grid {
         display: flex;
         flex-wrap: wrap;
-        gap: 20px; /* Adjust the gap between tutor cards as needed */
+        gap: 10px; /* Adjust the gap between tutor cards as needed */
  
     }
 
@@ -69,6 +69,11 @@
         width: 100%; 
         box-sizing: border-box;
         display: flex; /* Display tutor-card as a flex container */
+    }
+
+    .tutor-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
 
     .tutor-info {
@@ -128,10 +133,9 @@
         color: white;
     }
 
-    .schedule-button {
-        background-color: #A60F2D;
-        color: white;
-        margin-top: 10px; /* Add margin between the buttons */
+    .appointment-button:hover {
+    background-color: var(--crimson);
+    color: white;
     }
 
     .search-button {
@@ -143,7 +147,7 @@
     
     .search-button:hover {
             background-color: rgba(128,128,128);
-        }
+    }
 </style>
 
 {% endblock %}

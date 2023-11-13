@@ -1,11 +1,42 @@
 {% extends "base.html" %}
-{% block title %} Schedle Page {% endblock %}
+{% block title %} Schedule Page {% endblock %}
 
 {% block content %}
 
-    {{student}}'s Appointments<br>
-    {% for appointment in appointments %}
-        {{ appointment }} - {{ appointment.tutored_class }} - {{ appointment.description }}<a href="{%  url 'Student:cancel_appointment' appointment.id %}">Cancel</a><br>
-    {% endfor %}
+    <div class="student-title">
+        {{student}}'s Appointments:
+    </div>
+    <br>
+    <table class="appttable">
+        <tr>
+            <th>Tutor</th>
+            <th>Appointment</th>
+            <th>Class</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+        {% for appointment in appointments %}
+            <tr>
+                <td width="20%">{{ appointment.tutor }}</td>
+                <td width="30%">{{ appointment.start_time }}</td>
+                <td width="15%">{{ appointment.tutored_class }}</td>
+                <td width="25%">{{ appointment.description }}</td>
+                <td width="10%"><a href="{%  url 'Student:cancel_appointment' appointment.id %}" class="action-button button">Cancel</a></td>
+            </tr>
+        {% endfor %}
+    </table>
 
 {% endblock %}
+
+<style>
+    .action-button {
+        padding: 10px 0; /* Adjust the top and bottom padding */
+        width: 150px; /* Fixed width for both buttons */
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>

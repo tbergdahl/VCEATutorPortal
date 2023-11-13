@@ -248,12 +248,15 @@ th, td {
 	margin: 8px 20px 8px 30px;
 	padding: 6px 6px;
 	border: 1px solid gray;
+    font-weight: bold;
     text-align: center;
     display: inline-block;
     border-radius: 4px;
     transition-duration: 0.2s;
     background-color: lightgray;
     color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .button:hover {
@@ -269,4 +272,20 @@ th, td {
 
 .menutable td {
     border-top: 1px solid lightgrey;
+}
+
+.appttable {
+    border-bottom: 1px solid #ddd;
+    border-collapse: collapse;
+}
+
+.appttable th {
+    text-align: left;
+    background-color: #981e32;
+    color: white;
+}
+
+.student-title {
+    font-size: 22px;
+    font-weight: bold;
 }
