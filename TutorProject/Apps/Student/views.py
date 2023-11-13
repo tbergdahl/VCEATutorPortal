@@ -12,8 +12,13 @@ from django.core.signing import TimestampSigner, BadSignature
 from django.http import HttpResponse
 from Apps.TutorApp.forms import FeedbackForm
 from Apps.TutorApp.models import Feedback
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
 
+@login_required
 def student_view(request):
+    if not request.user.is_student:
+        return HttpResponseForbidden("You do not have permission to view this page.")
     # Get all majors for the filter dropdown
     majors = Major.objects.all()
 
@@ -46,7 +51,7 @@ def student_view(request):
     return render(request, 'studentPage.html', context)
 
 
-
+@login_required
 def rate_tutor(request, tutor_id):
     tutor = get_object_or_404(Tutor, id=tutor_id)
     if request.method == 'POST':
@@ -58,14 +63,14 @@ def rate_tutor(request, tutor_id):
         form = TutorRatingForm(instance=tutor)  # Initialize the form with the tutor instance
     return render(request, 'rateTutor.html', {'form': form, 'tutor': tutor})
 
-
+@login_required
 def student_view_tutors(request, tutor_id):
     tutor = get_object_or_404(Tutor, id=tutor_id)
     available_appointments = TutoringSession.objects.filter(tutor=tutor, student = None)
     return render(request, 'tutor_available_appointments.html', {'tutor': tutor, 'available_appointments': available_appointments})
 
 from Apps.TutorApp.forms import AppointmentForm
-
+@login_required
 def book_appointment(request, appointment_id):
     appointment = get_object_or_404(TutoringSession, id=appointment_id)
 
@@ -84,20 +89,20 @@ def book_appointment(request, appointment_id):
     return render(request, 'book_appointment.html', {'form': form, 'tutor': appointment.tutor})
 
 
-    
+@login_required
 def student_view_appointments(request, student_id):
     student = CustomUser.objects.get(pk=request.user.pk).student
     appointments = TutoringSession.objects.filter(student=student)
     return render(request, 'student_appointments.html', {'appointments': appointments, 'student': student})
 
-
+@login_required
 def cancel_appointment(request, appointment_id):
     appointment = get_object_or_404(TutoringSession, id=appointment_id)
     student = appointment.student
     appointment.student = None
     appointment.save()
     return redirect('Student:student_view_appointments', student.id)
-
+@login_required
 def send_email(appointment):
     subject = 'Your Appointment'
     message = render_to_string('appointment_email_template.txt', {'appointment': appointment})
@@ -106,7 +111,7 @@ def send_email(appointment):
 
     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
-
+@login_required
 def rate_tutor(request, signed_token):
     try:
         signer = TimestampSigner()

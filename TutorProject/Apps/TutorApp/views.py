@@ -11,6 +11,8 @@ from .models import PasswordResetCode, CustomUser
 from .forms import PasswordResetRequestForm
 from .forms import PasswordResetForm
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 def student_view(request):

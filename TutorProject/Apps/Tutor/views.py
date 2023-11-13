@@ -3,22 +3,29 @@ from Apps.TutorApp.models import *
 from django.core.mail import send_mail
 from django.core.signing import TimestampSigner, BadSignature
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
+
 # Create your views here.
+@login_required
 def tutor_view(request):
+    if not request.user.is_tutor:
+        return HttpResponseForbidden("You do not have permission to view this page.")
     return render(request, 'tutorPage.html')
 
+@login_required
 def view_appointments(request, tutor_id):
     tutor = get_object_or_404(Tutor, id=tutor_id)
     appointments = TutoringSession.objects.filter(tutor=tutor)
     return render(request, 'tutor_appointments.html', {'tutor': tutor, 'appointments':appointments})
-
+@login_required
 def cancel_appointment(request, appointment_id):
     appointment = get_object_or_404(TutoringSession, id=appointment_id)
     tutor = appointment.tutor
     appointment.student = None
     appointment.save()
     return redirect('Tutor:view_appointments', tutor.id)
-
+@login_required
 def appointment_completed(request, appointment_id):
     appointment = get_object_or_404(TutoringSession, id=appointment_id)
 
@@ -36,7 +43,7 @@ def appointment_completed(request, appointment_id):
     tutor.save()
     appointment.delete()
     return redirect('Tutor:view_appointments', tutor.id)
-
+@login_required
 def view_feedback(request, tutor_id):
     tutor = get_object_or_404(Tutor, id=tutor_id)
     return render(request, 'tutor_feedback.html', {'tutor': tutor})
