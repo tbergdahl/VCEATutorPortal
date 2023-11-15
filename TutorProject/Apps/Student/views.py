@@ -102,7 +102,8 @@ def cancel_appointment(request, appointment_id):
     appointment.student = None
     appointment.save()
     return redirect('Student:student_view_appointments', student.id)
-@login_required
+
+
 def send_email(appointment):
     subject = 'Your Appointment'
     message = render_to_string('appointment_email_template.txt', {'appointment': appointment})

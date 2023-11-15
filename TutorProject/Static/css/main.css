@@ -283,6 +283,7 @@ th, td {
     text-align: left;
     background-color: #981e32;
     color: white;
+    margin-left: 5px;
 }
 
 .student-title {

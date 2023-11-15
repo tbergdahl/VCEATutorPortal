@@ -27,6 +27,7 @@
           
         </article>
         
+        {% if user.is_authenticated %}
         <aside id="sidebar">
             <button id="closeSidebarBtn">
                
@@ -61,6 +62,8 @@
             </table>
         </div>
         </aside>
+        {% endif %}
+
         <footer>Footer</footer>
       </div>
       
