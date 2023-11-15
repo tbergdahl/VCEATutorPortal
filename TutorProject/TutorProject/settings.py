@@ -104,15 +104,14 @@ DATABASES = {
         'USER': 'TermProjectWSU',
         'PASSWORD': 'mywsu123@',
         'HOST': 'termproject.mysql.database.azure.com',
-        'PORT': '3306'
-        
+        'PORT': '3306',  # Added comma here
+
+        'TEST': {
+            'NAME': 'testdata',
+        },
     },
-    # sqlite database for testing only
-    'test': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
-    }
 }
+
 
 
 # Password validation
