@@ -27,7 +27,6 @@
           
         </article>
         
-        {% if user.is_authenticated %}
         <aside id="sidebar">
             <button id="closeSidebarBtn">
                
@@ -45,25 +44,18 @@
                     <td><a href="{% url 'home' %}">Home</a></td>
                 </tr>
                 <tr>
-                    <td><a href="#">Schedule</a></td>
-                </tr>
-                <tr>       
-                {% if user.is_tutor %}
-                <td><a href="#">Profile</a></td>
-                {% endif %}
-                </tr>
-                <tr>
                     {% if user.is_authenticated %}
                     <td><a href="{% url 'logout' %}">Logout</a></td>
                 {% else %}
                     <td><a href="{% url 'login' %}">Login</a></td>
+                <tr>
+                    <td></td>
+                </tr>
                 {% endif %}
                 </tr>
             </table>
         </div>
         </aside>
-        {% endif %}
-
         <footer>Footer</footer>
       </div>
       

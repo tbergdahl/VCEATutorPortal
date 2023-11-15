@@ -18,15 +18,15 @@
         <tbody class="tutor-tbody">
             {% for tutor in tutors %}
             <tr class="tutor-tr">
-                <td class="tutor-td">{{ tutor.id }}</td>
+                <td class="tutor-td">{{ tutor.user_id }}</td>
                 <td class="tutor-td">{{ tutor.user.first_name }} {{ tutor.user.last_name }}</td>
                 <td class="tutor-td">{{ tutor.minutes_tutored }}</td>
                 <td class="tutor-td"> {{ tutor.major }}</td>
                 <td class="tutor-td">
-                    <a href="{% url 'Admin:admin_edit_tutor_profile' tutor.id %}" class="tutor-edit-link">Edit Details</a>
+                    <a href="{% url 'Admin:admin_edit_tutor_profile' tutor.user_id %}" class="tutor-edit-link">Edit Details</a>
                 </td>
                 <td class="tutor-td">
-                    <a href="{% url 'Admin:admin_view_tutor_shifts' tutor.id %}" class="tutor-edit-shifts-link">Edit Shifts</a>
+                    <a href="{% url 'Admin:admin_view_tutor_shifts' tutor.user_id %}" class="tutor-edit-shifts-link">Edit Shifts</a>
                 </td>
             </tr>
             {% endfor %}

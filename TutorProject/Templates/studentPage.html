@@ -41,8 +41,7 @@
                     <p>{{ tutor.description }}</p>
                 </div>
                 <div class="tutor-buttons">
-                    <a href="{% url 'Student:rate_tutor' tutor.id %}" class="action-button button">Rate</a>
-                    <a href="{% url 'Student:student_view_tutors' tutor.id %}" class="action-button button">Schedule</a>
+                    <a href="{% url 'Student:student_view_tutors' tutor.user_id %}" class="action-button button">Schedule</a>
                 </div>
             </div>
             {% endfor %}

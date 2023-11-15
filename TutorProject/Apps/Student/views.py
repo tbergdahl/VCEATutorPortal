@@ -65,7 +65,7 @@ def rate_tutor(request, tutor_id):
 
 @login_required
 def student_view_tutors(request, tutor_id):
-    tutor = get_object_or_404(Tutor, id=tutor_id)
+    tutor = get_object_or_404(Tutor, user_id=tutor_id)
     available_appointments = TutoringSession.objects.filter(tutor=tutor, student = None)
     return render(request, 'tutor_available_appointments.html', {'tutor': tutor, 'available_appointments': available_appointments})
 
@@ -102,8 +102,7 @@ def cancel_appointment(request, appointment_id):
     appointment.student = None
     appointment.save()
     return redirect('Student:student_view_appointments', student.id)
-
-
+@login_required
 def send_email(appointment):
     subject = 'Your Appointment'
     message = render_to_string('appointment_email_template.txt', {'appointment': appointment})

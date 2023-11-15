@@ -15,7 +15,7 @@ def tutor_view(request):
 
 @login_required
 def view_appointments(request, tutor_id):
-    tutor = get_object_or_404(Tutor, id=tutor_id)
+    tutor = get_object_or_404(Tutor, user_id=tutor_id)
     appointments = TutoringSession.objects.filter(tutor=tutor)
     return render(request, 'tutor_appointments.html', {'tutor': tutor, 'appointments':appointments})
 @login_required
@@ -45,5 +45,5 @@ def appointment_completed(request, appointment_id):
     return redirect('Tutor:view_appointments', tutor.id)
 @login_required
 def view_feedback(request, tutor_id):
-    tutor = get_object_or_404(Tutor, id=tutor_id)
+    tutor = get_object_or_404(Tutor, user_id=tutor_id)
     return render(request, 'tutor_feedback.html', {'tutor': tutor})
