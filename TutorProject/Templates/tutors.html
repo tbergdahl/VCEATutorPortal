@@ -4,65 +4,64 @@
 
 {% block content %}
 
-<div>
-    <h1>Tutors</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Tutor ID</th>
-                <th>Tutor Name</th>
-                <th>Minutes Tutored</th>
-                <th>Major</th>
+<div class="tutor-container">
+    <h1 class="tutor-heading">Tutors</h1>
+    <table class="tutor-table">
+        <thead class="tutor-thead">
+            <tr class="tutor-tr">
+                <th class="tutor-th">Tutor ID</th>
+                <th class="tutor-th">Tutor Name</th>
+                <th class="tutor-th">Minutes Tutored</th>
+                <th class="tutor-th">Major</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="tutor-tbody">
             {% for tutor in tutors %}
-            <tr>
-                <td>{{ tutor.id }}</td>
-                <td>{{ tutor.user.first_name }} {{ tutor.user.last_name }}</td>
-                <td>{{ tutor.minutes_tutored }}</td>
-                <td> {{ tutor.major }}</td>
-                <td>
-                    <a href="{% url 'Admin:admin_edit_tutor_profile' tutor.id %}">Edit Details</a>
+            <tr class="tutor-tr">
+                <td class="tutor-td">{{ tutor.id }}</td>
+                <td class="tutor-td">{{ tutor.user.first_name }} {{ tutor.user.last_name }}</td>
+                <td class="tutor-td">{{ tutor.minutes_tutored }}</td>
+                <td class="tutor-td"> {{ tutor.major }}</td>
+                <td class="tutor-td">
+                    <a href="{% url 'Admin:admin_edit_tutor_profile' tutor.id %}" class="tutor-edit-link">Edit Details</a>
                 </td>
-                <td>
-                    <a href="{% url 'Admin:admin_view_tutor_shifts' tutor.id %}">Edit Shifts</a>
+                <td class="tutor-td">
+                    <a href="{% url 'Admin:admin_view_tutor_shifts' tutor.id %}" class="tutor-edit-shifts-link">Edit Shifts</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{% url 'Admin:admin_view' %}" class="home-link">Back to Dashboard</a>
+    <a href="{% url 'Admin:admin_view' %}" class="tutor-back-link">Back to Dashboard</a>
 </div>
 
 <style>
-    body {
-
+    .tutor-container {
         font-family: Arial, sans-serif;
     }
-    h1 {
+    .tutor-heading {
         color: #333;
     }
-    table {
+    .tutor-table {
         width: 100%;
         border-collapse: collapse;
         margin-bottom: 20px;
     }
-    th, td {
+    .tutor-th, .tutor-td {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
     }
-    th {
+    .tutor-th {
         background-color: #f2f2f2;
     }
-    tr:nth-child(even) {
+    .tutor-tr:nth-child(even) {
         background-color: #f9f9f9;
     }
-    tr:hover {
+    .tutor-tr:hover {
         background-color: #eaeaea;
     }
-    .home-link {
+    .tutor-back-link {
         font-size: 14px;
         display: inline-block;
         margin-top: 20px;
@@ -74,7 +73,7 @@
         border-radius: 5px;
         border: none;
     }
-    .home-link:hover {
+    .tutor-back-link:hover {
         background-color: rgba(128,128,128);
     }
 </style>

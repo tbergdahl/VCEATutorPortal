@@ -1,19 +1,83 @@
-{% extends "base.html" %} {% block title %} tutor Page {% endblock %}
+{% extends "base.html" %} 
+{% block title %} Tutor Page {% endblock %}
 
 {% block content %}
-
+<div class="shifts-container">
     <h2>{{ tutor }}'s Shifts</h2>
-    <ul>
+    <ul class="shifts-list">
         {% for shift in shifts %}
-            <li>{{ shift.day }}: {{ shift.start_time }} - {{ shift.end_time }}
-                <a href="{% url 'Admin:admin_delete_shift' shift.id %}">Delete</a>
+            <li class="shift-item">
+                <span class="shift-info">{{ shift.day }}: {{ shift.start_time }} - {{ shift.end_time }}</span>
+                <a href="{% url 'Admin:admin_delete_shift' shift.id %}" class="delete-link">Delete</a>
             </li>
         {% endfor %}
     </ul>
 
+    <a href="{% url 'Admin:admin_add_tutor_shift' tutor.id %}" class="btn add-shift-btn">Add Shift</a>
+    <a href="{% url 'Admin:admin_view_tutors' %}" class="btn back-btn">Back To Tutor Page</a>
+</div>
 
-
-    <a href="{% url 'Admin:admin_add_tutor_shift' tutor.id %}">Add Shift</a>
-    <br>
-    <a href="{% url 'Admin:admin_view_tutors' %}">Back To Tutor Page</a>
+<style>
+    .shifts-container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .shifts-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    .shift-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f2f2f2;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .shift-info {
+        flex-grow: 1;
+    }
+    .delete-link {
+        margin-left: 20px;
+        color: #ba1234;
+        text-decoration: none;
+        padding: 5px 10px;
+        border: 1px solid #ba1234;
+        border-radius: 3px;
+        font-size: 14px;
+    }
+    .delete-link:hover {
+        background-color: #ba1234;
+        color: white;
+    }
+    .btn {
+        display: inline-block;
+        margin-top: 12px;
+        margin-right: 5px;
+        padding: 8px 12px;
+        background-color: #ba1234;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+    .add-shift-btn {
+        background-color: #ba1234;
+    }
+    .add-shift-btn:hover {
+        background-color: #a11030;
+    }
+    .back-btn {
+        background-color: rgba(128,128,128);
+    }
+    .back-btn:hover {
+        background-color: rgba(85, 85, 85, 0.8);
+    }
+</style>
 {% endblock %}
