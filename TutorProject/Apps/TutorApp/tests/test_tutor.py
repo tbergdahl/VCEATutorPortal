@@ -59,6 +59,7 @@ class TestTutor(TestCase):
         self.assertEqual(self.tutor.rating, 0.0)
         self.assertEqual(self.tutor.description, 'Legendary bodybuilder and actor')
 
+   
     def test_rating(self):
         # Create feedback instances for testing
         test_feedback = Feedback.objects.create(
@@ -75,3 +76,23 @@ class TestTutor(TestCase):
         # Compute the tutor's rating
         self.tutor.compute_rating()
         self.assertEqual(self.tutor.rating, 2.5)
+
+    def test_create_appointments(self):
+        # Create a Shift for testing
+        test_shift = Shift.objects.create(
+            tutor=self.tutor,
+            day='Monday',
+            start_time=datetime.now().time(),
+            end_time=(datetime.now() + timedelta(hours=1)).time()
+        )
+
+        # Add the test shift to the tutor's shifts
+        self.tutor.shifts.add(test_shift)
+
+        # Set the current_datetime to a specific day and time
+        current_datetime = datetime(2023, 1, 1, 12, 0, 0)  # Replace with your desired datetime
+        self.tutor.create_appointments()
+
+        # Check that the appointment was created
+        shift_datetime = datetime.combine(current_datetime.date(), test_shift.start_time)
+        self.assertTrue(Shift.objects.filter(tutor=self.tutor, start_time=shift_datetime).exists())
