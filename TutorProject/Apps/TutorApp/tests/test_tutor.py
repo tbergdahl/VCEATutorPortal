@@ -5,16 +5,18 @@ from django.urls import reverse
 from Apps.TutorApp.models import *  # Import your models from the correct location
 from django.db import transaction
 
+#Use mysql test db
+
 warnings.filterwarnings("ignore")
 
 class TestTutor(TestCase):
+
     @classmethod
     def setUpTestData(cls):
         # Constant test data here
         # update
         pass
 
-    @transaction.atomic
     def setUp(self):
         # Create a test user
         self.tutor_user = CustomUser.objects.create(
@@ -34,11 +36,8 @@ class TestTutor(TestCase):
             rating=0.0,
             description='Legendary bodybuilder and actor'
         )
-        print(Tutor.objects.all())
         self.tutor.save()
-        print(Tutor.objects.all())
 
-    @transaction.atomic
     def tearDown(self):
         # Clean up the created objects
         Tutor.objects.all().delete()
@@ -61,10 +60,6 @@ class TestTutor(TestCase):
         self.assertEqual(self.tutor.description, 'Legendary bodybuilder and actor')
 
     def test_rating(self):
-        print(Tutor.objects.all())
-        # Save the tutor instance to the database
-        self.tutor.save()
-
         # Create feedback instances for testing
         test_feedback = Feedback.objects.create(
             tutor=self.tutor,
