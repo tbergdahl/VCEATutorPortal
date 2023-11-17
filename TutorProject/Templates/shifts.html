@@ -13,7 +13,7 @@
         {% endfor %}
     </ul>
 
-    <a href="{% url 'Admin:admin_add_tutor_shift' tutor.id %}" class="btn add-shift-btn">Add Shift</a>
+    <a href="{% url 'Admin:admin_add_tutor_shift' tutor.user_id %}" class="btn add-shift-btn">Add Shift</a>
     <a href="{% url 'Admin:admin_view_tutors' %}" class="btn back-btn">Back To Tutor Page</a>
 </div>
 

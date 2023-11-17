@@ -184,7 +184,7 @@ def admin_view_tutors(request):
     return render(request, 'tutors.html', {'tutors': tutors})
 @login_required
 def admin_edit_tutor_profile(request, tutor_id):
-    tutor = get_object_or_404(Tutor, id=tutor_id)
+    tutor = get_object_or_404(Tutor, user_id=tutor_id)
 
     if request.method == 'POST':
         form = EditTutorForm(request.POST, instance=tutor)
@@ -346,13 +346,13 @@ def delete_major(request, major_id):
     return redirect('Admin:majors_menu')
 @login_required
 def admin_view_tutor_shifts(request, tutor_id):
-   tutor = get_object_or_404(Tutor, id=tutor_id)
+   tutor = get_object_or_404(Tutor, user_id=tutor_id)
    shifts = Shift.objects.filter(tutor=tutor)
    form = ShiftForm()
    return render(request, 'shifts.html', {'tutor': tutor, 'shifts': shifts, 'form': form})
 @login_required
 def admin_add_tutor_shift(request, tutor_id):
-    tutor = get_object_or_404(Tutor, id=tutor_id) #get tutor info
+    tutor = get_object_or_404(Tutor, user_id=tutor_id) #get tutor info
     form = None
     if request.method == 'POST':
         form = ShiftForm(request.POST)
@@ -361,7 +361,7 @@ def admin_add_tutor_shift(request, tutor_id):
             shift.tutor = tutor #add tutor to shift
             shift.save()
             tutor.create_appointments()
-            return redirect('Admin:admin_view_tutor_shifts', tutor_id = tutor.id) #refresh
+            return redirect('Admin:admin_view_tutor_shifts', tutor_id = tutor.user_id) #refresh
     else:
         form = ShiftForm()
     return render(request, 'add_shift.html', {'form': form, 'tutor': tutor})
@@ -369,7 +369,7 @@ def admin_add_tutor_shift(request, tutor_id):
 @login_required
 def admin_delete_shift(request, shift_id):
     shift = get_object_or_404(Shift, id=shift_id)
-    tutor_id = shift.tutor.id  # save tutor id for refresh
+    tutor_id = shift.tutor.user_id  # save tutor id for refresh
     shift.appointments.all().delete()
     shift.delete()
     return redirect('Admin:admin_view_tutor_shifts', tutor_id=tutor_id)

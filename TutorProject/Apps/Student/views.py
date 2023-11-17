@@ -82,7 +82,7 @@ def book_appointment(request, appointment_id):
             appointment.student = request.user.student
             appointment.save()
             send_email(appointment)
-            return redirect('Student:student_view_appointments', appointment.student.id)
+            return redirect('Student:student_view_appointments', appointment.student.user_id)
     else:
         form = AppointmentForm(appointment.tutor, instance=appointment)
 
@@ -98,11 +98,11 @@ def student_view_appointments(request, student_id):
 @login_required
 def cancel_appointment(request, appointment_id):
     appointment = get_object_or_404(TutoringSession, id=appointment_id)
-    student = appointment.student
+    student_id = appointment.student.user_id
     appointment.student = None
     appointment.save()
-    return redirect('Student:student_view_appointments', student.id)
-@login_required
+    return redirect('Student:student_view_appointments', student_id)
+
 def send_email(appointment):
     subject = 'Your Appointment'
     message = render_to_string('appointment_email_template.txt', {'appointment': appointment})
@@ -118,7 +118,7 @@ def rate_tutor(request, signed_token):
         data = signer.unsign(signed_token, max_age=60*60*24)
         tutor_id = int(data.split("_")[-1])
 
-        tutor = get_object_or_404(Tutor, id=tutor_id)
+        tutor = get_object_or_404(Tutor, user_id=tutor_id)
 
         if request.method == 'POST':
             form = FeedbackForm(request.POST)
