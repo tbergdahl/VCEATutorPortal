@@ -63,7 +63,7 @@ class Tutor(models.Model):
     description = models.TextField(blank=True, null=True)
     major = models.ForeignKey(Major, on_delete=models.CASCADE, null=True)
     token = models.CharField(max_length=50, null=True, blank=True)
-
+    picture = models.ImageField(upload_to='tutor_pictures/', null=True, blank=True)
 
     def compute_rating(self):
         rating = 0

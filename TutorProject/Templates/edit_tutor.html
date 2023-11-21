@@ -3,14 +3,33 @@
 
 {% block content %}
 <div class="tutor-form-container">
-    <form method="post" class="tutor-form">
+    <form method="post" class="tutor-form" enctype="multipart/form-data">
         {% csrf_token %}
         <h3 class="form-title">Tutor Information</h3>
         {{ tutor_form.as_p }}
+        <label for="id_picture">Upload Picture:</label>
+        <input type="file" id="id_picture" name="picture">
+        <img id="imagePreview" src="#" alt="Preview" style="display: none; max-width: 100px; margin-top: 10px;">
         <input type="submit" value="Save" class="form-submit-btn">
     </form>
+    
     <a href="{% url 'Admin:admin_view_tutors' %}" class="back-btn">Back To Tutors Page</a>
 </div>
+<script>
+    function previewImage(event) {
+        const input = event.target;
+        if (input.files == true) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('imagePreview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
 
 <style>
     .tutor-form-container {

@@ -12,7 +12,7 @@
         <label for="search">Find a tutor:</label>
         <input type="text" name="search" id="search" value="{{ search_query|default_if_none:'' }}">
 
-        <button type="submit" class="search-button">Search</button>
+        <button type="submit" class="search-button">Search </button>
 
         <label for="major">Filter by Major:</label>
         <select name="major" id="major" class="pointer">
@@ -29,7 +29,13 @@
             {% for tutor in tutors %}
             <div class="tutor-card">
                 <div class="tutor-info">
-                    <img src="{% static 'img/test2.jpg' %}" alt="{{ tutor.user.first_name }} {{ tutor.user.last_name }}">
+                    {% if tutor.picture %}
+                        <img src="{{ tutor.picture.url}}" alt="{{ tutor.user.first_name }} {{ tutor.user.last_name }}">
+                    {% else %}
+                        
+                        <!-- this default image will display if there is no image uploaded  -->
+                        <img src="{% static 'img/defaultProfile.jpg' %}" alt="Default Tutor Image">
+                    {% endif %}
                     <h4>{{ tutor.user.first_name }} {{ tutor.user.last_name }}</h4>
                 </div>
                 <div class="tutor-details">
