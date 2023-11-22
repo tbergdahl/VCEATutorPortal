@@ -43,7 +43,7 @@ class TestTutor(TestCase):
         Tutor.objects.all().delete()
         CustomUser.objects.all().delete()
         
-
+# Teting tutor user assignment
     def test_assignment(self):
         # Test tutor assignment
         self.assertFalse(self.tutor.user.is_student)
@@ -59,7 +59,7 @@ class TestTutor(TestCase):
         self.assertEqual(self.tutor.rating, 0.0)
         self.assertEqual(self.tutor.description, 'Legendary bodybuilder and actor')
 
-   
+# Testing rating computation
     def test_rating(self):
         # Create feedback instances for testing
         test_feedback = Feedback.objects.create(
@@ -77,6 +77,7 @@ class TestTutor(TestCase):
         self.tutor.compute_rating()
         self.assertEqual(self.tutor.rating, 2.5)
 
+# Testing appointment creation
     def test_create_appointments(self):
         # Create a Shift for testing
         test_shift = Shift.objects.create(
@@ -96,3 +97,46 @@ class TestTutor(TestCase):
         # Check that the appointment was created
         shift_datetime = datetime.combine(current_datetime.date(), test_shift.start_time)
         self.assertTrue(Shift.objects.filter(tutor=self.tutor, start_time=shift_datetime).exists())
+
+# Testing shift assignment
+    def test_next_instance_of_shift(self):
+        # Define the days list
+        days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+        # Average test case
+        current_day = datetime(2023, 1, 1, 12, 0, 0)  # Sunday
+        target_day_name = 'Wednesday'
+        expected_next_date = datetime(2023, 1, 4, 12, 0, 0)  # Wednesday
+        result = self.tutor.next_instance_of_shift(target_day_name, current_day, days)
+        self.assertEqual(result, expected_next_date)
+
+        # Cases near the boundary of the week
+        current_day = datetime(2023, 1, 1, 12, 0, 0)  # Sunday
+        target_day_name = 'Monday'
+        expected_next_date = datetime(2023, 1, 2, 12, 0, 0)  # Monday
+
+        # Test a false case
+        false_target_day = datetime(2023, 1, 3, 12, 0, 0)  # Tuesday
+        false_target_day_name = 'Tuesday'
+
+        result = self.tutor.next_instance_of_shift(target_day_name, current_day, days)
+        false_result = self.tutor.next_instance_of_shift(false_target_day_name, current_day, days)
+        self.assertEqual(result, expected_next_date)
+        self.assertFalse(false_result == expected_next_date)
+
+# Testing tutoring session model
+    def test_tutoring_session_model(self):
+        # Create a TutoringSession instance for testing
+        tutoring_session = TutoringSession(
+            tutor=self.tutor,
+            student=None,
+            start_time=datetime.now(),
+            end_time=datetime.now() + timedelta(hours=1),
+            tutored_class=None,
+            shift=None,
+            description="Test Description"
+        )
+
+        # Check if the __str__ method returns the expected string
+        expected_str = f"Appointment with {self.tutor.user.get_full_name()} from {tutoring_session.start_time.strftime('%I:%M %p')} to {tutoring_session.end_time.strftime('%I:%M %p')}"
+        self.assertEqual(str(tutoring_session), expected_str)
