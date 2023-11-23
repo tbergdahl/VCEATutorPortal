@@ -126,3 +126,41 @@ class TestModels(TestCase):
 
         # Check the tutor relation
         self.assertEqual(shift.tutor, self.tutor)
+
+        # Test Major
+    def test_major(self):
+        # Ceate a Major instance for testing
+        self.major = Major.objects.create(name="Computer Science", abbreviation="CS")
+        
+        # Check if the __str__ method returns the expected string
+        expected_str = "CS"
+        self.assertEqual(str(self.major), expected_str)
+
+# Test manage_user_profile
+    def test_manage_user_profile_creation(self):
+        # Ensure that the corresponding profile is created for the user
+        self.assertTrue(Student.objects.filter(user=self.user).exists())
+        self.assertFalse(Tutor.objects.filter(user=self.user).exists())
+        self.assertFalse(Admin.objects.filter(user=self.user).exists())
+
+    def test_manage_user_profile_role_change(self):
+        # Create a test student
+        test_student = CustomUser.objects.create(user = self.user)
+
+        # Change user role to Tutor
+        test_student.user.is_tutor = True
+        test_student.save()
+
+        # Ensure that the corresponding profile is created for the user and other profiles are deleted
+        self.assertTrue(Tutor.objects.filter(user=self.user).exists())
+        self.assertFalse(Student.objects.filter(user=self.user).exists())
+        self.assertFalse(Admin.objects.filter(user=self.user).exists())
+
+        # Change user role to Admin
+        self.user.is_admin = True
+        self.user.save()
+
+        # Ensure that the corresponding profile is created for the user and other profiles are deleted
+        self.assertTrue(Admin.objects.filter(user=self.user).exists())
+        self.assertFalse(Student.objects.filter(user=self.user).exists())
+        self.assertFalse(Tutor.objects.filter(user=self.user).exists())

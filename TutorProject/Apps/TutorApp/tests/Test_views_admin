@@ -1,0 +1,13 @@
+# Create your tests here.
+from django.test import TestCase
+from django.urls import reverse
+from Apps.TutorApp.models import *
+from django.test import TestCase
+from django.test import Client
+import warnings
+
+warnings.filterwarnings("ignore")
+        
+# Test cases for views
+class ViewsTestCase(TestCase):
+    pass

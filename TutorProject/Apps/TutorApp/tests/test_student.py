@@ -29,3 +29,12 @@ class TestStudent(TestCase):
         self.assertTrue(self.student.user.is_student)
         self.assertFalse(self.student.user.is_tutor)
         self.assertFalse(self.student.user.is_admin)
+
+        # Test one to one field relationship (with assignments)
+        self.assertTrue(self.student.user.email, 'ronnie.coleman@wsu.edu')
+        self.assertTrue(self.student.user.first_name, 'Ronnie')
+        self.assertTrue(self.student.user.last_name, 'Coleman')
+        
+        # Test string def method
+        expected_string = "Ronnie Coleman"
+        self.assertEqual(str(self.student), expected_string)
