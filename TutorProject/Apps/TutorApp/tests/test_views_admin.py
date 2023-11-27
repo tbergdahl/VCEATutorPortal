@@ -23,7 +23,16 @@ class AdminViewsTest(TestCase):
         self.client = Client()
 
         # Create a tutor for testing
-        major = Major.objects.create(name='Computer Science', abbreviation='CS')  # Assuming you have Major model defined
+        self.major = Major.objects.create(name='Computer Science', abbreviation='CS')  # Assuming you have Major model defined
+        self.major.save()
+
+        self.c = Class(
+            class_major=self.major,
+            course_num=101,
+            course_name="Intro to Programming",
+            hours_tutored=0,
+        )
+        self.c.save()
 
         # Create a test user
         self.tutor_user = CustomUser.objects.create(
@@ -42,7 +51,7 @@ class AdminViewsTest(TestCase):
             day_started=None,
             rating=0.0,
             description='Legendary bodybuilder and actor',
-            major=major
+            major=self.major
         )
         self.tutor.save()
 # Test Admin Basic View ##############################
@@ -220,13 +229,74 @@ class AdminViewsTest(TestCase):
 
 # Test Major and Class Interactions ##############################
     def test_delete_major(self):
-        pass
+        # login the admin
+        self.client.login(email='admin@example.com', password='password123')
+
+        # Ensure a major is created
+        self.assertEqual(Major.objects.count(), 1)
+
+        # Get the major ID
+        major_id = self.major.id
+
+        # Access the delete_major view
+        response = self.client.post(reverse('Admin:delete_major', args=[major_id]))
+
+        # Check if the major is deleted
+        self.assertEqual(response.status_code, 302)  # Assuming it redirects after deletion
+        self.assertEqual(Major.objects.count(), 0)
+
     def test_delete_class(self):
-        pass
+        self.client.login(email='admin@example.com', password='password123')
+        self.assertEqual(Class.objects.count(), 1)
+        class_id = self.c.id
+        response = self.client.post(reverse('Admin:delete_class', args=[class_id]))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Class.objects.count(), 0)
+
     def test_admin_create_major(self):
-        pass
+        # login the admin
+        self.client.login(email='admin@example.com', password='password123')
+
+        # Ensure no majors exist initially
+        self.assertEqual(Major.objects.count(), 1)
+
+        # Create a valid form data
+        form_data = {
+            'name': 'Computer Science',
+            'abbreviation': 'CS'
+        }
+
+        # Access the admin_create_major view with a POST request
+        response = self.client.post(reverse('Admin:admin_create_major'), data=form_data)
+
+        # Check if the major is created
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Major.objects.count(), 2)
+
     def test_admin_create_class(self):
-        pass   
+        # login the admin
+        self.client.login(email='admin@example.com', password='password123')
+        # Ensure only 1 classes exist initially (The class in the setup function)
+        self.assertEqual(Class.objects.count(), 1)
+        # Create a valid form data
+        form_data = {
+            'class_major': self.major.id,
+            'course_num': 101,
+            'course_name': 'Intro to Programming',
+            'hours_tutored': 0,
+        }
+        # Access the admin_create_class view with a POST request
+        response = self.client.post(reverse('Admin:admin_create_class'), data=form_data)
+        # Check if the class is created
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Class.objects.count(), 2)
+        # Check the attributes of the created class
+        created_class = Class.objects.first()
+        self.assertEqual(created_class.class_major, self.major)
+        self.assertEqual(created_class.course_num, 101)
+        self.assertEqual(created_class.course_name, 'Intro to Programming')
+        self.assertEqual(created_class.hours_tutored, 0)
+
     def test_majors_menu(self):
         pass
     def test_classes_menu(self):
