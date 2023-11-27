@@ -3,7 +3,7 @@ from Apps.TutorApp.models import Tutor, Major, CustomUser
 from django.db.models import Q
 from .forms import TutorRatingForm
 from django.shortcuts import render, get_object_or_404, redirect
-from django.utils import timezone
+from datetime import datetime
 from Apps.TutorApp.models import TutoringSession
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -66,7 +66,10 @@ def rate_tutor(request, tutor_id):
 @login_required
 def student_view_tutors(request, tutor_id):
     tutor = get_object_or_404(Tutor, user_id=tutor_id)
-    available_appointments = TutoringSession.objects.filter(tutor=tutor, student = None)
+    current_time = datetime.now()
+    print(current_time)
+    available_appointments = TutoringSession.objects.filter(tutor=tutor, student = None, start_time__gt=current_time)
+    print(available_appointments)
     return render(request, 'tutor_available_appointments.html', {'tutor': tutor, 'available_appointments': available_appointments})
 
 from Apps.TutorApp.forms import AppointmentForm
@@ -108,7 +111,6 @@ def send_email(appointment):
     message = render_to_string('appointment_email_template.txt', {'appointment': appointment})
     from_email = 'trentondb0303@gmail.com'
     recipient_list = [appointment.student.user.email]
-
     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
 @login_required

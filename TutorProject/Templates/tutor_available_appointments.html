@@ -6,6 +6,7 @@
 <div class="appointment-container">
   <h2 class="text-center">{{ tutor }}'s Available Appointments</h2>
   {% for appointment in available_appointments %}
+    
       <div class="appointment-card">
           <span class="appointment-time">{{ appointment.start_time }} to {{ appointment.end_time }}</span>
           <a class="book-link" href="{% url 'Student:book_appointment' appointment.id %}">Book</a>

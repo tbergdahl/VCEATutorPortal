@@ -10,7 +10,7 @@ from Apps.TutorApp.models import *
 from Apps.TutorApp.forms import *
 from io import BytesIO
 from django.db import IntegrityError
-# views.py
+from django.utils import timezone
 from django.http import HttpResponse
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
@@ -21,6 +21,7 @@ import uuid
 from django.http import FileResponse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
+from django.core.mail import send_mail
 
 @login_required
 def admin_view(request):
@@ -385,4 +386,28 @@ def admin_delete_shift(request, shift_id):
     shift.appointments.all().delete()
     shift.delete()
     return redirect('Admin:admin_view_tutor_shifts', tutor_id=tutor_id)
+
+@login_required
+def admin_tutor_called_out(request, tutor_id):
+    tutor = get_object_or_404(Tutor, user_id=tutor_id)
+    current_date = timezone.now().date()
+
+    start_of_day = datetime.combine(current_date, datetime.min.time(), tzinfo=timezone.get_current_timezone())
+    end_of_day = datetime.combine(current_date, datetime.max.time(), tzinfo=timezone.get_current_timezone())
+
+    tutor_appointments = TutoringSession.objects.filter(
+        tutor=tutor,
+        start_time__gte=start_of_day,
+        start_time__lte=end_of_day,
+    ).exclude(student__isnull = True)
+
+    for appointment in tutor_appointments:
+        tutor = appointment.tutor
+        student_email = appointment.student.user.email
+        subject = 'Tutor Appointment Cancellation'
+        message = f"Dear {appointment.student.user.first_name}, your tutoring session with {tutor.user.first_name + ' ' + tutor.user.last_name} on {appointment.start_time} was cancelled." #replace with website host
+        send_mail(subject, message, 'trentondb0303@gmail.com', [student_email])
+
+    tutor_appointments.delete()
+    return redirect('Admin:admin_view_tutor_shifts', tutor_id=tutor.user_id)
 

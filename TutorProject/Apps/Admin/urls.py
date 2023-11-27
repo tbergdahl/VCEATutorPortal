@@ -22,4 +22,5 @@ urlpatterns = [
     path('administrator/addshift/<int:tutor_id>', views.admin_add_tutor_shift,name = 'admin_add_tutor_shift'),
     path('administrator/view_tutor_shifts/<int:tutor_id>', views.admin_view_tutor_shifts,name = 'admin_view_tutor_shifts'),
     path('administrator/deleteshift/<int:shift_id>', views.admin_delete_shift,name = 'admin_delete_shift'),
+    path('administrator/delete_for_day/<int:tutor_id>', views.admin_tutor_called_out,name = 'admin_tutor_called_out'),
 ]

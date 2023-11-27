@@ -28,6 +28,9 @@
                 <td class="tutor-td">
                     <a href="{% url 'Admin:admin_view_tutor_shifts' tutor.user_id %}" class="tutor-edit-shifts-link">Edit Shifts</a>
                 </td>
+                <td class="tutor-td">
+                    <a href="{% url 'Admin:admin_tutor_called_out' tutor.user_id %}" class="tutor-edit-shifts-link">Disable Appointments For Today</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
