@@ -50,7 +50,7 @@ class PDFSelectionForm(forms.Form):
     REPORT_CHOICES = [
         ('report1', 'Tutor Statistics Report'),
         ('report2', 'Tutoring Hours By Class'),
-        ('report3', 'Tutor Statistic Report'),
+        ('report3', 'Returning Students Report'),
     ]
     report = forms.ChoiceField(choices=REPORT_CHOICES, label='Select Report')
 
@@ -85,7 +85,7 @@ class EditTutorForm(forms.ModelForm):
 
     class Meta:
         model = Tutor
-        fields = ['major', 'minutes_tutored', 'description', 'tutored_classes']
+        fields = ['major', 'hours_tutored', 'description', 'tutored_classes']
 
     def __init__(self, *args, **kwargs):
         super(EditTutorForm, self).__init__(*args, **kwargs)

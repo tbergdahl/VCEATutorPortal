@@ -57,7 +57,7 @@ class Admin(models.Model):
     
 class Tutor(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
-    minutes_tutored = models.IntegerField(default=0)
+    hours_tutored = models.IntegerField(default=0)
     day_started = models.DateField(max_length=20, null=True)
     rating = models.FloatField(default=0, validators=[MaxValueValidator(5.0), MinValueValidator(0.0)])
     description = models.TextField(blank=True, null=True)
@@ -141,6 +141,7 @@ class Feedback(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
+    times_visited = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name

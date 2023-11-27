@@ -222,10 +222,10 @@ def report1():
     
     
     tutors = Tutor.objects.all()
-    data = [['Tutor', 'Minutes Tutored', 'Rating'],]
+    data = [['Tutor', 'Hours Tutored', 'Rating'],]
 
     for tutor in tutors:
-        data.append([f"{tutor.user.first_name} {tutor.user.last_name}", tutor.minutes_tutored, tutor.rating])
+        data.append([f"{tutor.user.first_name} {tutor.user.last_name}", tutor.hours_tutored, tutor.rating])
 
     table = Table(data)
     style = [
@@ -234,7 +234,7 @@ def report1():
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.red)
+        ('BACKGROUND', (0, 1), (-1, -1), colors.white)
     ]
 
     table.setStyle(style)
@@ -272,7 +272,6 @@ def report2():
 
     table.setStyle(style)
     elements = [table]
-    elements.append(table)
     pdf.build(elements)
 
     buffer.seek(0)
@@ -282,11 +281,15 @@ def report2():
 def report3():
     buffer = BytesIO()
     pdf = SimpleDocTemplate(buffer, pagesize=letter)
-    tutors = Tutor.objects.all()
-    data = [['Tutor', 'Minutes Tutored', 'Rating'],]
 
-    for tutor in tutors:
-        data.append([f"{tutor.user.first_name} {tutor.user.last_name}", tutor.minutes_tutored, tutor.rating])
+    total_returning_students = Student.objects.filter(times_visited__gt=1)
+    total_returning_students_count = Student.objects.filter(times_visited__gt=1).count()
+    total_students_count = Student.objects.count()
+    percentage = total_returning_students_count / total_students_count
+    data = [["Percentage of Returning Students", f"{percentage:.2f}%"], ["Returning Students"]]
+
+    for student in total_returning_students:
+        data.append([f"{student.user.first_name} {student.user.last_name} - {student.times_visited}" ])
 
     table = Table(data)
     style = [
@@ -303,7 +306,13 @@ def report3():
     pdf.build(elements)
 
     buffer.seek(0)
-    return buffer
+    return buffer 
+
+
+
+
+
+
 @login_required
 def classes_menu(request):
     classes = Class.objects.all()
