@@ -363,6 +363,8 @@ def admin_view_tutor_shifts(request, tutor_id):
    shifts = Shift.objects.filter(tutor=tutor)
    form = ShiftForm()
    return render(request, 'shifts.html', {'tutor': tutor, 'shifts': shifts, 'form': form})
+from Apps.TutorApp.tasks import my_scheduled_task
+
 @login_required
 def admin_add_tutor_shift(request, tutor_id):
     tutor = get_object_or_404(Tutor, user_id=tutor_id) #get tutor info

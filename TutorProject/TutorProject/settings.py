@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Apps.Student',
     'Apps.Admin',
     'Apps.Tutor',
+    'background_task'
 ]
 
 
