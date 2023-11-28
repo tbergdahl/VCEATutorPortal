@@ -42,6 +42,12 @@ def appointment_completed(request, appointment_id):
     message = f"Dear {appointment.student.user.first_name}, please rate your recent tutoring session with {appointment.tutor.user.first_name}. We appreciate your feedback and are always looking to improve your experience. Use the following link: http://127.0.0.1:8000/rate/{signed_token}" #replace with website host
     send_mail(subject, message, 'trentondb0303@gmail.com', [student_email])
 
+
+    slot = TimeSlot.objects.filter(start_time=appointment.start_time)
+    slot.frequency += 1
+    slot.save()
+
+
     #student stats updating
     student = appointment.student
     student.times_visited += 1

@@ -208,3 +208,7 @@ class TutoringSession(models.Model):
 
     def __str__(self):
         return f"Appointment with {self.tutor} from {self.start_time.strftime('%I:%M %p')} to {self.end_time.strftime('%I:%M %p')}"
+    
+class TimeSlot(models.Model):
+    start_time = models.DateTimeField()
+    frequency = models.IntegerField(default = 0)
