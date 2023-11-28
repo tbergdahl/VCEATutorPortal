@@ -100,6 +100,7 @@ class TestModels(TestCase):
             course_num=101,
             course_name="Intro to Programming",
             hours_tutored=0,
+            available_tutors = self.T
         )
 
         # Test Class Information

@@ -186,21 +186,29 @@ def admin_view_tutors(request):
 @login_required
 def admin_edit_tutor_profile(request, tutor_id):
     tutor = get_object_or_404(Tutor, user_id=tutor_id)
-
+    print(tutor) # delete after debug
     if request.method == 'POST':
+        print(tutor) # delete after debug
         form = EditTutorForm(request.POST, instance=tutor)
         if form.is_valid():
+            print(tutor) # delete after debug
             form.save()  
             if 'picture' in request.FILES:
                 tutor.picture = request.FILES['picture']
                 tutor.save()
             selected_major = form.cleaned_data.get('major')
             tutor.major = selected_major
-            tutor.save()
+            # update name
+            new_first_name = form.cleaned_data.get('first_name') # Grab new first name
+            tutor.user.first_name = new_first_name # update tutor first name
+            new_last_name = form.cleaned_data.get('last_name') # Grab new last name
+            tutor.user.last_name = new_last_name # update tutor last name
+            tutor.save() # Save info
 
             selected_classes = form.cleaned_data.get('tutored_classes')
             for a_class in selected_classes:
                 a_class.available_tutors.add(tutor)
+            
     else:
         associated_classes = tutor.tutored_classes.all()
         form = EditTutorForm(instance=tutor, initial={'tutored_classes': associated_classes})

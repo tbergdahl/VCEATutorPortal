@@ -7,6 +7,7 @@ from django.contrib.messages import get_messages
 import warnings
 from django.utils import timezone, dateformat
 from datetime import datetime, time
+from django.core.exceptions import ValidationError
 
 warnings.filterwarnings("ignore")
 
@@ -47,13 +48,23 @@ class AdminViewsTest(TestCase):
         # Create a new Tutor instance for each test
         self.tutor = Tutor(
             user=self.tutor_user,
-            minutes_tutored=0,
+            hours_tutored=0,
             day_started=None,
             rating=0.0,
             description='Legendary bodybuilder and actor',
             major=self.major
         )
         self.tutor.save()
+
+        # Create a shift for testing
+        self.shift = Shift.objects.create(
+            tutor=self.tutor,
+            day='Monday',
+            start_time=time(8, 0),  # 8:00 AM
+            end_time=time(9, 0)    # 9:00 AM
+        )
+        self.shift.save()
+
 # Test Admin Basic View ##############################
     def test_admin_view(self):
         # Log in the admin user
@@ -210,7 +221,7 @@ class AdminViewsTest(TestCase):
         self.tutor_shift.save()
 
         # Ensure a shift is created for the tutor
-        self.assertEqual(self.tutor.shifts.count(), 1)
+        self.assertEqual(self.tutor.shifts.count(), 2)
 
         # Get the shift ID
         shift_id = self.tutor_shift.id
@@ -220,27 +231,86 @@ class AdminViewsTest(TestCase):
 
         # Check if the shift is deleted
         self.assertEqual(response.status_code, 302)  # Assuming it redirects after deletion
-        self.assertEqual(self.tutor.shifts.count(), 0)
+        self.assertEqual(self.tutor.shifts.count(), 1)
 
     def test_admin_add_tutor_shift(self):
-        pass
-    def test_admin_view_tutor_shifts(self):
-        pass    
+        #Log in admin
+        self.client.login(email='admin@example.com', password='password123')
+        # Ensure no shifts exist initially
+        self.assertEqual(Shift.objects.count(), 1)
+        # Create a valid form data for the shiftform
+        form_data = {
+            'day': 'Monday',
+            'start_time': '08:00',
+            'end_time': '09:00',
+        }
+        # Access the admin_add_tutor_shift view with a POST request
+        response = self.client.post(reverse('Admin:admin_add_tutor_shift', args=[self.tutor.user_id]), data=form_data)
+        # Check if the shift is created
+        self.assertEqual(response.status_code, 302)  # Assuming it redirects after creation
+        self.assertEqual(Shift.objects.count(), 2)
+        # Check the attributes of the created shift
+        created_shift = Shift.objects.first()
+        self.assertEqual(created_shift.tutor, self.tutor)
+        self.assertEqual(created_shift.day, 'Monday')
+        self.assertEqual(created_shift.start_time.strftime('%H:%M'), '08:00')
+        self.assertEqual(created_shift.end_time.strftime('%H:%M'), '09:00')
+        # Ensure the string representation is correct
+        self.assertEqual(str(created_shift), 'Monday from 08:00 AM to 09:00 AM')
 
-# Test Major and Class Interactions ##############################
+    def test_admin_view_tutor_shifts(self):
+        # Log in admin
+        self.client.login(email='admin@example.com', password='password123')
+
+        # Assuming self.tutor is an instance of Tutor
+        response = self.client.get(reverse('Admin:admin_view_tutor_shifts', args=[self.tutor.user_id]))
+
+        # Check if the response status code is 200 (OK)
+        self.assertEqual(response.status_code, 200)
+
+        shift = self.tutor.shifts.first()
+
+        #print("Response content:", response.content.decode())
+        self.assertContains(response, shift.day)
+        self.assertContains(response, '8 a.m.')
+        self.assertContains(response, '9 a.m.')
+
+    def test_admin_edit_tutor_profile(self):
+        # Log in admin
+        self.client.login(email='admin@example.com', password='password123')
+
+        form_data = { # Must contain every single field
+            'major': self.major.id,
+            'tutored_classes': [self.c.id],  # Pass the actual Class instance ID
+            'description': 'UpdatedDescription',
+            'hours_tutored': 0,  # Add hours_tutored field
+            'first_name': 'Dorian',  # Change first_name
+            'last_name': 'Yates',  # Change last_name
+        }
+        # Access the admin_edit_tutor_profile view
+        response = self.client.post(reverse('Admin:admin_edit_tutor_profile', args=[self.tutor.user_id]), data=form_data)
+
+        # Check if the tutor profile is updated
+        self.assertEqual(response.status_code, 200)  # Assuming it returns a success status code
+        self.tutor.refresh_from_db()
+
+        # Check if the tutor profile is updated
+        self.assertEqual(self.tutor.description, 'UpdatedDescription')
+        self.assertEqual(self.tutor.major, self.major)
+        self.assertEqual(self.tutor, self.c.available_tutors.first())
+        self.assertEqual(self.tutor.user.first_name, 'Dorian')
+        self.assertEqual(self.tutor.user.last_name, 'Yates')
+
+# Test Major and Class Delete / Create ##############################
     def test_delete_major(self):
         # login the admin
         self.client.login(email='admin@example.com', password='password123')
-
         # Ensure a major is created
         self.assertEqual(Major.objects.count(), 1)
-
         # Get the major ID
         major_id = self.major.id
-
         # Access the delete_major view
         response = self.client.post(reverse('Admin:delete_major', args=[major_id]))
-
         # Check if the major is deleted
         self.assertEqual(response.status_code, 302)  # Assuming it redirects after deletion
         self.assertEqual(Major.objects.count(), 0)
@@ -256,19 +326,15 @@ class AdminViewsTest(TestCase):
     def test_admin_create_major(self):
         # login the admin
         self.client.login(email='admin@example.com', password='password123')
-
         # Ensure no majors exist initially
         self.assertEqual(Major.objects.count(), 1)
-
         # Create a valid form data
         form_data = {
             'name': 'Computer Science',
             'abbreviation': 'CS'
         }
-
         # Access the admin_create_major view with a POST request
         response = self.client.post(reverse('Admin:admin_create_major'), data=form_data)
-
         # Check if the major is created
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Major.objects.count(), 2)
@@ -297,9 +363,34 @@ class AdminViewsTest(TestCase):
         self.assertEqual(created_class.course_name, 'Intro to Programming')
         self.assertEqual(created_class.hours_tutored, 0)
 
+# Test menu views of class and major for Admin ##############################
     def test_majors_menu(self):
-        pass
+        # login the admin
+        self.client.login(email='admin@example.com', password='password123')                 
+        # Create some majors for testing
+        major1 = Major.objects.create(name='Computer Science', abbreviation='CS')
+        major2 = Major.objects.create(name='Electrical Engineering', abbreviation='EE')
+        # Access the majors_menu view
+        response = self.client.get(reverse('Admin:majors_menu'))  # Adjust the URL name based on your project configuration
+        # Check if the response status code is successful
+        self.assertEqual(response.status_code, 200)
+        # Check if the majors are present in the response context
+        self.assertIn(major1, response.context['majors'])
+        self.assertIn(major2, response.context['majors'])
+        # Check if the rendered HTML contains major names
+        self.assertContains(response, 'Computer Science')
+        self.assertContains(response, 'Electrical Engineering')
+
     def test_classes_menu(self):
-        pass
+        # login the admin
+        self.client.login(email='admin@example.com', password='password123')
+        # Test route
+        response = self.client.get(reverse('Admin:classes_menu'))
+        self.assertEqual(response.status_code, 200)  # Check that successful response code is sent
+        # Test content of response
+        self.assertIn(self.c, response.context['classes'])
+        # Test that rendered HTML contains class names
+        self.assertContains(response, 'Intro to Programming')
+
 
     
