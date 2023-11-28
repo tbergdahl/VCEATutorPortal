@@ -31,7 +31,7 @@ class TestTutor(TestCase):
         # Create a new Tutor instance for each test
         self.tutor = Tutor(
             user=self.tutor_user,
-            minutes_tutored=0,
+            hours_tutored=0,
             day_started=None,
             rating=0.0,
             description='Legendary bodybuilder and actor'
@@ -54,7 +54,7 @@ class TestTutor(TestCase):
         self.assertEqual(self.tutor.user.email, 'jay.cutler1@wsu.edu')
         self.assertEqual(self.tutor.user.first_name, 'Jay')
         self.assertEqual(self.tutor.user.last_name, 'Cutler')
-        self.assertEqual(self.tutor.minutes_tutored, 0)
+        self.assertEqual(self.tutor.hours_tutored, 0)
         self.assertEqual(self.tutor.day_started, None)
         self.assertEqual(self.tutor.rating, 0.0)
         self.assertEqual(self.tutor.description, 'Legendary bodybuilder and actor')
