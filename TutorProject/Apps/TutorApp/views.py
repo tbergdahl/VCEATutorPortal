@@ -12,6 +12,7 @@ from .forms import PasswordResetRequestForm
 from .forms import PasswordResetForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
+from Apps.TutorApp.tasks import my_scheduled_task
 
 
 # Create your views here.

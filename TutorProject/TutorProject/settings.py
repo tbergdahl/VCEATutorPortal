@@ -39,11 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "Apps.TutorApp",
+    "Apps.TutorApp.apps.TutorAppConfig",
     'Apps.Student',
     'Apps.Admin',
     'Apps.Tutor',
-    'background_task'
+    'background_task',
 ]
 
 
