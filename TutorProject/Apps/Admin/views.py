@@ -153,6 +153,8 @@ def generate_pdf_data(report_type):
         return report2().getvalue()
     elif report_type == 'report3':
         return report3().getvalue()
+    elif report_type == 'report4':
+        return report4().getvalue()
     else:
         return None
     
@@ -160,7 +162,7 @@ def generate_pdf_data(report_type):
 def pdf_preview(request):
     report_type = request.GET.get('report_type')
 
-    if report_type not in ['report1', 'report2', 'report3']:
+    if report_type not in ['report1', 'report2', 'report3', 'report4']:
         return HttpResponse("Invalid report type", status=400)
 
     if report_type == 'report1':
@@ -169,6 +171,8 @@ def pdf_preview(request):
         pdf_data = report2().getvalue()
     elif report_type == 'report3':
         pdf_data = report3().getvalue()
+    elif report_type == 'report4':
+        pdf_data = report4().getvalue()
     else:
         return HttpResponse("Invalid report type", status=400)
 
@@ -203,7 +207,7 @@ def admin_edit_tutor_profile(request, tutor_id):
             tutor.user.first_name = new_first_name # update tutor first name
             new_last_name = form.cleaned_data.get('last_name') # Grab new last name
             tutor.user.last_name = new_last_name # update tutor last name
-            tutor.save() # Save info
+            tutor.user.save() # Save info
 
             selected_classes = form.cleaned_data.get('tutored_classes')
             for a_class in selected_classes:
@@ -295,7 +299,7 @@ def report3():
     total_returning_students_count = Student.objects.filter(times_visited__gt=1).count()
     total_students_count = Student.objects.count()
     percentage = total_returning_students_count / total_students_count
-    data = [["Percentage of Returning Students", f"{percentage:.2f}%"], ["Returning Students"]]
+    data = [["Percentage of Returning Students", f"{percentage:.2f}%"], ["Returning Students - Number of Visits"]]
 
     for student in total_returning_students:
         data.append([f"{student.user.first_name} {student.user.last_name} - {student.times_visited}" ])
@@ -317,7 +321,32 @@ def report3():
     buffer.seek(0)
     return buffer 
 
+def report4():
+    buffer = BytesIO()
+    pdf = SimpleDocTemplate(buffer, pagesize=letter)
+    data = [["Times Tutoring Center Most Visited"]]
 
+    times = TimeSlot.objects.order_by('-frequency')
+    for time_slot in times:
+        data.append([f"{time_slot.start_time} - {time_slot.frequency}"])
+    
+
+    table = Table(data)
+    style = [
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige)
+    ]
+
+    table.setStyle(style)
+    elements = [table]
+    pdf.build(elements)
+
+    buffer.seek(0)
+    return buffer 
 
 
 

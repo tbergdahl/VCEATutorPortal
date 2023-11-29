@@ -11,7 +11,7 @@
             <tr class="tutor-tr">
                 <th class="tutor-th">Tutor ID</th>
                 <th class="tutor-th">Tutor Name</th>
-                <th class="tutor-th">Minutes Tutored</th>
+                <th class="tutor-th">Hours Tutored</th>
                 <th class="tutor-th">Major</th>
             </tr>
         </thead>
@@ -20,7 +20,7 @@
             <tr class="tutor-tr">
                 <td class="tutor-td">{{ tutor.user_id }}</td>
                 <td class="tutor-td">{{ tutor.user.first_name }} {{ tutor.user.last_name }}</td>
-                <td class="tutor-td">{{ tutor.minutes_tutored }}</td>
+                <td class="tutor-td">{{ tutor.hours_tutored }}</td>
                 <td class="tutor-td"> {{ tutor.major }}</td>
                 <td class="tutor-td">
                     <a href="{% url 'Admin:admin_edit_tutor_profile' tutor.user_id %}" class="tutor-edit-link">Edit Details</a>

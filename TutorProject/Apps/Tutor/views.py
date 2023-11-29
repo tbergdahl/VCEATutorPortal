@@ -43,7 +43,7 @@ def appointment_completed(request, appointment_id):
     send_mail(subject, message, 'trentondb0303@gmail.com', [student_email])
 
 
-    slot = TimeSlot.objects.filter(start_time=appointment.start_time)
+    slot = TimeSlot.objects.filter(start_time=appointment.start_time.time()).first()
     slot.frequency += 1
     slot.save()
 
@@ -58,8 +58,7 @@ def appointment_completed(request, appointment_id):
     #update class stats
     tutored_class = appointment.tutored_class
     current_time_aware = make_aware(current_time)
-    time_difference = current_time_aware - appointment.start_time
-    hours_difference = time_difference.total_seconds() / 3600
+    hours_difference = abs((current_time_aware - appointment.start_time).total_seconds() / 3600)
     tutored_class.hours_tutored += hours_difference
     tutored_class.save()
 
