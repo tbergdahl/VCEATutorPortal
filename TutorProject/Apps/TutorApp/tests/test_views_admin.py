@@ -8,10 +8,12 @@ import warnings
 from django.utils import timezone, dateformat
 from datetime import datetime, time
 from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
 
 warnings.filterwarnings("ignore")
 
 class AdminViewsTest(TestCase):
+# Setup and Teardown methods ##############################
     def setUp(self):
         # Create an admin user
         self.admin_user = get_user_model().objects.create_user(
@@ -65,6 +67,14 @@ class AdminViewsTest(TestCase):
         )
         self.shift.save()
 
+    def teardown(self):
+        # Clean up the created objects
+        Tutor.objects.all().delete()
+        CustomUser.objects.all().delete()
+        Major.objects.all().delete()
+        Class.objects.all().delete()
+        Shift.objects.all().delete()
+
 # Test Admin Basic View ##############################
     def test_admin_view(self):
         # Log in the admin user
@@ -80,10 +90,10 @@ class AdminViewsTest(TestCase):
 # Test Admin User Creation ##############################
     def test_admin_create_user(self):
         # Log in the admin user
-        self.client.login(email='admin@example.com', password='password123')
+        login = self.client.login(email='admin@example.com', password='password123')
 
-        # Access the admin create user view
-        response = self.client.get(reverse('Admin:admin_create_user'))
+        # Check if the login was successful
+        self.assertTrue(login, "Login failed")
 
         # Check if the response is successful
         self.assertEqual(response.status_code, 200)

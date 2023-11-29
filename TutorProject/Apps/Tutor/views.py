@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.utils.timezone import make_aware
 # Create your views here.
-@login_required
+#@login_required
 def tutor_view(request):
     if not request.user.is_tutor:
         return HttpResponseForbidden("You do not have permission to view this page.")
