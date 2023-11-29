@@ -212,7 +212,7 @@ def admin_edit_tutor_profile(request, tutor_id):
             selected_classes = form.cleaned_data.get('tutored_classes')
             for a_class in selected_classes:
                 a_class.available_tutors.add(tutor)
-            
+    
     else:
         associated_classes = tutor.tutored_classes.all()
         form = EditTutorForm(instance=tutor, initial={'tutored_classes': associated_classes})
