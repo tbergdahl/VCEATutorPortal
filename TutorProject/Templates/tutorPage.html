@@ -1,9 +1,87 @@
-{% extends "base.html" %} {% block title %} tutor Page {% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Tutor Dashboard{% endblock %}
 
 {% block content %}
-<h2>this is tutor page</h2>
+<div class="container mt-4">
+    <h1 class="display-4">Tutor Dashboard</h1>
+    <div class="row">
+        <!-- Appointments Card -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="card-title">Appointments</h3>
+                    <p class="card-text">View and manage your appointments.</p>
+                    <a href="{% url 'Tutor:view_appointments' request.user.id %}" class="btn btn-primary">View Appointments</a>
+                </div>
+            </div>
+        </div>
 
+        <!-- Feedback Card -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="card-title">Feedback</h3>
+                    <p class="card-text">Read feedback from students.</p>
+                    <a href="{% url 'Tutor:view_feedback' request.user.id %}" class="btn btn-primary">View Feedback</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<a href="{% url 'Tutor:view_appointments' request.user.id %}">Appointments</a><br>
-<a href = "{% url 'Tutor:view_feedback' request.user.id %}">Feedback</a>
+<style>
+    .container {
+        background-color: #f7f7f7;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    .card {
+        background-color: rgb(248, 248, 248);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: transform 0.4s ease, box-shadow 0.2s ease;
+        border: 1px solid black;
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-title {
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    .card-text {
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        color: white;
+        border-radius: 6px;
+        padding: 7px 14px;
+        font-size: 14px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: #ba1234;
+    }
+
+    .btn-primary:hover {
+        background-color: rgba(128,128,128);
+    }
+</style>
 {% endblock %}

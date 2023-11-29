@@ -1,17 +1,76 @@
 {% extends "base.html" %}
-{% block title %} Admin Page {% endblock %}
+{% block title %} Tutor Appointments {% endblock %}
 
 {% block content %}
 
-    {{tutor}}'s Appointments<br><br>
+<div class="appointments-container">
+    <h2>{{ tutor }}'s Appointments</h2>
     {% for appointment in appointments %}
-        {% if appointment.student is not None %}
-            Appointment with {{ appointment.student }} from {{appointment.start_time}} to {{appointment.end_time}}, Class: {{ appointment.tutored_class }}, Notes: {{ appointment.description }}
-            <a href="{% url 'Tutor:cancel_appointment' appointment.id %}">Cancel</a><br>
-            <a href="{% url 'Tutor:appointment_completed' appointment.id %}">Click Here When Appointment Ends</a><br>
-        {% endif %}
-    {% endfor %}
-    
+    {% if appointment.student is not None %}
+        <div class="appointment-card">
+            <p>Appointment with <strong>{{ appointment.student }}</strong> from <strong>{{ appointment.start_time }}</strong> to <strong>{{ appointment.end_time }}</strong><br>
+            Class: <strong>{{ appointment.tutored_class }}</strong><br>
+            Notes: <strong>{{ appointment.description }}</strong></p>
+            <div class="appointment-actions">
+                <a href="{% url 'Tutor:cancel_appointment' appointment.id %}" class="btn btn-danger">Cancel</a>
+                <a href="{% url 'Tutor:appointment_completed' appointment.id %}" class="btn btn-success">Complete Appointment</a>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
+</div>
 
+<style>
+    .appointments-container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .appointment-card {
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f8f8f8;
+    }
+
+    .appointment-actions {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        display: inline-block;
+        margin: 5px;
+        text-decoration: none; /* remove underline from links */
+    }
+
+    .btn-danger {
+        background-color: rgba(128,128,128);
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background-color: rgba(85, 85, 85, 0.8);
+    }
+
+    .btn-success {
+        background-color: #ba1234;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: #a10d2a;
+    }
+
+</style>
 
 {% endblock %}
