@@ -6,8 +6,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import datetime, timedelta
-from django.db.models import Q
-import uuid
 import random
 import string
 

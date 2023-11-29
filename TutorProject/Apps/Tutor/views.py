@@ -45,7 +45,8 @@ def appointment_completed(request, appointment_id):
     #print(TimeSlot.objects.all())#delete after debug
     #print("Appointment start time:", appointment.start_time.time())  # Debug print
 
-    slot = TimeSlot.objects.filter(start_time=appointment.start_time.time()).first()
+    slot = TimeSlot.objects.filter(start_time__gt=appointment.start_time.time()).first()
+    print(slot)
     slot.frequency += 1  # !!!!! Error with this line !!!!!
     slot.save()
 

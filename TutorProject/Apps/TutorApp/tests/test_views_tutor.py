@@ -48,7 +48,7 @@ class TutorViewsTest(TestCase):
             description='Legendary bodybuilder and actor'
         ) 
         # Create a tutor for testing
-        self.major = Major.objects.create(name='Computer Science', abbreviation='CS')  # Assuming you have Major model defined
+        self.major = Major.objects.create(name='Computer Science', abbreviation='CS')  
         self.major.save()
 
         # create a student from the student user for testing
@@ -74,18 +74,24 @@ class TutorViewsTest(TestCase):
         self.tutoring_session = TutoringSession.objects.create(
             tutor=self.tutor,
             student=self.student,
-            start_time=timezone.now() + timedelta(days=1),
-            end_time=timezone.now() + timedelta(days=1, hours=1),
+            start_time=timezone.now() + timedelta(hours=1),
+            end_time=timezone.now() + timedelta(hours=1, minutes=20),
             tutored_class=self.c,
             description='Test tutoring session',
             shift=self.shift
             )
-        # Create a TimeSlot object
-        self.time_slot = TimeSlot.objects.create(
-            start_time=self.shift.start_time,
-            frequency=0  # Initialize frequency to 0
-        )
-        self.time_slot.save()
+        # Create the TimeSlot objects
+        start_time = time(7, 0)  
+        end_time = time(21, 0)
+        interval_minutes = 20
+
+        current_time = start_time
+        while current_time < end_time:
+            try:
+                TimeSlot.objects.get(start_time=current_time)
+            except TimeSlot.DoesNotExist:
+                TimeSlot.objects.create(start_time=current_time)
+            current_time = (datetime.combine(datetime.today(), current_time) + timedelta(minutes=interval_minutes)).time()
         
         # Client initialization
         self.client = Client()
@@ -101,6 +107,7 @@ class TutorViewsTest(TestCase):
         CustomUser.objects.all().delete()
         Class.objects.all().delete()
         Shift.objects.all().delete()
+        TimeSlot.objects.all().delete()
 
 # Tests for basic tutor views ###############################################################
     def test_tutor_view(self):
@@ -157,24 +164,24 @@ class TutorViewsTest(TestCase):
         self.tutoring_session.refresh_from_db()
         self.assertIsNone(self.tutoring_session.student)
         
-## !!!! ISSUE WITH THIS TEST !!!! ##
-    # def test_appointment_completed_view(self):
-    #     # Log in as the tutor
-    #     self.client.login(email='jay.cutler1@wsu.edu', password='MySpineIsntbroken123!')
+# !!!! ISSUE WITH THIS TEST !!!! ##
+    def test_appointment_completed_view(self):
+        # Log in as the tutor
+        self.client.login(email='jay.cutler1@wsu.edu', password='MySpineIsntbroken123!')
 
-    #     print(TimeSlot.objects.all())
-    #     # Get the appointment completed URL for the specific appointment
-    #     completed_url = reverse('Tutor:appointment_completed', args=[self.tutoring_session.id])
+        print(TimeSlot.objects.all())
+        # Get the appointment completed URL for the specific appointment
+        completed_url = reverse('Tutor:appointment_completed', args=[self.tutoring_session.id])
 
-    #     # Send a GET request to complete the appointment
-    #     response = self.client.get(completed_url)
+        # Send a GET request to complete the appointment
+        response = self.client.get(completed_url)
 
-    #     # Check that the response status code is 302 (redirect)
-    #     self.assertEqual(response.status_code, 302)
+        # Check that the response status code is 302 (redirect)
+        self.assertEqual(response.status_code, 302)
 
-    #     # Check that the tutoring session is deleted
-    #     with self.assertRaises(TutoringSession.DoesNotExist):
-    #         self.tutoring_session.refresh_from_db()
+        # Check that the tutoring session is deleted
+        with self.assertRaises(TutoringSession.DoesNotExist):
+            self.tutoring_session.refresh_from_db()
 
-    #     # Check that a redirect to view_appointments is performed
-    #     self.assertRedirects(response, reverse('view_appointments', args=[self.tutor.user_id]))
+        # Check that a redirect to view_appointments is performed
+        self.assertRedirects(response, reverse('Tutor:view_appointments', args=[self.tutor.user_id]))
