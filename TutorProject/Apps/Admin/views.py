@@ -357,7 +357,7 @@ def report5():
     from collections import defaultdict
     buffer = BytesIO()
     pdf = SimpleDocTemplate(buffer, pagesize=letter)
-    data = [["Tutor", "Time Slot", "Frequency"]]
+    data = [["Active Tutoring Hours By Tutor"]]
 
     tutor_frequency_pairs = TutorFrequencyPair.objects.order_by('-frequency')
 
