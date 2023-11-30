@@ -169,7 +169,6 @@ class TutorViewsTest(TestCase):
         # Log in as the tutor
         self.client.login(email='jay.cutler1@wsu.edu', password='MySpineIsntbroken123!')
 
-        print(TimeSlot.objects.all())
         # Get the appointment completed URL for the specific appointment
         completed_url = reverse('Tutor:appointment_completed', args=[self.tutoring_session.id])
 

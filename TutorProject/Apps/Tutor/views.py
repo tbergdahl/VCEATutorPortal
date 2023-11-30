@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.utils.timezone import make_aware
+from django.utils import timezone
 # Create your views here.
 #@login_required
 def tutor_view(request):
@@ -42,13 +43,11 @@ def appointment_completed(request, appointment_id):
     message = f"Dear {appointment.student.user.first_name}, please rate your recent tutoring session with {appointment.tutor.user.first_name}. We appreciate your feedback and are always looking to improve your experience. Use the following link: http://127.0.0.1:8000/rate/{signed_token}" #replace with website host
     send_mail(subject, message, 'trentondb0303@gmail.com', [student_email])
 
-    #print(TimeSlot.objects.all())#delete after debug
-    #print("Appointment start time:", appointment.start_time.time())  # Debug print
-
-    slot = TimeSlot.objects.filter(start_time__gt=appointment.start_time.time()).first()
-    print(slot)
-    slot.frequency += 1  # !!!!! Error with this line !!!!!
+    slot = TimeSlot.objects.filter(start_time__gt=appointment.start_time.time()).first() 
+    slot.frequency += 1
     slot.save()
+
+    
 
 
     #student stats updating
@@ -70,6 +69,23 @@ def appointment_completed(request, appointment_id):
     tutor.hours_tutored += hours_difference
     tutor.save()
     
+
+   
+    start_time = appointment.start_time.time()
+    print(start_time)
+    # Check if the TutorFrequencyPair exists for the time period
+    time_period = TutoringTimePeriod.objects.filter(start_time__lt=start_time).order_by('-start_time').first()
+    print(time_period)
+    if time_period is not None:
+        # Get the TutorFrequencyPair for this tutor and time period
+        tutor_frequency_pair, created = TutorFrequencyPair.objects.get_or_create(
+            tutor=appointment.tutor,
+            time_period=time_period
+        )
+
+       
+        tutor_frequency_pair.frequency += 1
+        tutor_frequency_pair.save()
     
     appointment.delete()
     return redirect('Tutor:view_appointments', tutor.user_id)

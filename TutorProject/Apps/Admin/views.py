@@ -155,6 +155,8 @@ def generate_pdf_data(report_type):
         return report3().getvalue()
     elif report_type == 'report4':
         return report4().getvalue()
+    elif report_type == 'report5':
+        return report4().getvalue()
     else:
         return None
     
@@ -162,7 +164,7 @@ def generate_pdf_data(report_type):
 def pdf_preview(request):
     report_type = request.GET.get('report_type')
 
-    if report_type not in ['report1', 'report2', 'report3', 'report4']:
+    if report_type not in ['report1', 'report2', 'report3', 'report4', 'report5']:
         return HttpResponse("Invalid report type", status=400)
 
     if report_type == 'report1':
@@ -173,6 +175,8 @@ def pdf_preview(request):
         pdf_data = report3().getvalue()
     elif report_type == 'report4':
         pdf_data = report4().getvalue()
+    elif report_type == 'report5':
+        pdf_data = report5().getvalue()
     else:
         return HttpResponse("Invalid report type", status=400)
 
@@ -349,7 +353,54 @@ def report4():
     return buffer 
 
 
+def report5():
+    from collections import defaultdict
+    buffer = BytesIO()
+    pdf = SimpleDocTemplate(buffer, pagesize=letter)
+    data = [["Tutor", "Time Slot", "Frequency"]]
 
+    tutor_frequency_pairs = TutorFrequencyPair.objects.order_by('-frequency')
+
+    tutor_time_slots = defaultdict(list)
+
+    for pair in tutor_frequency_pairs:
+        tutor_name = pair.tutor.user.first_name 
+        time_slot = pair.time_period.start_time
+        frequency = pair.frequency
+
+        # Store time slots for each tutor
+        tutor_time_slots[tutor_name].append((time_slot, frequency))
+
+    # Reformat the data to display each tutor's most frequent time slots
+    
+
+    for tutor, time_slots in tutor_time_slots.items():
+        # Sort the time slots by frequency in descending order
+        sorted_time_slots = sorted(time_slots, key=lambda x: x[1], reverse=True)
+
+        # Add tutor's name as a header
+        data.append([f"Tutor: {tutor}"])
+        
+        # Add sorted time slots for this tutor
+        for time_slot, frequency in sorted_time_slots:
+            data.append([f"Hour: {time_slot}", f"Time Tutored: {frequency}"])
+
+    table = Table(data)
+    style = [
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige)
+    ]
+
+    table.setStyle(style)
+    elements = [table]
+    pdf.build(elements)
+
+    buffer.seek(0)
+    return buffer 
 
 @login_required
 def classes_menu(request):

@@ -210,3 +210,18 @@ class TutoringSession(models.Model):
 class TimeSlot(models.Model):
     start_time = models.TimeField()
     frequency = models.IntegerField(default = 0)
+
+class TutoringTimePeriod(models.Model):
+    start_time = models.TimeField()
+    tutors = models.ManyToManyField(Tutor, through='TutorFrequencyPair', related_name='time_periods')
+
+    def __str__(self):
+        return f"{self.start_time}"
+
+class TutorFrequencyPair(models.Model):
+    frequency = models.IntegerField(default=0)
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+    time_period = models.ForeignKey(TutoringTimePeriod, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.time_period.start_time}"

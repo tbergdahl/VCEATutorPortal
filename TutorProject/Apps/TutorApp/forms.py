@@ -52,6 +52,7 @@ class PDFSelectionForm(forms.Form):
         ('report2', 'Tutoring Hours By Class'),
         ('report3', 'Returning Students Report'),
         ('report4', 'Tutoring Center Busy Hours'),
+        ('report5', 'Tutor Active Periods'),
     ]
     report = forms.ChoiceField(choices=REPORT_CHOICES, label='Select Report')
 
