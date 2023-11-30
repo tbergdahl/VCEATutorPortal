@@ -3,40 +3,14 @@
 
 {% block content %}
 
-<div class="feedback-container">
+<div class="tutorFeedback-feedback-container">
     <h2>{{ tutor }}'s Feedback</h2>
-    <div class="rating">Rating: {{ tutor.rating }}</div>
+    <div class="tutorFeedback-rating">Rating: {{ tutor.rating }}</div>
     {% for feedback_instance in tutor.feedback.all %}
-        <div class="feedback-card">
+        <div class="tutorFeedback-feedback-card">
             {{ feedback_instance.feedback }}
         </div>
     {% endfor %}
 </div>
-
-<style>
-    .feedback-container {
-        max-width: 800px;
-        margin: 30px auto;
-        padding: 20px;
-        background-color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .feedback-card {
-        padding: 15px;
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background-color: #f8f8f8;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .rating {
-        font-size: 1.2em;
-        margin-bottom: 20px;
-    }
-    
-</style>
 
 {% endblock %}

@@ -291,3 +291,198 @@ th, td {
     font-size: 22px;
     font-weight: bold;
 }
+
+/* tutorPage.html styles */
+.tutorPage-container {
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.tutorPage-card {
+    background-color: rgb(248, 248, 248);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s ease, box-shadow 0.2s ease;
+    border: 1px solid black;
+}
+
+.tutorPage-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.tutorPage-card-body {
+    padding: 20px;
+}
+
+.tutorPage-card-title {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.tutorPage-card-text {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.tutorPage-btn {
+    color: white;
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-size: 14px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.tutorPage-btn-primary {
+    background-color: #ba1234;
+}
+
+.tutorPage-btn-primary:hover {
+    background-color: rgba(128,128,128);
+}
+
+
+/* tutor_appointments.html styles */
+.tutorAppointment-appointments-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tutorAppointment-appointment-card {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+}
+
+.tutorAppointment-appointment-actions {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.tutorAppointment-btn {
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    margin: 5px;
+    text-decoration: none; /* remove underline from links */
+}
+
+.tutorAppointment-btn-danger {
+    background-color: rgba(128,128,128);
+    color: white;
+}
+
+.tutorAppointment-btn-danger:hover {
+    background-color: rgba(85, 85, 85, 0.8);
+}
+
+.tutorAppointment-btn-success {
+    background-color: #ba1234;
+    color: white;
+}
+
+.tutorAppointment-btn-success:hover {
+    background-color: #a10d2a;
+}
+
+
+/* tutor_feedback.html styles */
+.tutorFeedback-feedback-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tutorFeedback-feedback-card {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.tutorFeedback-rating {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+/* adminDashboard.html styles */
+.adminDashboard-container {
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.adminDashboard-card {
+    background-color: rgb(248, 248, 248);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s ease, box-shadow 0.2s ease; 
+    border: 1px solid black;
+}
+
+.adminDashboard-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.adminDashboard-card-body {
+    padding-left: 20px;
+    padding-bottom: 20px;
+    padding-top: 5px;
+}
+
+.adminDashboard-card-title {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.adminDashboard-card-text {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.adminDashboard-btn {
+    color: white;
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-size: 14px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.adminDashboard-btn-primary {
+    background-color: #ba1234;
+    color: white;
+}
+
+.adminDashboard-btn-primary:hover {
+    background-color: rgba(128,128,128);
+}
+
+.adminDashboard-btn-danger {
+    background-color: #ba1234;
+}
+
+.adminDashboard-btn-danger:hover {
+    background-color: rgba(128,128,128);
+}

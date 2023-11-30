@@ -15,133 +15,68 @@
     var majorsMenuUrl = "{% url 'Admin:majors_menu' %}";
 </script>
 
-<div class="container mt-4">
+
+<div class="adminDashboard-container mt-4">
     <h1 class="display-4">Admin Dashboard</h1>
     <div class="row">
         <!-- User Management Card -->
         <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h3 class="card-title">User Management</h3>
-                    <p class="card-text">Create and manage user accounts.</p>
-                    <button onclick="location.href=createUserUrl" class="btn btn-primary">Create User</button>
-                    <button onclick="location.href=deleteUserUrl" class="btn btn-danger">Delete User</button>
-
+            <div class="adminDashboard-card h-100">
+                <div class="adminDashboard-card-body">
+                    <h3 class="adminDashboard-card-title">User Management</h3>
+                    <p class="adminDashboard-card-text">Create and manage user accounts.</p>
+                    <button onclick="location.href=createUserUrl" class="adminDashboard-btn adminDashboard-btn-primary">Create User</button>
+                    <button onclick="location.href=deleteUserUrl" class="adminDashboard-btn adminDashboard-btn-danger">Delete User</button>
                 </div>
             </div>
         </div>
-        
+
         <!-- Report Management Card -->
         <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h3 class="card-title">Reports</h3>
-                    <p class="card-text">View and generate different reports.</p>
-                    <button onclick="location.href=viewReportsUrl" class="btn btn-primary">Reports Menu</button>
+            <div class="adminDashboard-card h-100">
+                <div class="adminDashboard-card-body">
+                    <h3 class="adminDashboard-card-title">Reports</h3>
+                    <p class="adminDashboard-card-text">View and generate different reports.</p>
+                    <button onclick="location.href=viewReportsUrl" class="adminDashboard-btn adminDashboard-btn-primary">Reports Menu</button>
                 </div>
             </div>
         </div>
-        
+
         <!-- Tutor Management Card -->
         <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h3 class="card-title">Tutor Management</h3>
-                    <p class="card-text">Manage tutor profiles and classes.</p>
-                    <button onclick="location.href=viewTutorsUrl" class="btn btn-primary">View Tutors</button>
+            <div class="adminDashboard-card h-100">
+                <div class="adminDashboard-card-body">
+                    <h3 class="adminDashboard-card-title">Tutor Management</h3>
+                    <p class="adminDashboard-card-text">Manage tutor profiles and classes.</p>
+                    <button onclick="location.href=viewTutorsUrl" class="adminDashboard-btn adminDashboard-btn-primary">View Tutors</button>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="row">
         <!-- Class Management Card -->
         <div class="col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h3 class="card-title">Class Management</h3>
-                    <p class="card-text">Create, delete, and view all classes.</p>
-                    <button onclick="location.href=classesMenuUrl" class="btn btn-primary">Classes</button>
+            <div class="adminDashboard-card h-100">
+                <div class="adminDashboard-card-body">
+                    <h3 class="adminDashboard-card-title">Class Management</h3>
+                    <p class="adminDashboard-card-text">Create, delete, and view all classes.</p>
+                    <button onclick="location.href=classesMenuUrl" class="adminDashboard-btn adminDashboard-btn-primary">Classes</button>
                 </div>
             </div>
         </div>
-        
+
         <!-- Major Management Card -->
         <div class="col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h3 class="card-title">Major Management</h3>
-                    <p class="card-text">Create, delete, and view all majors.</p>
-                    <button onclick="location.href=majorsMenuUrl" class="btn btn-primary">Majors</button>
+            <div class="adminDashboard-card h-100">
+                <div class="adminDashboard-card-body">
+                    <h3 class="adminDashboard-card-title">Major Management</h3>
+                    <p class="adminDashboard-card-text">Create, delete, and view all majors.</p>
+                    <button onclick="location.href=majorsMenuUrl" class="adminDashboard-btn adminDashboard-btn-primary">Majors</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .container {
-    background-color: #f7f7f7;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-}
-
-/* Card Styles */
-.card {
-    background-color: rgb(248, 248, 248);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: transform 0.4s ease, box-shadow 0.2s ease; 
-    border: 1px solid black;
-}
-
-.card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.card-body {
-    padding-left: 20px;
-    padding-bottom: 20px;
-    padding-top: 5px;
-}
-
-.card-title {
-    color: #333;
-    margin-bottom: 15px;
-}
-
-.card-text {
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.btn {
-    color: white;
-    border-radius: 6px;
-    padding: 7px 14px;
-    font-size: 14px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background-color: #ba1234;
-        color: white;
-}
-
-.btn-primary:hover {
-    background-color: rgba(128,128,128);
-}
-
-.btn-danger {
-    background-color: #ba1234;
-}
-
-.btn-danger:hover {
-    background-color: rgba(128,128,128);
-}
-</style>
 
 {% endblock %}
