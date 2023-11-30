@@ -103,18 +103,19 @@ class TutorViewsTest(TestCase):
     def tearDown(self):
         # Clean up the created objects
         TutoringSession.objects.all().delete()
+        Student.objects.all().delete()
         Tutor.objects.all().delete()
         CustomUser.objects.all().delete()
         Class.objects.all().delete()
         Shift.objects.all().delete()
         TimeSlot.objects.all().delete()
+        Major.objects.all().delete()
+
 
 # Tests for basic tutor views ###############################################################
     def test_tutor_view(self):
         # Log in the user and save all objects to database
         login_successful = self.client.login(email='jay.cutler1@wsu.edu', password='MySpineIsntbroken123!')
-
-        # Check if the login was successful
         self.assertTrue(login_successful, "Login failed")
 
         # Access the tutor view
@@ -132,12 +133,10 @@ class TutorViewsTest(TestCase):
         false_response = self.client.get(reverse('Tutor:tutor_view'))
         self.assertNotEqual(false_response.status_code, 302) # should fail
         
-# Tests for tutor routes which view data
+# Tests for tutor routes which view data ###################################################
     def test_view_appointments(self):
         # Log in the user and save all objects to database
         login_successful = self.client.login(email='jay.cutler1@wsu.edu', password='MySpineIsntbroken123!')
-
-        # Check if the login was successful
         self.assertTrue(login_successful, "Login failed")
 
         # Access the view_appointments view
@@ -151,10 +150,8 @@ class TutorViewsTest(TestCase):
        # Log in as the tutor
         self.client.login(email='jay.cutler1@wsu.edu', password='MySpineIsntbroken123!')
 
-        # Get the cancel appointment URL for the specific appointment
+        # Get the cancel appointment url and send post request to cancel
         cancel_url = reverse('Tutor:cancel_appointment', args=[self.tutoring_session.id])
-
-        # Send a POST request to actually cancel the appointment
         response = self.client.post(cancel_url)
 
         # Check that the response status code is 302 (redirect)
@@ -163,16 +160,14 @@ class TutorViewsTest(TestCase):
         # Check that the appointment is cancelled (student is None)
         self.tutoring_session.refresh_from_db()
         self.assertIsNone(self.tutoring_session.student)
-        
-# !!!! ISSUE WITH THIS TEST !!!! ##
+
+# Test view for completed appointments  ########################################################        
     def test_appointment_completed_view(self):
         # Log in as the tutor
         self.client.login(email='jay.cutler1@wsu.edu', password='MySpineIsntbroken123!')
 
         # Get the appointment completed URL for the specific appointment
         completed_url = reverse('Tutor:appointment_completed', args=[self.tutoring_session.id])
-
-        # Send a GET request to complete the appointment
         response = self.client.get(completed_url)
 
         # Check that the response status code is 302 (redirect)
@@ -184,3 +179,20 @@ class TutorViewsTest(TestCase):
 
         # Check that a redirect to view_appointments is performed
         self.assertRedirects(response, reverse('Tutor:view_appointments', args=[self.tutor.user_id]))
+
+# Test view for tutor feedback #############################################################
+    def test_view_feedback(self):
+        # Log in the user
+        login_successful = self.client.login(email='jay.cutler1@wsu.edu', password='MySpineIsntbroken123!')
+        self.assertTrue(login_successful, "Login failed")
+
+        # Get the URL for the view_feedback
+        feedback_url = reverse('Tutor:view_feedback', args=[self.tutor.user_id])
+        response = self.client.get(feedback_url)
+
+        # Check that the response status code is OK and template used
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'tutor_feedback.html')
+
+        # Check that the response contains the correct tutor
+        self.assertEqual(response.context['tutor'], self.tutor)
