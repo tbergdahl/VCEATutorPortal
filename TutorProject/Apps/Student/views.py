@@ -51,16 +51,21 @@ def student_view(request):
     return render(request, 'studentPage.html', context)
 
 
-@login_required
+# @login_required
 def rate_tutor(request, tutor_id):
     tutor = get_object_or_404(Tutor, id=tutor_id)
+    print("In view")  # For debugging
     if request.method == 'POST':
         form = TutorRatingForm(request.POST, instance=tutor)  # Pass the tutor instance to the form
         if form.is_valid():
             form.save()
             return redirect('Student:student_view')  # Redirect to a success page or the tutor list
     else:
+        print("in get section of view") # For debugging
         form = TutorRatingForm(instance=tutor)  # Initialize the form with the tutor instance
+        print("Form contents: ", form) # For debugging
+        print("Tutor contents: ", tutor) # For debugging
+
     return render(request, 'rateTutor.html', {'form': form, 'tutor': tutor})
 
 @login_required
@@ -76,7 +81,6 @@ from Apps.TutorApp.forms import AppointmentForm
 @login_required
 def book_appointment(request, appointment_id):
     appointment = get_object_or_404(TutoringSession, id=appointment_id)
-
     if request.method == 'POST':
         form = AppointmentForm(appointment.tutor, request.POST, instance=appointment)
         if form.is_valid():
