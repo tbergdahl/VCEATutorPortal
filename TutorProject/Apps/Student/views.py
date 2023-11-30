@@ -52,29 +52,29 @@ def student_view(request):
 
 
 # @login_required
-def rate_tutor(request, tutor_id):
-    tutor = get_object_or_404(Tutor, id=tutor_id)
-    print("In view")  # For debugging
-    if request.method == 'POST':
-        form = TutorRatingForm(request.POST, instance=tutor)  # Pass the tutor instance to the form
-        if form.is_valid():
-            form.save()
-            return redirect('Student:student_view')  # Redirect to a success page or the tutor list
-    else:
-        print("in get section of view") # For debugging
-        form = TutorRatingForm(instance=tutor)  # Initialize the form with the tutor instance
-        print("Form contents: ", form) # For debugging
-        print("Tutor contents: ", tutor) # For debugging
+# def rate_tutor(request, tutor_id):
+#     tutor = get_object_or_404(Tutor, id=tutor_id)
+#     print("In view")  # For debugging
+#     if request.method == 'POST':
+#         form = TutorRatingForm(request.POST, instance=tutor)  # Pass the tutor instance to the form
+#         if form.is_valid():
+#             form.save()
+#             return redirect('Student:student_view')  # Redirect to a success page or the tutor list
+#     else:
+#         print("in get section of view") # For debugging
+#         form = TutorRatingForm(instance=tutor)  # Initialize the form with the tutor instance
+#         print("Form contents: ", form) # For debugging
+#         print("Tutor contents: ", tutor) # For debugging
 
-    return render(request, 'rateTutor.html', {'form': form, 'tutor': tutor})
+#     return render(request, 'rateTutor.html', {'form': form, 'tutor': tutor})
 
 @login_required
 def student_view_tutors(request, tutor_id):
     tutor = get_object_or_404(Tutor, user_id=tutor_id)
     current_time = datetime.now()
-    print(current_time)
+    #print(current_time)
     available_appointments = TutoringSession.objects.filter(tutor=tutor, student = None, start_time__gt=current_time)
-    print(available_appointments)
+    #print(available_appointments)
     return render(request, 'tutor_available_appointments.html', {'tutor': tutor, 'available_appointments': available_appointments})
 
 from Apps.TutorApp.forms import AppointmentForm

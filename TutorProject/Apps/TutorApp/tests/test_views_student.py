@@ -10,7 +10,9 @@ from django.utils import timezone, dateformat
 from datetime import datetime, time
 from django.core.exceptions import ValidationError
 from django.core.signing import TimestampSigner, BadSignature
-import unittest
+from django.core.mail import send_mail, outbox
+from django.core import mail
+from Apps.Student.views import send_email
 
 warnings.filterwarnings("ignore")
 
@@ -193,29 +195,95 @@ class StudentViewsTest(TestCase):
         self.tutoring_session.refresh_from_db()
         self.assertEqual(self.tutoring_session.student, self.student)
 
-    # def test_student_view_tutor(self):
-    #     # Log in the student user
-    #     self.client.login(email='ronnie.coleman@wsu.edu', password='MySpineIsntbroken123!')
+    def test_student_view_tutor(self):
+        # Log in the student user
+        login_successful = self.client.login(email='ronnie.coleman@wsu.edu', password='MySpineIsntbroken123!')
+        self.assertTrue(login_successful, "Login failed")
 
-    #     # Access the student_view_tutors view
-    #     response = self.client.get(reverse('Student:student_view_tutors', args=[self.tutor.user.id]))
+        # Access the student_view_tutors view
+        response = self.client.get(reverse('Student:student_view_tutors', args=[self.tutor.user.id]))
 
-    #     # Check that the response is 200 OK and the right template is loaded
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTemplateUsed(response, 'tutor_available_appointments.html')
+        # Check that the response is 200 OK and the right template is loaded
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'tutor_available_appointments.html')
 
-    #     # Print the available appointments for debugging
-    #     print("Available Appointments:", response.context['available_appointments'])
+        #print (response.content)
 
-    #     # Add more assertions based on your expected behavior
+        #Check that response contains information about the tutor
+        self.assertContains(response, self.tutor.user.first_name)
+        self.assertContains(response, self.tutor.user.last_name)
+        #self.assertContains(response, self.email)
 
-    #     # For example, you can check if the tutor and tutoring session are present in the context
-    #     self.assertEqual(response.context['tutor'], self.tutor)
-    #     self.assertIn(self.tutoring_session, response.context['available_appointments'])
+        #print("Available Appointments:", response.context.get('available_appointments'))
 
-    # def test_student_view_appointments(self):
-    #     pass
-    # def test_cancel_appointment(self):
-    #     pass
-    # def test_send_email(self):
-    #     pass
+    def test_student_view_appointments(self):
+        #Login the user
+        login_successful = self.client.login(email='ronnie.coleman@wsu.edu', password='MySpineIsntbroken123!')
+        self.assertTrue(login_successful, "Login failed")
+
+        response = self.client.get(reverse('Student:student_view_appointments', args=[self.student.user.id]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'student_appointments.html')
+
+        self.assertEqual(response.context['student'], self.student)
+        self.assertIn('appointments', response.context)
+
+        expected_appointments = TutoringSession.objects.filter(student=self.student)
+        self.assertQuerysetEqual(response.context['appointments'], expected_appointments, transform=lambda x: x)
+    
+    def test_student_cancel_appointment(self):
+        # Log in the student user
+        login_successful = self.client.login(email='ronnie.coleman@wsu.edu', password='MySpineIsntbroken123!')
+        self.assertTrue(login_successful, "Login failed")
+
+        # Create a tutoring session for the student
+        tutoring_session = TutoringSession.objects.create(
+            tutor=self.tutor,
+            student=self.student,
+            start_time=timezone.now() + timedelta(hours=1),
+            end_time=timezone.now() + timedelta(hours=1, minutes=20),
+            tutored_class=self.c,
+            description='Gucci Gang Gucci Gang Gucci Gang',
+            shift=self.shift
+        )
+
+        # Access the cancel_appointment view
+        response = self.client.get(reverse('Student:cancel_appointment', args=[tutoring_session.id]))
+
+        # Check that the response is a redirect to the student_view_appointments page
+        self.assertRedirects(response, reverse('Student:student_view_appointments', args=[self.student.user_id]))
+
+        # Refresh and check that student is None
+        tutoring_session.refresh_from_db()
+        self.assertIsNone(tutoring_session.student)
+        
+    def test_send_email(self):
+        # Log in the student user
+        login_successful = self.client.login(email='ronnie.coleman@wsu.edu', password='MySpineIsntbroken123!')
+        self.assertTrue(login_successful, "Login failed")
+
+        # Create a tutoring session
+        tutoring_session = TutoringSession.objects.create(
+            tutor=self.tutor,
+            student=self.student,
+            start_time=timezone.now() + timedelta(hours=1),
+            end_time=timezone.now() + timedelta(hours=1, minutes=20),
+            tutored_class=self.c,
+            description='Test tutoring session',
+            shift=self.shift
+        )
+        print("sending email")
+        # send email using view function
+        send_email(tutoring_session)
+
+        # print("email sent")
+        # Check that an email was sent
+        self.assertEqual(len(mail.outbox), 1)
+
+        # Check content
+        # print(mail.outbox)
+        sent_email = mail.outbox[0]
+        self.assertIn('Your Appointment', sent_email.subject)
+        self.assertIn('You have an appointment with Jay Cutler at', sent_email.body)
+    
