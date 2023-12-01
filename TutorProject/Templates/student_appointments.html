@@ -21,22 +21,9 @@
                 <td width="30%">{{ appointment.start_time }}</td>
                 <td width="15%">{{ appointment.tutored_class }}</td>
                 <td width="25%">{{ appointment.description }}</td>
-                <td width="10%"><a href="{%  url 'Student:cancel_appointment' appointment.id %}" class="action-button button">Cancel</a></td>
+                <td width="10%"><a href="{%  url 'Student:cancel_appointment' appointment.id %}" class="schedule-action-button button">Cancel</a></td>
             </tr>
         {% endfor %}
     </table>
 
 {% endblock %}
-
-<style>
-    .action-button {
-        padding: 10px 0; /* Adjust the top and bottom padding */
-        width: 150px; /* Fixed width for both buttons */
-        text-align: center;
-        text-decoration: none;
-        border: none;
-        border-radius: 5px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-</style>

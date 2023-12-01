@@ -1348,3 +1348,183 @@ ul.user-list li:last-child {
     padding: 1px;
     border-radius: 5px;
 }
+
+
+
+ .student-pointer {
+        cursor: pointer;
+    }
+    .student-tutor-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px; /* Adjust the gap between tutor cards as needed */
+ 
+    }
+
+    .student-tutor-card {
+        border: 1px solid #ddd;
+        padding: 10px;
+        width: 100%; 
+        box-sizing: border-box;
+        display: flex; /* Display tutor-card as a flex container */
+    }
+
+    .student-tutor-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .student-tutor-info {
+        flex: 1; /* Expand to fill available space */
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .student-tutor-card img {
+        max-width: 60%;
+        height: auto;
+        border-radius: 50%; /* Make the image circular */
+    }
+
+    .student-tutor-details {
+        flex: 2; /* Expand to fill available space */
+        padding: 10px;
+        text-align: left;
+    }
+
+    .student-tutor-buttons {
+        flex: 1; /* Expand to fill available space */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center horizontally */
+        justify-content: center; /* Center vertically */
+    }
+
+    .student-action-button {
+        padding: 10px 0; /* Adjust the top and bottom padding */
+        width: 150px; /* Fixed width for both buttons */
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .student-appointment-button {
+        padding: 10px 0; /* Adjust the top and bottom padding */
+        margin-left: 0;
+        margin-bottom: 25px;
+        width: 150px; 
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .student-rate-button {
+        background-color: #A60F2D;
+        color: white;
+    }
+
+    .student-appointment-button:hover {
+        background-color: var(--crimson);
+        color: white;
+    }
+
+    .student-search-button {
+        background-color: #ba1234;
+        color: white;
+        transition: background-color 0.1s;
+        cursor: pointer;
+    }
+    
+    .student-search-button:hover {
+        background-color: rgba(128,128,128);
+    }
+
+
+
+    .student-form-container {
+        max-width: 500px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .student-form-group {
+        margin-bottom: 20px;
+    }
+
+    .student-btn {
+        background-color: #ba1234;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        display: block;
+        width: 30%;
+        box-sizing: border-box;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .student-btn:hover {
+        background-color: #a11030;
+    }
+
+    .student-form-container input[type="text"],
+    .student-form-container textarea,
+    .student-form-container select {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .student-form-container input[type="submit"] {
+        margin-top: 20px;
+    }
+
+
+/* student_appointments.html */
+     .schedule-action-button {
+        padding: 10px 0; /* Adjust the top and bottom padding */
+        width: 150px; /* Fixed width for both buttons */
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+
+
+    .rate-tutor-btn {
+        font-size: 14px;
+        display: inline-block;
+        margin-top: 6px;
+        padding: 6px 10px;
+        background-color: #ba1234;
+        color: white;
+        transition: background-color 0.1s;
+        text-decoration: none;
+        border-radius: 3px;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .rate-tutor-btn:hover {
+        background-color: rgba(128,128,128);
+    }

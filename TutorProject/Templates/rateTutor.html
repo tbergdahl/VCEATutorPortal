@@ -9,26 +9,7 @@
     {% csrf_token %}
     {{ form.rating.label_tag }} {{ form.rating }}
     <p>{{ form.description.label_tag }}<br>{{ form.description }}</p>
-    <button type="submit" class="btn">Submit</button>
+    <button type="submit" class="rate-tutor-btn">Submit</button>
 </form>
-
-<style>
-.btn {
-    font-size: 14px;
-    display: inline-block;
-    margin-top: 6px;
-    padding: 6px 10px;
-    background-color: #ba1234;
-    color: white;
-    transition: background-color 0.1s;
-    text-decoration: none;
-    border-radius: 3px;
-    border: none;
-    cursor: pointer;
-}
-.btn:hover {
-    background-color: rgba(128,128,128);
-}
-</style>
 
 {% endblock %}
