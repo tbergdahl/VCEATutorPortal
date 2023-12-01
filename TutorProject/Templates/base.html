@@ -43,20 +43,22 @@
                 <tr>
                     <td><a href="{% url 'home' %}">Home</a></td>
                 </tr>
+                {% if user.is_student %}
                 <tr>
-                    {% if user.is_authenticated %}
-                    <td><a href="{% url 'logout' %}">Logout</a></td>
-                {% else %}
-                    <td><a href="{% url 'login' %}">Login</a></td>
-                <tr>
-                    <td></td>
+                    <td><a href="{% url 'Student:student_view_appointments' request.user.id %}">Appointments</a></td>
                 </tr>
                 {% endif %}
+                <tr>
+                    {% if user.is_authenticated %}
+                        <td><a href="{% url 'logout' %}">Logout</a></td>
+                    {% else %}
+                        <td><a href="{% url 'login' %}">Login</a></td>
+                    {% endif %}
                 </tr>
             </table>
         </div>
         </aside>
-        <footer>Footer</footer>
+        <footer> Contact us: </footer>
       </div>
       
 

@@ -227,6 +227,11 @@ article h1 {
     box-sizing: border-box; /* This ensures padding doesn't add to the width */
 }
 
+article h2 {
+    margin-top: 0%;
+    font-size: 28px;
+}
+
 .usertable {
     text-align: left;
     width: 100%;
@@ -291,7 +296,6 @@ th, td {
     font-size: 22px;
     font-weight: bold;
 }
-
 
 
 /* tutorPage.html styles */
@@ -1445,12 +1449,25 @@ ul.user-list li:last-child {
     color: white;
     transition: background-color 0.1s;
     cursor: pointer;
+    margin-top: 10px;
 }
     
 .student-search-button:hover {
     background-color: rgba(128,128,128);
 }
 
+article label {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.student-page input {
+    width: 40%;
+}
+
+.student-page select {
+    width: 41.5%;
+}
 
 
 /* book_appointment.html styles */
