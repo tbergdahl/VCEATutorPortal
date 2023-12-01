@@ -143,7 +143,7 @@ class StudentViewsTest(TestCase):
 
 # Test Student Rating Tutor  ####################################################################
     #@unittest.skip("Skip this test to control the execution order")
-    def test_rate_tutor_view(self):  #Tests the get method
+    def test_a_student_rate_tutor_view(self):  #Tests the get method
         # Log in the student user
         login_successful = self.client.login(email='ronnie.coleman@wsu.edu', password='MySpineIsntbroken123!')
         self.assertTrue(login_successful, "Login failed")

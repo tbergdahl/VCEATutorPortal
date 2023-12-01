@@ -37,7 +37,7 @@ class TestModels(TestCase):
         #Create test tutor
         self.tutor = Tutor(
             user=self.tutor_user,
-            minutes_tutored=0,
+            hours_tutored=0,
             day_started=None,
             rating=0.0,
             description='Legendary bodybuilder and actor'
@@ -73,42 +73,41 @@ class TestModels(TestCase):
         self.assertEqual(str(reset_code), expected_str)
 
 # Testing Class, Major, and Shifts
-    def test_class_model(self):
-       # Create the Tutor and associate it with the CustomUser
-        self.tutor_test = CustomUser(
-            email='sergi@wsu.edu',
-            first_name='Sergi',
-            last_name='Oliva',
-            is_tutor=True,
-            is_student=False,
-            is_admin=False
-        )
+def test_class_model(self):
+    # Create the Tutor and associate it with the CustomUser
+    self.tutor_test = CustomUser.objects.create(
+        email='sergi@wsu.edu',
+        first_name='Sergi',
+        last_name='Oliva',
+        is_tutor=True,
+        is_student=False,
+        is_admin=False
+    )
 
-        self.T = Tutor(
-            user=self.tutor_test,
-            minutes_tutored=0,
-            day_started=None,
-            rating=0.0,
-            description='Legendary bodybuilder and Baki Character'
-        )
+    self.T = Tutor(
+        user=self.tutor_test,  # Set the user for the Tutor instance
+        hours_tutored=0,
+        day_started=None,
+        rating=0.0,
+        description='Legendary bodybuilder and Baki Character'
+    )
+    self.T.save()
 
-        # Create a Class
-        self.M = Major(name="Computer Science", abbreviation="CS")
+    # Create a Class
+    self.M = Major.objects.create(name="Computer Science", abbreviation="CS")
+    self.c = Class(
+        class_major=self.M,
+        course_num=101,
+        course_name="Intro to Programming",
+        hours_tutored=0,
+    )
 
-        self.c = Class(
-            class_major=self.M,
-            course_num=101,
-            course_name="Intro to Programming",
-            hours_tutored=0,
-            available_tutors = self.T
-        )
-
-        # Test Class Information
-        self.assertEqual(self.c.course_name, "Intro to Programming")
-        self.assertEqual(self.c.class_major.name, "Computer Science")
-        self.assertEqual(self.c.class_major.abbreviation, "CS")
-        self.assertEqual(self.c.course_num, 101)
-        self.assertEqual(self.c.hours_tutored, 0)
+    # Test Class Information
+    self.assertEqual(self.c.course_name, "Intro to Programming")
+    self.assertEqual(self.c.class_major.name, "Computer Science")
+    self.assertEqual(self.c.class_major.abbreviation, "CS")
+    self.assertEqual(self.c.course_num, 101)
+    self.assertEqual(self.c.hours_tutored, 0)
 
     def test_shift(self):
         # Create a Shift instance

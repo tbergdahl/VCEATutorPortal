@@ -47,9 +47,6 @@ def appointment_completed(request, appointment_id):
     slot.frequency += 1
     slot.save()
 
-    
-
-
     #student stats updating
     student = appointment.student
     student.times_visited += 1
@@ -69,8 +66,6 @@ def appointment_completed(request, appointment_id):
     tutor.hours_tutored += hours_difference
     tutor.save()
     
-
-   
     start_time = appointment.start_time.time()
     print(start_time)
     # Check if the TutorFrequencyPair exists for the time period

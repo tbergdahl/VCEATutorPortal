@@ -95,11 +95,14 @@ class AdminViewsTest(TestCase):
         # Check if the login was successful
         self.assertTrue(login, "Login failed")
 
+        # Access the admin_create_user view
+        response = self.client.get(reverse('Admin:admin_create_user'))
+
         # Check if the response is successful
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'createuser.html')
 
-        # Simulate form to Successfully create a new user 
+        # Simulate form to successfully create a new user
         new_user_data = {
             'first_name': 'John',
             'last_name': 'Doe',
@@ -120,7 +123,7 @@ class AdminViewsTest(TestCase):
 
         # Check if the form submission was successful
         self.assertEqual(response.status_code, 302)  # 302 indicates a redirect after successful form submission
-        self.assertNotEqual(fail_response.status_code, 302)  # 302 not equal indicates failed re-direct after form submission
+        self.assertNotEqual(fail_response.status_code, 302)  # 302 not equal indicates failed redirect after form submission
 
         # Check if the user was created successfully
         self.assertTrue(get_user_model().objects.filter(email='newuser@example.com').exists())
