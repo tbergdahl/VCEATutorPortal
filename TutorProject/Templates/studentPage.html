@@ -29,7 +29,7 @@
             <div class="student-tutor-card">
                 <div class="student-tutor-info">
                     {% if tutor.picture %}
-                        <img src="{{ tutor.picture.url}}" alt="{{ tutor.user.first_name }} {{ tutor.user.last_name }}">
+                        <img src="{{ tutor.picture.url}}" alt="{{ tutor.user.first_name }} {{ tutor.user.last_name }}"  class="tutor-pfp">
                     {% else %}
                         
                         <!-- this default image will display if there is no image uploaded  -->

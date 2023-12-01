@@ -1469,6 +1469,12 @@ article label {
     width: 41.5%;
 }
 
+.tutor-pfp {
+    aspect-ratio: 4/4;
+    width: 50%;
+    height: 50%;
+}
+
 
 /* book_appointment.html styles */
 .student-form-container {
