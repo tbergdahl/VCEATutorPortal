@@ -1096,3 +1096,255 @@ ul.user-list li:last-child {
 .majors-btn-danger:hover {
     background-color: #bd2130;
 }
+
+
+
+.loginPage-input:focus {
+    border-color: #ba1234;
+    outline: none;
+}
+
+.loginPage-login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.loginPage-login-form {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.loginPage-form-group {
+    margin-bottom: 10px;
+}
+
+.loginPage-label {
+    display: block;
+    font-weight: bold;
+}
+
+.loginPage-input[type="text"],
+.loginPage-input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.loginPage-submit-button {
+    margin-top: 20px;
+    width: 50%;
+    padding: 10px;
+    background-color: #ba1234;
+    color: white;
+    transition: background-color 0.1s;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loginPage-submit-button:hover {
+    background-color: rgba(128,128,128);
+}
+
+
+
+.registerPage-register-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.registerPage-register-form {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.registerPage-form-group {
+    margin-bottom: 10px;
+}
+
+.registerPage-label {
+    display: block;
+    font-weight: bold;
+}
+
+.registerPage-input[type="text"],
+.registerPage-input[type="email"],
+.registerPage-input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.registerPage-input[type="text"]:focus,
+.registerPage-input[type="email"]:focus,
+.registerPage-input[type="password"]:focus {
+    border-color: #ba1234;
+    outline: none;
+}
+
+.registerPage-submit-button {
+    margin-top: 20px;
+    width: 50%;
+    padding: 10px;
+    background-color: #ba1234;
+    color: white;
+    transition: background-color 0.1s;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.registerPage-submit-button:hover {
+    background-color: rgba(128,128,128);
+}
+
+
+
+.passwordReset-password-reset {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.passwordReset-password-reset-form {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.passwordReset-form-group {
+    margin-bottom: 10px;
+}
+
+.passwordReset-label {
+    display: block;
+    font-weight: bold;
+}
+
+.passwordReset-input[type="text"],
+.passwordReset-input[type="password"],
+.passwordReset-input[type="email"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.passwordReset-btn {
+    width: 50%;
+    padding: 10px;
+    background-color: #ba1234;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.passwordReset-btn:hover {
+    background-color: rgba(128,128,128);
+}
+
+
+
+.passwordResetRequest-password-reset-request {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.passwordResetRequest-form {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-bottom: 20px; 
+}
+
+.passwordResetRequest-form-group {
+    margin-bottom: 10px;
+}
+
+.passwordResetRequest-label {
+    display: block;
+    font-weight: bold;
+}
+
+.passwordResetRequest-input[type="text"],
+.passwordResetRequest-input[type="email"],
+.passwordResetRequest-input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.passwordResetRequest-input:focus {
+    border-color: #ba1234;
+    outline: none;
+}
+
+.passwordResetRequest-btn {
+    width: 50%;
+    padding: 10px;
+    background-color: #ba1234;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.passwordResetRequest-btn:hover {
+    background-color: rgba(128,128,128);
+}
+
+.passwordResetRequest-messages {
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    width: 400px;
+    padding: 1px;
+    border-radius: 5px;
+}
