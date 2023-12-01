@@ -4,72 +4,20 @@
 {% block content %}
 
 <h2>Classes</h2>
-<div class="class-list">
+<div class="adminClasses-class-list">
     {% for a_class in classes %}
-        <div class="class-item">
-            <div class="class-text">
+        <div class="adminClasses-class-item">
+            <div class="adminClasses-class-text">
                {{ a_class.class_major.name }} {{ a_class.course_num }} - {{a_class.course_name}}
             </div>
-            <div class="class-action">
-                <a href="{% url 'Admin:delete_class' a_class.id %}" class="btn-danger">Delete</a>
+            <div class="adminClasses-class-action">
+                <a href="{% url 'Admin:delete_class' a_class.id %}" class="adminClasses-btn-danger">Delete</a>
             </div>
         </div>
     {% endfor %}
 </div>
 
-<a href="{% url 'Admin:admin_create_class' %}" class="btn">Create New Class</a>
+<a href="{% url 'Admin:admin_create_class' %}" class="adminClasses-btn">Create New Class</a>
 
-<style>
-    .class-list {
-        list-style: none;
-        padding: 0;
-    }
-
-    .class-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    .class-text {
-        flex-grow: 1; /* Ensures it takes up available space */
-    }
-
-    .btn {
-        font-size: 14px;
-        display: inline-block;
-        margin-top: 12px;
-        padding: 6px 10px;
-        background-color: #ba1234;
-        color: white;
-        transition: background-color 0.1s;
-        text-decoration: none;
-        border-radius: 3px;
-        border: none;
-    }
-
-    .btn:hover {
-        background-color: rgba(128,128,128);
-    }
-
-    .btn-danger {
-        font-size: 14px;
-        display: inline-block;
-        margin-top: 6px;
-        margin-right: 10px;
-        padding: 6px 10px;
-        background-color: #ee3f51;
-        color: white;
-        border: none;
-        text-decoration: none;
-        border-radius: 3px;
-    }
-
-    .btn-danger:hover {
-        background-color: rgba(128,128,128);
-    }
-
-</style>
 
 {% endblock %}

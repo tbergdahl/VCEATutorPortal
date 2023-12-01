@@ -292,6 +292,8 @@ th, td {
     font-weight: bold;
 }
 
+
+
 /* tutorPage.html styles */
 .tutorPage-container {
     background-color: #f7f7f7;
@@ -347,6 +349,7 @@ th, td {
 }
 
 
+
 /* tutor_appointments.html styles */
 .tutorAppointment-appointments-container {
     max-width: 800px;
@@ -399,6 +402,7 @@ th, td {
 }
 
 
+
 /* tutor_feedback.html styles */
 .tutorFeedback-feedback-container {
     max-width: 800px;
@@ -422,6 +426,8 @@ th, td {
     font-size: 1.2em;
     margin-bottom: 20px;
 }
+
+
 
 /* adminDashboard.html styles */
 .adminDashboard-container {
@@ -485,4 +491,608 @@ th, td {
 
 .adminDashboard-btn-danger:hover {
     background-color: rgba(128,128,128);
+}
+
+
+
+/* createuser.html styles */
+.createUser-create-user-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.createUser-create-user-form {
+    width: 600px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+
+.createUser-form-group {
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+select {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #ba1234;
+    outline: none;
+}
+
+.createUser-btn {
+    width: 50%; /* Full width button */
+    padding: 10px;
+    background-color: #ba1234;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.createUser-btn:hover {
+    background-color: rgba(128,128,128);
+}
+
+
+
+/* deleteUser.html styles */
+.deleteUser-delete-user-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.deleteUser-delete-user-form .form-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 0px;
+}
+
+.deleteUser-delete-user-form .input-group {
+    flex-grow: 1;
+}
+
+.deleteUser-delete-user-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.deleteUser-delete-user-form .form-control {
+    width: calc(100% - 80px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.delete-user-form .btn {
+    padding: 10px 20px;
+    background-color: #ba1234;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.deleteUser-delete-user-form .btn:hover {
+    background-color: rgba(128,128,128);
+}
+
+.deleteUser-delete-user-form,
+.user-list {
+    width: 600px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+
+.form-group,
+.spacing {
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 80%; 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.form-control:focus {
+    border-color: #ba1234;
+    outline: none;
+}
+
+.btn {
+    width: auto;
+    padding: 10px;
+    background-color: #ba1234;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.filter-button {
+    margin-bottom: 2%;
+}
+
+.search-button {
+    margin-bottom: 1%;
+}
+
+.btn:hover {
+    background-color: rgba(128,128,128);
+}
+
+.delete-link {
+    color: #ba1234;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #ba1234;
+    border-radius: 3px;
+    transition: background-color 0.1s, color 0.1s;
+}
+
+.delete-link:hover {
+    background-color: #ba1234;
+    color: white;
+}
+
+.deleteUser-delete-user-form,
+.user-list {
+    width: 600px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+ul.user-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    width: 600px;
+}
+
+ul.user-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #eee;
+    box-sizing: border-box;
+}
+
+ul.user-list li:last-child {
+    border-bottom: none; 
+}
+
+
+
+/* generate_pdf.html styles */
+#pdf-preview {
+    height: 80vh; /* 80% of the viewport height */
+    margin-bottom: 20px;
+}
+
+#id_report {
+    cursor: pointer;
+}
+
+
+
+/* tutors.html styles */
+.tutorPage-container {
+    font-family: Arial, sans-serif;
+}
+
+.tutorPage-heading {
+    color: #333;
+}
+
+.tutorPage-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.tutorPage-th, .tutorPage-td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.tutorPage-th {
+    background-color: #f2f2f2;
+}
+
+.tutorPage-tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.tutorPage-tr:hover {
+    background-color: #eaeaea;
+}
+
+.tutorPage-back-link {
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 12px;
+    background-color: #ba1234;
+    color: white;
+    transition: background-color 0.1s;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+}
+
+.tutorPage-back-link:hover {
+    background-color: rgba(128,128,128);
+}
+
+
+
+/* edit_tutor.html styles */
+.tutorForm-tutor-form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.tutorForm-tutor-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.tutorForm-form-title {
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+}
+
+.tutorForm-tutor-form p {
+    margin-bottom: 5px;
+}
+
+.tutorForm-tutor-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.tutorForm-tutor-form input[type="text"],
+.tutorForm-tutor-form textarea,
+.tutorForm-tutor-form select {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+.tutorForm-tutor-form textarea[name="description"] {
+    height: 60px;
+    width: 90%;
+}
+
+.tutorForm-tutor-form select {
+    width: 90%;
+    padding: 10px;
+}
+
+.tutorForm-tutor-form input[type="submit"] {
+    width: 50%; 
+    padding: 10px;
+    background-color: #ba1234;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin-top: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 15px;
+}
+
+.tutorForm-tutor-form input[type="submit"]:hover {
+    background-color: #a10d2a;
+}
+
+.tutorForm-back-btn {
+    width: 40%;
+    padding: 9px 14px;
+    background-color: #555;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.tutorForm-back-btn:hover {
+    background-color: rgba(85, 85, 85, 0.8);
+}
+
+
+
+/* shifts.html styles */
+.tutorShifts-shifts-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tutorShifts-shifts-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tutorShifts-shift-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f2f2f2;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.tutorShifts-shift-info {
+    flex-grow: 1;
+}
+
+.tutorShifts-delete-link {
+    margin-left: 20px;
+    color: #ba1234;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #ba1234;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.tutorShifts-delete-link:hover {
+    background-color: #ba1234;
+    color: white;
+}
+
+.tutorShifts-btn {
+    display: inline-block;
+    margin-top: 12px;
+    margin-right: 5px;
+    padding: 8px 12px;
+    background-color: #ba1234;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.tutorShifts-add-shift-btn {
+    background-color: #ba1234;
+}
+
+.tutorShifts-add-shift-btn:hover {
+    background-color: #a11030;
+}
+
+.tutorShifts-back-btn {
+    background-color: rgba(128,128,128);
+}
+
+.tutorShifts-back-btn:hover {
+    background-color: rgba(75, 75, 75, 0.8);
+}
+
+
+
+/* create_class.html styles */
+.adminCreateClass-btn {
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 6px;
+    padding: 6px 10px;
+    background-color: #ba1234;
+    color: white;
+    transition: background-color 0.1s;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+}
+
+.adminCreateClass-btn:hover {
+    background-color: rgba(128,128,128);
+}
+
+
+
+/* classes.html styles */
+.adminClasses-class-list {
+    list-style: none;
+    padding: 0;
+}
+
+.adminClasses-class-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.adminClasses-class-text {
+    flex-grow: 1; /* Ensures it takes up available space */
+}
+
+.adminClasses-btn {
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 12px;
+    padding: 6px 10px;
+    background-color: #ba1234;
+    color: white;
+    transition: background-color 0.1s;
+    text-decoration: none;
+    border-radius: 3px;
+    border: none;
+}
+
+.adminClasses-btn:hover {
+    background-color: rgba(128,128,128);
+}
+
+.adminClasses-btn-danger {
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 6px;
+    margin-right: 10px;
+    padding: 6px 10px;
+    background-color: #ee3f51;
+    color: white;
+    border: none;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.adminClasses-btn-danger:hover {
+    background-color: rgba(128,128,128);
+}
+
+
+
+/* create_major.html styles */
+.createMajor-btn {
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 6px;
+    padding: 6px 10px;
+    background-color: #ba1234;
+    color: white;
+    transition: background-color 0.1s;
+    text-decoration: none;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+}
+
+.createMajor-btn:hover {
+    background-color: rgba(128,128,128);
+}
+
+
+
+/* majors.html styles */
+.majors-major-list {
+    list-style: none;
+    padding: 0;
+}
+
+.majors-major-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.majors-major-text {
+    flex-grow: 1; /* Ensures it takes up available space */
+}
+
+.majors-btn {
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 6px;
+    padding: 6px 10px;
+    background-color: #ba1234;
+    color: white;
+    transition: background-color 0.1s;
+    text-decoration: none;
+    border-radius: 3px;
+    border: none;
+}
+
+.majors-btn:hover {
+    background-color: rgba(128,128,128);
+}
+
+.majors-btn-danger {
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 6px;
+    margin-right: 10px;
+    padding: 6px 10px;
+    background-color: #ee3f51;
+    color: white;
+    border: none;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.majors-btn-danger:hover {
+    background-color: #bd2130;
 }

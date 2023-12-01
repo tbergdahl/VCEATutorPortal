@@ -8,28 +8,8 @@
     <form method="post" class="form-group">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn" style="margin-top: 20px;">Create Major</button>
+        <button type="submit" class="createMajor-btn" style="margin-top: 20px;">Create Major</button>
     </form>
 </div>
-
-<style>
-    .btn {
-        font-size: 14px;
-        display: inline-block;
-        margin-top: 6px;
-        padding: 6px 10px;
-        background-color: #ba1234;
-        color: white;
-        transition: background-color 0.1s;
-        text-decoration: none;
-        border-radius: 3px;
-        border: none;
-        cursor: pointer;
-    }
-    .btn:hover {
-        background-color: rgba(128,128,128);
-    }
-
-</style>
 
 {% endblock %}

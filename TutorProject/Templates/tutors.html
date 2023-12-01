@@ -4,81 +4,39 @@
 
 {% block content %}
 
-<div class="tutor-container">
-    <h1 class="tutor-heading">Tutors</h1>
-    <table class="tutor-table">
-        <thead class="tutor-thead">
-            <tr class="tutor-tr">
-                <th class="tutor-th">Tutor ID</th>
-                <th class="tutor-th">Tutor Name</th>
-                <th class="tutor-th">Hours Tutored</th>
-                <th class="tutor-th">Major</th>
+<div class="tutorPage-container">
+    <h1 class="tutorPage-heading">Tutors</h1>
+    <table class="tutorPage-table">
+        <thead class="tutorPage-thead">
+            <tr class="tutorPage-tr">
+                <th class="tutorPage-th">Tutor ID</th>
+                <th class="tutorPage-th">Tutor Name</th>
+                <th class="tutorPage-th">Hours Tutored</th>
+                <th class="tutorPage-th">Major</th>
             </tr>
         </thead>
-        <tbody class="tutor-tbody">
+        <tbody class="tutorPage-tbody">
             {% for tutor in tutors %}
-            <tr class="tutor-tr">
-                <td class="tutor-td">{{ tutor.user_id }}</td>
-                <td class="tutor-td">{{ tutor.user.first_name }} {{ tutor.user.last_name }}</td>
-                <td class="tutor-td">{{ tutor.hours_tutored }}</td>
-                <td class="tutor-td"> {{ tutor.major }}</td>
-                <td class="tutor-td">
-                    <a href="{% url 'Admin:admin_edit_tutor_profile' tutor.user_id %}" class="tutor-edit-link">Edit Details</a>
+            <tr class="tutorPage-tr">
+                <td class="tutorPage-td">{{ tutor.user_id }}</td>
+                <td class="tutorPage-td">{{ tutor.user.first_name }} {{ tutor.user.last_name }}</td>
+                <td class="tutorPage-td">{{ tutor.hours_tutored }}</td>
+                <td class="tutorPage-td"> {{ tutor.major }}</td>
+                <td class="tutorPage-td">
+                    <a href="{% url 'Admin:admin_edit_tutor_profile' tutor.user_id %}" class="tutorPage-edit-link">Edit Details</a>
                 </td>
-                <td class="tutor-td">
-                    <a href="{% url 'Admin:admin_view_tutor_shifts' tutor.user_id %}" class="tutor-edit-shifts-link">Edit Shifts</a>
+                <td class="tutorPage-td">
+                    <a href="{% url 'Admin:admin_view_tutor_shifts' tutor.user_id %}" class="tutorPage-edit-shifts-link">Edit Shifts</a>
                 </td>
-                <td class="tutor-td">
-                    <a href="{% url 'Admin:admin_tutor_called_out' tutor.user_id %}" class="tutor-edit-shifts-link">Disable Appointments For Today</a>
+                <td class="tutorPage-td">
+                    <a href="{% url 'Admin:admin_tutor_called_out' tutor.user_id %}" class="tutorPage-edit-shifts-link">Disable Appointments For Today</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{% url 'Admin:admin_view' %}" class="tutor-back-link">Back to Dashboard</a>
+    <a href="{% url 'Admin:admin_view' %}" class="tutorPage-back-link">Back to Dashboard</a>
 </div>
 
-<style>
-    .tutor-container {
-        font-family: Arial, sans-serif;
-    }
-    .tutor-heading {
-        color: #333;
-    }
-    .tutor-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-    }
-    .tutor-th, .tutor-td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-    }
-    .tutor-th {
-        background-color: #f2f2f2;
-    }
-    .tutor-tr:nth-child(even) {
-        background-color: #f9f9f9;
-    }
-    .tutor-tr:hover {
-        background-color: #eaeaea;
-    }
-    .tutor-back-link {
-        font-size: 14px;
-        display: inline-block;
-        margin-top: 20px;
-        padding: 8px 12px;
-        background-color: #ba1234;
-        color: white;
-        transition: background-color 0.1s;
-        text-decoration: none;
-        border-radius: 5px;
-        border: none;
-    }
-    .tutor-back-link:hover {
-        background-color: rgba(128,128,128);
-    }
-</style>
 
 {% endblock %}

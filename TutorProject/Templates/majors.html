@@ -4,67 +4,18 @@
 {% block content %}
 
 <h2>Majors</h2>
-<div class="major-list">
+<div class="majors-major-list">
     {% for major in majors %}
-        <div class="major-item">
-            <div class="major-text">
+        <div class="majors-major-item">
+            <div class="majors-major-text">
                 {{ major.name }}
             </div>
-            <div class="major-action">
-                <a href="{% url 'Admin:delete_major' major.id %}" class="btn-danger">Delete</a>
+            <div class="majors-major-action">
+                <a href="{% url 'Admin:delete_major' major.id %}" class="majors-btn-danger">Delete</a>
             </div>
         </div>
     {% endfor %}
 </div>
-<a href="{% url 'Admin:admin_create_major' %}" class="btn">Create Major</a>
-
-<style>
-    .class-list, .major-list {
-        list-style: none;
-        padding: 0;
-    }
-
-    .class-item, .major-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    .class-text, .major-text {
-        flex-grow: 1; /* Ensures it takes up available space */
-    }
-    
-    .btn {
-        font-size: 14px;
-        display: inline-block;
-        margin-top: 6px;
-        padding: 6px 10px;
-        background-color: #ba1234;
-        color: white;
-        transition: background-color 0.1s;
-        text-decoration: none;
-        border-radius: 3px;
-        border: none;
-    }
-    .btn:hover {
-        background-color: rgba(128,128,128);
-    }
-    .btn-danger {
-        font-size: 14px;
-        display: inline-block;
-        margin-top: 6px;
-        margin-right: 10px;
-        padding: 6px 10px;
-        background-color: #ee3f51;
-        color: white;
-        border: none;
-        text-decoration: none;
-        border-radius: 3px;
-    }
-    .btn-danger:hover {
-        background-color: #bd2130;
-    }
-</style>
+<a href="{% url 'Admin:admin_create_major' %}" class="majors-btn">Create Major</a>
 
 {% endblock %}

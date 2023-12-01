@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="delete-user-page">
+<div class="deleteUser-delete-user-page">
     <h2>Delete Users</h2>
     
     <div class="messages">
@@ -11,7 +11,7 @@
     </div>
 
     <!-- Filtering Form -->
-    <form method="get" class="delete-user-form spacing">
+    <form method="get" class="deleteUser-delete-user-form spacing">
         <div class="form-row">
             <div class="input-group">
                 <label for="role">Filter by Role:</label>
@@ -26,7 +26,7 @@
     </form>
 
     <!-- Search Form -->
-    <form method="get" class="delete-user-form spacing">
+    <form method="get" class="deleteUser-delete-user-form spacing">
         <div class="form-row">
             <div class="input-group">
                 <label for="search">Search by Email:</label>
@@ -55,154 +55,5 @@
         {% endfor %}
     </ul>
 </div>
-
-<style>
-
-    
-    .delete-user-page {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding-top: 20px;
-    }
-
-    .delete-user-form .form-row {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        margin-bottom: 0px;
-    }
-
-    .delete-user-form .input-group {
-        flex-grow: 1;
-    }
-
-    .delete-user-form label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    .delete-user-form .form-control {
-        width: calc(100% - 80px);
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-right: 10px;
-    }
-
-    .delete-user-form .btn {
-        padding: 10px 20px;
-        background-color: #ba1234;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-bottom: 10px;
-    }
-
-    .delete-user-form .btn:hover {
-        background-color: rgba(128,128,128);
-    }
-
-    .delete-user-form,
-    .user-list {
-        width: 600px;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background-color: #fff;
-        margin-bottom: 20px;
-    }
-
-    .form-group,
-    .spacing {
-        margin-bottom: 10px;
-    }
-
-    label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    .form-control {
-        width: 80%; 
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-bottom: 10px;
-    }
-
-    .form-control:focus {
-        border-color: #ba1234;
-        outline: none;
-    }
-
-    .btn {
-        width: auto;
-        padding: 10px;
-        background-color: #ba1234;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        display: inline-block;
-    }
-
-    .btn:hover {
-        background-color: rgba(128,128,128);
-    }
-
-    .delete-link {
-        color: #ba1234;
-        text-decoration: none;
-        padding: 5px 10px;
-        border: 1px solid #ba1234;
-        border-radius: 3px;
-        transition: background-color 0.1s, color 0.1s;
-    }
-
-    .delete-link:hover {
-        background-color: #ba1234;
-        color: white;
-    }
-
-    .delete-user-form,
-    .user-list {
-        width: 600px;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background-color: #fff;
-        margin-bottom: 20px;
-        box-sizing: border-box;
-    }
-
-    ul.user-list {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-        width: 600px;
-    }
-
-    ul.user-list li {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 20px;
-        border-bottom: 1px solid #eee;
-        box-sizing: border-box;
-    }
-
-    ul.user-list li:last-child {
-        border-bottom: none; 
-    }
-
-</style>
 
 {% endblock %}

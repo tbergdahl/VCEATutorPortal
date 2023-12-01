@@ -7,26 +7,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn" style="margin-top: 60px;">Create Class</button>
+        <button type="submit" class="adminCreateClass-btn" style="margin-top: 60px;">Create Class</button>
     </form>
-
-    <style>
-        .btn {
-            font-size: 14px;
-            display: inline-block;
-            margin-top: 6px;
-            padding: 6px 10px;
-            background-color: #ba1234;
-            color: white;
-            transition: background-color 0.1s;
-            text-decoration: none;
-            cursor: pointer;
-            border: none;
-        }
-        .btn:hover {
-            background-color: rgba(128,128,128);
-        }
-    
-    </style>
 
 {% endblock %}
