@@ -143,7 +143,7 @@ class StudentViewsTest(TestCase):
 
 # Test Student Rating Tutor  ####################################################################
     #@unittest.skip("Skip this test to control the execution order")
-    def test_a_student_rate_tutor_view(self):  #Tests the get method
+    def test_student_rate_tutor_view(self):  #Tests the get method
         # Log in the student user
         login_successful = self.client.login(email='ronnie.coleman@wsu.edu', password='MySpineIsntbroken123!')
         self.assertTrue(login_successful, "Login failed")
@@ -173,7 +173,7 @@ class StudentViewsTest(TestCase):
         feedback = Feedback.objects.first()
         self.assertEqual(feedback.rating, 5)  # Check if the rating was saved
 
-    def test_the_book_appointment(self):  # for some reason when run before test_rate_tutor_view causes error
+    def test_book_appointment(self):  # for some reason when run before test_rate_tutor_view causes error
         # Log in the student user
         login_successful = self.client.login(email='ronnie.coleman@wsu.edu', password='MySpineIsntbroken123!')
         self.assertTrue(login_successful, "Login failed")
@@ -273,7 +273,6 @@ class StudentViewsTest(TestCase):
             description='Test tutoring session',
             shift=self.shift
         )
-        print("sending email")
         # send email using view function
         send_email(tutoring_session)
 
