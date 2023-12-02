@@ -445,8 +445,10 @@ th, td {
 .adminDashboard-card {
     background-color: rgb(248, 248, 248);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: transform 0.4s ease, box-shadow 0.2s ease; 
+    transition: transform 0.3s ease, box-shadow 0.2s ease; 
     border: 1px solid black;
+    margin-bottom: 4px;
+    margin-top: 3px;
 }
 
 .adminDashboard-card:hover {
@@ -1451,8 +1453,12 @@ ul.user-list li:last-child {
 .student-search-button {
     background-color: #ba1234;
     color: white;
-    transition: background-color 0.1s;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 3px; 
+    font-size: 14px;
     cursor: pointer;
+    outline: none;
     margin-top: 10px;
 }
     
