@@ -143,15 +143,15 @@ class StudentViewsTest(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
 # Test Student Rating Tutor  ####################################################################
-    @unittest.skip("Skip this test to control the execution order")
-    def test_AA_student_rate_tutor_view(self):  #Tests the get method
+    #@unittest.skip("Skip this test to control the execution order")
+    def test_student_rate_tutor_view(self):  #Tests the get method
         # Log in the student user
         login_successful = self.client.login(email='ronnie.coleman@wsu.edu', password='MySpineIsntbroken123!')
         self.assertTrue(login_successful, "Login failed")
 
         # Generate a signed token for a specific tutor
         signer = TimestampSigner()
-        signed_token = signer.sign(f"rate_tutor_1")
+        signed_token = signer.sign(f"rate_tutor_{self.tutor.user.id}")
 
         # Test Get Request Method
         response_get = self.client.get(reverse('Student:rate_tutor', args=[signed_token]))
@@ -162,7 +162,7 @@ class StudentViewsTest(TestCase):
 
         # Test POST Request Method
         response_post = self.client.post(reverse('Student:rate_tutor', args=[signed_token]), {
-            'rating': 5,  # Provide the required form data
+            'rating': 5,
             'feedback': 'Great tutor!',
         })
 
