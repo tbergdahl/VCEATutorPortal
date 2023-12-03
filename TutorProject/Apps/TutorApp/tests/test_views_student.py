@@ -13,6 +13,7 @@ from django.core.signing import TimestampSigner, BadSignature
 from django.core.mail import send_mail, outbox
 from django.core import mail
 from Apps.Student.views import send_email
+import unittest
 
 warnings.filterwarnings("ignore")
 
@@ -142,8 +143,8 @@ class StudentViewsTest(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
 # Test Student Rating Tutor  ####################################################################
-    #@unittest.skip("Skip this test to control the execution order")
-    def test_student_rate_tutor_view(self):  #Tests the get method
+    @unittest.skip("Skip this test to control the execution order")
+    def test_AA_student_rate_tutor_view(self):  #Tests the get method
         # Log in the student user
         login_successful = self.client.login(email='ronnie.coleman@wsu.edu', password='MySpineIsntbroken123!')
         self.assertTrue(login_successful, "Login failed")

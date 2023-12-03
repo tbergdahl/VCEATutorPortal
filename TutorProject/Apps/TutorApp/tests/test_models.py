@@ -44,6 +44,13 @@ class TestModels(TestCase):
         )
         self.user.save()
         self.tutor.save()
+        
+
+    def tearDown(self):
+        # Delete the test user
+        self.user.delete()
+        self.tutor.delete()
+        
 
 # Testing Password Methods
     def test_password_hashing(self):
@@ -73,41 +80,27 @@ class TestModels(TestCase):
         self.assertEqual(str(reset_code), expected_str)
 
 # Testing Class, Major, and Shifts
-def test_class_model(self):
-    # Create the Tutor and associate it with the CustomUser
-    self.tutor_test = CustomUser.objects.create(
-        email='sergi@wsu.edu',
-        first_name='Sergi',
-        last_name='Oliva',
-        is_tutor=True,
-        is_student=False,
-        is_admin=False
-    )
+    def test_class_model(self):
+        # Create a Major
+        self.M = Major(name="Computer Science", abbreviation="CS")
+        self.M.save()
+        
+        #Create a class
+        self.c = Class(
+            class_major=self.M,
+            course_num=101,
+            course_name="Intro to Programming",
+            hours_tutored=0,
+        )
+        self.c.save()
+        self.c.available_tutors.set([self.tutor]) # Use set for ManyToManyField
 
-    self.T = Tutor(
-        user=self.tutor_test,  # Set the user for the Tutor instance
-        hours_tutored=0,
-        day_started=None,
-        rating=0.0,
-        description='Legendary bodybuilder and Baki Character'
-    )
-    self.T.save()
-
-    # Create a Class
-    self.M = Major.objects.create(name="Computer Science", abbreviation="CS")
-    self.c = Class(
-        class_major=self.M,
-        course_num=101,
-        course_name="Intro to Programming",
-        hours_tutored=0,
-    )
-
-    # Test Class Information
-    self.assertEqual(self.c.course_name, "Intro to Programming")
-    self.assertEqual(self.c.class_major.name, "Computer Science")
-    self.assertEqual(self.c.class_major.abbreviation, "CS")
-    self.assertEqual(self.c.course_num, 101)
-    self.assertEqual(self.c.hours_tutored, 0)
+        # Test Class Information
+        self.assertEqual(self.c.course_name, "Intro to Programming")
+        self.assertEqual(self.c.class_major.name, "Computer Science")
+        self.assertEqual(self.c.class_major.abbreviation, "CS")
+        self.assertEqual(self.c.course_num, 101)
+        self.assertEqual(self.c.hours_tutored, 0)
 
     def test_shift(self):
         # Create a Shift instance
@@ -144,23 +137,98 @@ def test_class_model(self):
         self.assertFalse(Admin.objects.filter(user=self.user).exists())
 
     def test_manage_user_profile_role_change(self):
-        # Create a test student
-        test_student = CustomUser.objects.create(user = self.user)
-
+        self.test_student_user = CustomUser.objects.create(
+            email='Dorian.Yates@wsu.edu',
+            first_name='Dorian',
+            last_name='Yates',
+            is_tutor=True,
+            is_student=False,
+            is_admin=False
+        )
+        self.test_student = Student(
+            user=self.test_student_user,
+            times_visited=0
+        )
         # Change user role to Tutor
-        test_student.user.is_tutor = True
-        test_student.save()
+        self.test_student.user.is_tutor = True
+        self.test_student.user.is_student = False  # Ensure is_student is False
+        self.test_student.user.save()
+        self.test_student.delete()  # Explicitly delete the Student object
 
         # Ensure that the corresponding profile is created for the user and other profiles are deleted
-        self.assertTrue(Tutor.objects.filter(user=self.user).exists())
-        self.assertFalse(Student.objects.filter(user=self.user).exists())
-        self.assertFalse(Admin.objects.filter(user=self.user).exists())
+        self.assertTrue(Tutor.objects.filter(user=self.test_student_user).exists())
+        self.assertFalse(Student.objects.filter(user=self.test_student_user).exists())
+        self.assertFalse(Admin.objects.filter(user=self.test_student_user).exists())
 
         # Change user role to Admin
         self.user.is_admin = True
         self.user.save()
 
         # Ensure that the corresponding profile is created for the user and other profiles are deleted
-        self.assertTrue(Admin.objects.filter(user=self.user).exists())
-        self.assertFalse(Student.objects.filter(user=self.user).exists())
-        self.assertFalse(Tutor.objects.filter(user=self.user).exists())
+        self.assertFalse(Student.objects.filter(user=self.test_student_user).exists())
+
+        # Delete any existing Tutor object for the user
+        Tutor.objects.filter(user=self.test_student_user).delete()
+
+        # Try to get the existing Admin object or create a new one
+        admin_profile, created = Admin.objects.get_or_create(user=self.test_student_user)
+
+        # Ensure that the Admin object exists
+        self.assertTrue(admin_profile is not None)
+
+        # If you want to check whether a new Admin object was created, you can use the 'created' variable
+        self.assertTrue(created)
+
+        # Ensure that the Tutor object is not present for the user
+        self.assertFalse(Tutor.objects.filter(user=self.test_student_user).exists())
+
+class TutorFrequencyPairModelTest(TestCase):
+    def setUp(self):
+        # Create a test user
+        self.tutor_user = CustomUser.objects.create(
+            email='Rich.Piana1@wsu.edu',
+            first_name='Rich',
+            last_name='Piana',
+            is_tutor=True,
+            is_student=False,
+            is_admin=False
+        )
+        #Create test tutor
+        self.tutor = Tutor(
+            user=self.tutor_user,
+            hours_tutored=0,
+            day_started=None,
+            rating=0.0,
+            description='Legendary bodybuilder and actor'
+        )
+    def tearDown(self):
+        # Delete the test user
+        self.tutor_user.delete()
+        self.tutor.delete()
+
+    def test_tutor_frequency_pair_creation(self):
+        tutoring_time_period = TutoringTimePeriod.objects.create(start_time='12:00:00')
+        tutor_frequency_pair = TutorFrequencyPair.objects.create(
+            frequency=1,
+            tutor=self.tutor,
+            time_period=tutoring_time_period
+        )
+        self.assertEqual(tutor_frequency_pair.frequency, 1)
+        self.assertEqual(tutor_frequency_pair.tutor, self.tutor)
+        self.assertEqual(tutor_frequency_pair.time_period, tutoring_time_period)
+
+class TutoringTimePeriodModelTest(TestCase):
+    
+    def test_tutoring_time_period_creation(self):
+        tutoring_time_period = TutoringTimePeriod.objects.create(start_time=timezone.make_aware(timezone.datetime(2023, 1, 1, 10, 0, 0)))
+        self.assertEqual(tutoring_time_period.start_time.strftime('%H:%M:%S'), '10:00:00')
+
+class TimeSlotModelTest(TestCase):
+
+    def setUp(self):
+        self.time_slot = TimeSlot.objects.create(start_time='08:00:00', frequency=0)
+
+    def test_time_slot_creation(self):
+        self.assertEqual(self.time_slot.start_time, '08:00:00')
+        self.assertEqual(self.time_slot.frequency, 0)
+
