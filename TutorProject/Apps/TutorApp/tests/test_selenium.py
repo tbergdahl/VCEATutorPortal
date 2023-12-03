@@ -31,7 +31,7 @@ class MySeleniumTests(LiveServerTestCase):
         )
         student = Student(user=student_user)
         student.save()
-        
+
         # Open the selenium browser
         self.selenium.get(self.live_server_url)
 
