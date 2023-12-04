@@ -307,24 +307,33 @@ The role of our view is to properly display the directed information to the stud
 
 
 Current Templates
-- adminPage.html  - Admin home page for viewing admin options
-- base.html  - Base for housing sidebar and top banner/footer
-- classes.html - page that admin sees showing all classes, can delete and add classes
-- create_class.html - page that renders the create class form
-- create_major.html - page that renders the create major form
-- createuser.html  - page for admin to create a user
-- deleteUser.html  - page for admin to delete a user
-- edit_tutor.html - page for admin to edit a tutor's info
-- generate_pdf.html - page for admin to generate PDF reports
-- home.html  - home page for student user
-- login.html  - login page for basic login
-- majors.html - page that admin uses to see all majors, can delete and create majors
-- rateTutor.html - page that allows student to rate tutor
-- register.html  - page for registering a student
-- studentPage.html  - student home page
-- studentSchedule.html - student page for viewing a student's schedule
-- tutorPage.html  - page for tutor for viewing tutor options
-- tutors.html - admin page to view tutors and branch into editing different tutor fields
+- add_shift.html - Admin page to add a shift to a tutor
+- adminPage.html - Admin home page for viewing admin options
+- base.html - Base for housing sidebar and top banner/footer
+- book_appointment.html - Student page to book an appointment with a tutor
+- classes.html - Page that admin sees showing all classes, can delete and add classes
+- create_class.html - Page that renders the create class form
+- create_major.html - Page that renders the create major form
+- createuser.html - Page for admin to create a user
+- deleteUser.html - Page for admin to delete a user
+- edit_tutor.html - Page for admin to edit a tutor's info
+- feedback_form.html - Page for providing feedback for a tutor after an appointment
+- generate_pdf.html - Page for admin to generate PDF reports
+- home.html - Home page for student user
+- login.html - Login page for basic login
+- majors.html - Page that admin uses to see all majors, can delete and create majors
+- password_reset_request.html - Page to request an account password reset
+- password_reset.html - Page to reset account password
+- rateTutor.html - Page that allows student to rate tutor
+- register.html - Page for registering a student
+- shifts_html - Admin page to view all available shifts for a tutor
+- student_appointments.html - Student page to view all appointments scheduled
+- studentPage.html - Student home page
+- tutor_appointments.html - Tutor page to see all appointments scheduled for self
+- tutor_available_appointments.html - Student page to see a tutor's available appointments
+- tutor_feedback.html - Tutor page to view feedback given to them
+- tutorPage.html - Page for tutor for viewing tutor options
+- tutors.html - Admin page to view tutors and branch into editing different tutor fields
 
 
 
@@ -359,19 +368,30 @@ The view in MVT is responsible for handling the presentation layer of the applic
 
 	This page will show the user the form for creating a new user for the portal. The fields in this form include first name, last name, email address, password, and confirm password. It will also contain a submit form that will take the user to the student home page, as the user can only create student profiles from this form.
 
+- Forgot Password Page
 
-- Scheduling Page
+	This page will show the user a page to input their email in order to recieve a code to regenerate their password, as well as a field to enter the code. This will allow them to reset their password.
 
+- Student Scheduling Page
 
-	This page will show the calendar that will be used to schedule appointments. It will display the separate slots in which you can schedule different tutoring sessions, as well as a calendar to contain all of this info. There will also be a submit button that will schedule the appointment and confirm it.
+	This page will show the user the timeslots that a tutor has available and allows them to book one of these appointments. They will be
+	able to choose the class that they need tutoring for as well as a description for the appointment.
 
+- Student Appointments Page
 
+	This page will show the user all of the tutoring appointments that they are currently booked for. From this page, they can view the tutor
+	they are booked with, the timeslot that they are booked with, the class that they are getting tutored for, the description of the appointment,  as well as the option to cancel the appointment.
 
 
 - Tutor Profile Page
 
 
 	This page will display the tutor’s profile picture, name, email, major, description, preferred subjects, and available time slots.
+
+
+- Tutor Feedback Page
+
+	This page will allow the tutor to view the feedback that has been given to them after their appointments.
 
 
 - Admin User Creation Page
