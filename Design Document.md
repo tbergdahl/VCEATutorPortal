@@ -226,9 +226,23 @@ List of all current paths/routes:
 |15 | Get                | "administrator/classes_menu" | View Classes Menu for Admin                  
 |16 | Get                | "administrator/majors_menu"  | View Majors Menu for Admin                    
 |17 | Get                | "administrator/delete_class/<int:class_id>" | Delete Class Page for Admin  
-|18 | Get                | "administrator/delete_major/<int:major_id>" | Delete Major Page for Admin  
-|19 | Get                | "rate_tutor/<int:tutor_id>/" | Rate Tutor Page for Students                  
-|20 | Get, Post          | "schedule_session/<int:tutor_id>/" | Schedule Session Page for Students 
+|18 | Get                | "administrator/delete_major/<int:major_id>" | Delete Major Page for Admin                
+|19 | Get, Post          | "password_reset_request/" | Reset Password
+|20 | Get, Post          | "password_reset/<int:user_id>/" | Reset Password for Specific Account
+|21 | Get, Post          | "tutor/view_appointments/<int:tutor_id>" | View Appointments for Specified Tutor
+|22 | Get, Post          | "tutor/cancel_appointment/<int:appointment_id>" | Cancel Appointment with Specified Tutor
+|23 | Get, Post          | "tutor/end_appointment/<int:appointment_id>" | End Appointment with Specified Tutor
+|24 | Get, Post          | "tutor/view_feedback/<int:tutor_id>" | View Feedback for Specified Tutor
+|25 | Get, Post          | "view_tutors/<int:tutor_id>/" | View Available Tutors for Students
+|26 | Get, Post          | "book_appointment/<int:appointment_id>/" | Book Specified Appointment for Students
+|27 | Get, Post          | "appointments/<int:student_id>/" | Check Current Appointments Scheduled for Students
+|28 | Get, Post          | "student/cancel_appointment/<int:appointment_id>" | Cancel Specified Appointment for Students
+|29 | Get, Post          | "rate/<str:signed_token>" | Rate Tutor After Session for Students
+|30 | Get, Post          | "administrator/printreports/pdf-preview/" | Shows Preview for Tutor Report for Admin
+|31 | Get, Post          | "administrator/addshift/<int:tutor_id>" | Add Shift for Specified Tutor for Admin
+|32 | Get, Post          | "administrator/view_tutor_shifts/<int:tutor_id>" | View Shifts for Specified Tutor for Admin
+|33 | Get, Post          | "administrator/deleteshift/<int:shift_id>" | Delete Shift of Tutor for Admin
+|34 | Get, Post          | "administrator/delete_for_day/<int:tutor_id>" | Disable the Appointments for the Day for Admin
                        
 
 
