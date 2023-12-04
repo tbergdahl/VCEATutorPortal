@@ -361,8 +361,25 @@ As of iteration 2, we have implemented every feature in the application except f
 	UI Testing:
 	Manual human testing will be used to test the UI. They will only be used in a capacity of testing human interaction, as the underlying logic will be tested both manually and through use of written automated tests.
 
-	Testing Progress:
-	Currently a basic testing framework for models and views is implemented. The functions have not been written to test edge cases, only model creating and basic view testing has been implemented. This will be completed for iteration 3 to manually test edge cases and perform more full and cohesive tests of the system.
+	Testing Progress: Completed
+
+	Manual Testing:
+	Manual human testing has been done to ensure that the UI and usability meets requirements. These manual tests have been performed by the Testing Lead as well as all other team members.
+	
+	Unit & Function Tests:
+	Eight different testing files were created. These files do unit tests on the models associated with the student, tutor, and admin apps. These testing files also perform function tests and verify that apps are working together as a whole correctly. Each function and model associated with a app is tested, as well as the validity of these operations. The tests check alternate paths, specific edge cases, as well as correct functionality as the prime focus of each test.
+
+	Selenium Testing:
+	Selenium testing is implemented in a limited capacity for the student view of the app. The selenium testing simulates a user logging in, accessing a tutor, and accessing the appointments tab to ensure basic usability of the major student functions is operational. The selenium testing does all this through the chromium browser and is visible to the tester during activation, though the process is entirely automated.
+
+	INSTRUCTIONS:
+
+	** Tests are performed with the command "python manage.py test TutorApp" **
+
+	** All testing files are located through the filepath /TutorProject/TutorApp/tests **
+
+	** It is the Testing Lead's (Adam Caudle) reccomendation that as the app continues to develop and add functionality that appropriate tests be made to account for changes. Tests are only updated as of submission for iteration3 code on 12-4-23. **
+
 
 
 # 5. References

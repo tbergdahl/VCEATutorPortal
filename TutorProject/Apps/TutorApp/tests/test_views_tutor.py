@@ -92,7 +92,9 @@ class TutorViewsTest(TestCase):
             except TimeSlot.DoesNotExist:
                 TimeSlot.objects.create(start_time=current_time)
             current_time = (datetime.combine(datetime.today(), current_time) + timedelta(minutes=interval_minutes)).time()
-        
+
+        current_time=start_time
+        interval_minutes = 60
         while current_time < end_time:
             try:
                 TutoringTimePeriod.objects.get(start_time=current_time)
