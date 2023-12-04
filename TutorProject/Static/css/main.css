@@ -314,6 +314,8 @@ th, td {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: transform 0.4s ease, box-shadow 0.2s ease;
     border: 1px solid black;
+    margin-bottom: 3px;
+    margin-top: 3px;
 }
 
 .tutorPage-card:hover {
