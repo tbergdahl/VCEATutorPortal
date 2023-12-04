@@ -47,8 +47,8 @@ Prepared by: Team Tylenol
 | Name | Date | Changes | Version |
 | ------ | ------ | --------- | --------- |
 |Revision 1 |2023-10-022 |Initial draft | 1.0        |
-|Revision 2 | 2023-11-5 | Iteration 2 Update  |  2.0  |
-|      |      |         |         |
+|Revision 2 |2023-11-5   |Iteration 2 Update  |  2.0  |
+|Revision 3 |2023-12-3   |Iteration 3 Update  |  3.0  |
 
 
 
@@ -65,10 +65,10 @@ The VCEA Tutor App is a web app designed using the DJANGO web framework with the
 This document will cover the architecture, design, and the revision history of not only the app but also this document.
 
 
-[Section II](#2-architectural-and-component-level-design) includes …
+[Section II](#2-architectural-and-component-level-design) includes the architectural and component level design of the application.
 
 
-[Section III](#22-subsystem-design) includes …
+[Section III](#22-subsystem-design) includes the design of the subystems of the application, including the different models, paths, and views that are included.
 
 
 # 2.  Architectural and Component-level Design
@@ -155,6 +155,44 @@ TutoringSession
 - end_time
 - tutored_class *ForeignKey relationship with Class model
 
+PasswordResetCode
+- user *One-to-One relationship with CustomUser model
+- code
+- created_at
+
+Feedback
+- tutor *Foreign Key Relationship with Tutor model
+- feedback
+- rating
+
+Shift
+- tutor *Foreign Key Relationship with Tutor model
+- day
+- start_time
+- end_time
+
+TutoringSession
+- student *Foreign Key Relationship with Student model
+- tutor *Foreign Key Relationship with Tutor model
+- start_time
+- end_time
+- tutored_class *Foreign Key Relationship with Class model
+- description
+- shift *Foreign Key Relationship with Shift model
+
+Timeslot
+- start_time
+- frequency
+
+TutoringTimePeriod
+- start_time
+- tutors *Many-to-Many Relationship with Tutor model
+
+TutorFrequencyPair
+- frequency
+- tutor *Foreign Key Relationship with Tutor model
+- time_period *Foreign Key Relationship with TutoringTimePeriod model
+
 # Database Schema
 <img src="UML.jpeg" width="128*10"/>
 
@@ -189,7 +227,6 @@ List of all current paths/routes:
 - path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
 - path('tutor/', views.tutor_view, name='tutor_view'),
 - path('student/', views.student_view, name='student_view'),
-- path('rate_tutor/<int:tutor_id>/', rate_tutor, name='rate_tutor'),
 - path('schedule_session/<int:tutor_id>/', views.schedule_session, name='schedule_session'),
 - path('administrator/', views.admin_view, name='admin_view'),
 - path('administrator/createuser', views.admin_create_user, name='admin_create_user'),
@@ -203,6 +240,22 @@ List of all current paths/routes:
 - path('administrator/majors_menu', views.majors_menu,name = 'majors_menu'),
 - path('administrator/delete_class/<int:class_id>', views.delete_class,name = 'delete_class'),
 - path('administrator/delete_major/<int:major_id>', views.delete_major,name = 'delete_major'),
+- path('password_reset_request/', views.password_reset_combined, name='password_reset_request'),
+- path('password_reset/<int:user_id>/', views.password_reset, name='password_reset'),
+- path('tutor/view_appointments/<int:tutor_id>', views.view_appointments, name='view_appointments'),
+- path('tutor/cancel_appointment/<int:appointment_id>', views.cancel_appointment, name='cancel_appointment'),
+- path('tutor/end_appointment/<int:appointment_id>', views.appointment_completed, name='appointment_completed'),
+- path('tutor/view_feedback/<int:tutor_id>', views.view_feedback, name='view_feedback'),
+- path('view_tutors/<int:tutor_id>/', views.student_view_tutors, name='student_view_tutors'),
+- path('book_appointment/<int:appointment_id>/', views.book_appointment, name='book_appointment'),
+- path('appointments/<int:student_id>/', views.student_view_appointments, name='student_view_appointments'),
+- path('student/cancel_appointment/<int:appointment_id>', views.cancel_appointment, name='cancel_appointment'),
+- path('rate/<str:signed_token>', views.rate_tutor, name='rate_tutor'),
+- path('administrator/printreports/pdf-preview/', views.pdf_preview, name='pdf_preview'),
+- path('administrator/addshift/<int:tutor_id>', views.admin_add_tutor_shift,name = 'admin_add_tutor_shift'),
+- path('administrator/view_tutor_shifts/<int:tutor_id>', views.admin_view_tutor_shifts,name = 'admin_view_tutor_shifts'),
+- path('administrator/deleteshift/<int:shift_id>', views.admin_delete_shift,name = 'admin_delete_shift'),
+- path('administrator/delete_for_day/<int:tutor_id>', views.admin_tutor_called_out,name = 'admin_tutor_called_out')
 
 
 
@@ -227,20 +280,20 @@ List of all current paths/routes:
 |16 | Get                | "administrator/majors_menu"  | View Majors Menu for Admin                    
 |17 | Get                | "administrator/delete_class/<int:class_id>" | Delete Class Page for Admin  
 |18 | Get                | "administrator/delete_major/<int:major_id>" | Delete Major Page for Admin                
-|19 | Get, Post          | "password_reset_request/" | Reset Password
-|20 | Get, Post          | "password_reset/<int:user_id>/" | Reset Password for Specific Account
-|21 | Get, Post          | "tutor/view_appointments/<int:tutor_id>" | View Appointments for Specified Tutor
+|19 | Post          | "password_reset_request/" | Reset Password
+|20 | Post          | "password_reset/<int:user_id>/" | Reset Password for Specific Account
+|21 | Get        | "tutor/view_appointments/<int:tutor_id>" | View Appointments for Specified Tutor
 |22 | Get, Post          | "tutor/cancel_appointment/<int:appointment_id>" | Cancel Appointment with Specified Tutor
 |23 | Get, Post          | "tutor/end_appointment/<int:appointment_id>" | End Appointment with Specified Tutor
-|24 | Get, Post          | "tutor/view_feedback/<int:tutor_id>" | View Feedback for Specified Tutor
-|25 | Get, Post          | "view_tutors/<int:tutor_id>/" | View Available Tutors for Students
+|24 | Get        | "tutor/view_feedback/<int:tutor_id>" | View Feedback for Specified Tutor
+|25 | Get       | "view_tutors/<int:tutor_id>/" | View Available Tutors for Students
 |26 | Get, Post          | "book_appointment/<int:appointment_id>/" | Book Specified Appointment for Students
 |27 | Get, Post          | "appointments/<int:student_id>/" | Check Current Appointments Scheduled for Students
 |28 | Get, Post          | "student/cancel_appointment/<int:appointment_id>" | Cancel Specified Appointment for Students
 |29 | Get, Post          | "rate/<str:signed_token>" | Rate Tutor After Session for Students
-|30 | Get, Post          | "administrator/printreports/pdf-preview/" | Shows Preview for Tutor Report for Admin
+|30 | Get        | "administrator/printreports/pdf-preview/" | Shows Preview for Tutor Report for Admin
 |31 | Get, Post          | "administrator/addshift/<int:tutor_id>" | Add Shift for Specified Tutor for Admin
-|32 | Get, Post          | "administrator/view_tutor_shifts/<int:tutor_id>" | View Shifts for Specified Tutor for Admin
+|32 | Get      | "administrator/view_tutor_shifts/<int:tutor_id>" | View Shifts for Specified Tutor for Admin
 |33 | Get, Post          | "administrator/deleteshift/<int:shift_id>" | Delete Shift of Tutor for Admin
 |34 | Get, Post          | "administrator/delete_for_day/<int:tutor_id>" | Disable the Appointments for the Day for Admin
                        
@@ -358,6 +411,8 @@ The view in MVT is responsible for handling the presentation layer of the applic
 In iteration 1, we implemented a basic framework for our application. We initialized the backend of the app, as well as an overall design for our frontend. We implemented functionality for register, login, and logout, as well as the sidebar for navigation. In the admin user type, you are able to filter users, as well as create and delete users of either student or tutor type. 
 
 As of iteration 2, we have implemented every feature in the application except for appointment scheduling. Our database schema is fully implemented as our current plans for scheduling require. Our front end development follows a consistent pattern across all of the different user views, and is organized in a way that any user will be able to follow easily. We are currently on schedule and have even gotten an early start on scheduling. 
+
+In iteration 3, we completed the rest of the scheduled features for our implementation. We fully implemented scheduling functionality, so students can schedule appointments with tutors. This also includes automatic shift generation and the ability to schedule and cancel shifts. We also refactored the rating system in order to extend off of this feature. In addition to this, we added more quality-of-life features, such as a password reset function, a .pdf preview for the generated reports in the admin view, standardized profile picture functionality for the tutor profiles, and an improved rating system.
 
 
 # 4.) Testing Plan
