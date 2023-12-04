@@ -290,7 +290,7 @@ List of all current paths/routes:
 |26 | Get, Post          | "book_appointment/<int:appointment_id>/" | Book Specified Appointment for Students
 |27 | Get, Post          | "appointments/<int:student_id>/" | Check Current Appointments Scheduled for Students
 |28 | Get, Post          | "student/cancel_appointment/<int:appointment_id>" | Cancel Specified Appointment for Students
-|29 | Get, Post          | "rate/<str:signed_token>" | Rate Tutor After Session for Students
+|29 | Post          | "rate/<str:signed_token>" | Rate Tutor After Session for Students
 |30 | Get        | "administrator/printreports/pdf-preview/" | Shows Preview for Tutor Report for Admin
 |31 | Get, Post          | "administrator/addshift/<int:tutor_id>" | Add Shift for Specified Tutor for Admin
 |32 | Get      | "administrator/view_tutor_shifts/<int:tutor_id>" | View Shifts for Specified Tutor for Admin

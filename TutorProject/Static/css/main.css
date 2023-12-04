@@ -75,6 +75,8 @@ footer {
     background-color: var(--headerColor);
     z-index: 10;  /* Some value lower than the sidebar's z-index */
     position: relative; 
+    color: white;
+    font-size: 14px;
 }
 
 .wrapper {
@@ -743,7 +745,7 @@ ul.user-list li:last-child {
 }
 
 .tutorPage-heading {
-    color: #333;
+    color: white;
 }
 
 .tutorPage-table {
