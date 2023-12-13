@@ -30,7 +30,6 @@ def student_view(request):
     tutors = Tutor.objects.all()
 
     # Filter by major if major name is selected
-    # Note: This assumes your Major model has a 'name' field that stores the name of the major
     if major_name:
         tutors = tutors.filter(major__name=major_name)  # Filter by the name field of the Major model
 
