@@ -8,7 +8,7 @@
 * Matthew Pham
 * Adam Caudle
 
-# Run tests by navigatting to the TutorProject and running commmand "python3 manage.py test TutorApp"
+# Run tests by navigating to the TutorProject and running commmand "python3 manage.py test TutorApp"
 
 
 
